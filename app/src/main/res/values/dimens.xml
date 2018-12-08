@@ -1,0 +1,6 @@
+<resources>
+    <dimen name="fab_margin">16dp</dimen>
+    <dimen name="splashWidth">250dp</dimen>
+    <dimen name="splashHeght">250dp</dimen>
+    <dimen name="splashText">20sp</dimen>
+</resources>
