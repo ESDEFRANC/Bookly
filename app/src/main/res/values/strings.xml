@@ -2,6 +2,10 @@
     <string name="app_name">Bookly</string>
     <string name="title_activity_splash_screen">SplashScreen</string>
     <string name="textSplashScreen">Developed by Adria Altemir</string>
+    <string name="title_activity_login_activty">LoginActivty</string>
+    <string name="Email">Introduce email</string>
+    <string name="Password">Introduce password</string>
+    <string name="Login">Log-in</string>
 
 
 </resources>
