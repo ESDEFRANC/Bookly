@@ -26,8 +26,8 @@ class LoginActivty : AppCompatActivity() {
             Log.d("Login", "Attempt login with email/pw: $email/***")
 
             FirebaseAuth.getInstance().signInWithEmailAndPassword(email,password)
-                    .addOnCompleteListener()
-                    .add
+                    //.addOnCompleteListener()
+                    //.add
         }
 
         backToRegister.setOnClickListener{

@@ -3,13 +3,9 @@ package com.altemir.adria.bookly
 import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
-import android.support.design.widget.Snackbar
 import android.support.v7.app.AppCompatActivity;
 import android.view.Window
 import android.view.WindowManager
-
-import kotlinx.android.synthetic.main.activity_splash_screen.*
-import java.lang.Exception
 
 class SplashScreen : AppCompatActivity() {
 
@@ -23,7 +19,7 @@ class SplashScreen : AppCompatActivity() {
 
         Handler().postDelayed({
             //start main activity
-            startActivity(Intent(this, MainActivity::class.java))
+            startActivity(Intent(this, RegisterActivity::class.java))
             finish()
 
             }, 2000)

@@ -10,6 +10,7 @@
     <string name="alreadyLogin"> Ya tienes cuenta?</string>
     <string name="Register">Registrar</string>
     <string name="UserName">User Name</string>
+    <string name="buttonImg">Select image</string>
 
 
 </resources>
