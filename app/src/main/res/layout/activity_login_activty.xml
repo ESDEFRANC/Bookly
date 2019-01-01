@@ -4,18 +4,21 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".LoginActivty">
+    tools:context=".LoginActivty"
+    android:background="#F1B245">
 
 
     <EditText
         android:id="@+id/Email"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="36dp"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="28dp"
+        android:layout_marginTop="80dp"
         android:layout_marginEnd="84dp"
+        android:background="@drawable/rounded_edittext_login_main"
         android:ems="10"
         android:hint="@string/Email"
+        android:paddingLeft="16dp"
         android:inputType="textEmailAddress|textVisiblePassword"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
@@ -25,15 +28,17 @@
     <EditText
         android:id="@+id/Password"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="37dp"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="88dp"
+        android:layout_marginTop="32dp"
         android:layout_marginEnd="8dp"
+        android:background="@drawable/rounded_edittext_login_main"
         android:ems="10"
+        android:paddingLeft="16dp"
         android:hint="@string/Password"
         android:inputType="textPassword"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.503"
+        app:layout_constraintHorizontal_bias="0.418"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/Email" />
 
@@ -44,6 +49,7 @@
         android:layout_marginStart="8dp"
         android:layout_marginTop="116dp"
         android:layout_marginEnd="148dp"
+        android:background="@drawable/rounded_button"
         android:text="@string/Login"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"

@@ -1,8 +1,10 @@
 package com.altemir.adria.bookly
 
 import android.app.Activity
+import android.content.Context
 import android.content.Intent
 import android.graphics.drawable.BitmapDrawable
+import android.net.ConnectivityManager
 import android.net.Uri
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
@@ -20,11 +22,9 @@ class RegisterActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_register_activity)
-
+        internetConnected()
         registerMain.setOnClickListener {
             perfomRegistration()
-
-
         }
 
         alreadyMain.setOnClickListener {
@@ -116,7 +116,24 @@ class RegisterActivity : AppCompatActivity() {
         ref.setValue(user)
                 .addOnSuccessListener {
                     Log.d("RegisterActivity" , "Finally we saved the user to Firebasa Database")
+
+                    val intent = Intent(this, CreateBiblio::class.java)
+                    intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK.or(Intent.FLAG_ACTIVITY_NEW_TASK)
+                    startActivity(intent)
+                    Toast.makeText(this, "Succesfully registered",Toast.LENGTH_LONG).show()
+
+
                 }
+    }
+    private fun internetConnected(){
+        val cm = baseContext.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+
+        val networkInfo = cm.activeNetworkInfo
+
+        if(networkInfo == null){
+            Toast.makeText(baseContext,"No internet",Toast.LENGTH_LONG).show()
+            this.finish()
+        }
     }
 
 }

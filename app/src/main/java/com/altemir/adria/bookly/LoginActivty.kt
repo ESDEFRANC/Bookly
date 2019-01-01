@@ -1,5 +1,6 @@
 package com.altemir.adria.bookly
 
+import android.content.Intent
 import android.os.Bundle
 import android.provider.ContactsContract
 import android.support.design.widget.Snackbar
@@ -7,6 +8,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log
 import android.widget.Button
 import android.widget.EditText
+import android.widget.Toast
+import com.google.android.gms.tasks.OnCompleteListener
 import com.google.firebase.auth.FirebaseAuth
 
 import kotlinx.android.synthetic.main.activity_login_activty.*
@@ -20,14 +23,7 @@ class LoginActivty : AppCompatActivity() {
         setContentView(R.layout.activity_login_activty)
 
         Login.setOnClickListener{
-            val email = Email.text.toString()
-            val password = Password.text.toString()
-
-            Log.d("Login", "Attempt login with email/pw: $email/***")
-
-            FirebaseAuth.getInstance().signInWithEmailAndPassword(email,password)
-                    //.addOnCompleteListener()
-                    //.add
+           login()
         }
 
         backToRegister.setOnClickListener{
@@ -35,6 +31,24 @@ class LoginActivty : AppCompatActivity() {
         }
 
 
+    }
+    private fun login(){
+        val email = Email.text.toString()
+        val password = Password.text.toString()
+        if(!email.isEmpty() && !password.isEmpty()){
+            FirebaseAuth.getInstance().signInWithEmailAndPassword(email,password)
+            .addOnCompleteListener(this, OnCompleteListener { task ->
+                if(task.isSuccessful){
+                    startActivity(Intent(this, CreateBiblio::class.java))
+                    Toast.makeText(this, "sUCCESSFULLY LOGGED IN", Toast.LENGTH_LONG).show()
+                }else{
+                    Toast.makeText(this, "Error", Toast.LENGTH_LONG).show()
+                }
+            })
+            //.add
+        }else{
+            Toast.makeText(this, "Please fill up teh camps", Toast.LENGTH_LONG).show()
+        }
     }
 
 }

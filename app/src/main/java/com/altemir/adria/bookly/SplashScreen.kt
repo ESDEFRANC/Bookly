@@ -17,12 +17,12 @@ class SplashScreen : AppCompatActivity() {
         window.setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN)
         setContentView(R.layout.activity_splash_screen)
 
-        Handler().postDelayed({
+
             //start main activity
             startActivity(Intent(this, RegisterActivity::class.java))
             finish()
 
-            }, 2000)
+            }
     }
 
-}
+

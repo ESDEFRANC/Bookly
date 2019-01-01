@@ -8,6 +8,7 @@
     android:background="#F1B245">
 
 
+
     <EditText
         android:id="@+id/emailMain"
         android:layout_width="317dp"
