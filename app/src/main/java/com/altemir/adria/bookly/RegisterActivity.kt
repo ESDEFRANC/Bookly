@@ -3,7 +3,6 @@ package com.altemir.adria.bookly
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
-import android.graphics.drawable.BitmapDrawable
 import android.net.ConnectivityManager
 import android.net.Uri
 import android.support.v7.app.AppCompatActivity
@@ -11,8 +10,8 @@ import android.os.Bundle
 import android.provider.MediaStore
 import android.util.Log
 import android.widget.Toast
+import com.altemir.adria.bookly.Model.User
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.storage.FirebaseStorage
 import kotlinx.android.synthetic.main.activity_register_activity.*
@@ -131,7 +130,7 @@ class RegisterActivity : AppCompatActivity() {
                 .addOnSuccessListener {
                     Log.d("RegisterActivity" , "Finally we saved the user to Firebasa Database")
 
-                    val intent = Intent(this, CreateBiblio::class.java)
+                    val intent = Intent(this, CreateDrawer::class.java)
                     intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK.or(Intent.FLAG_ACTIVITY_NEW_TASK)
                     startActivity(intent)
                     Toast.makeText(this, "Succesfully registered",Toast.LENGTH_LONG).show()
@@ -154,7 +153,3 @@ class RegisterActivity : AppCompatActivity() {
     }
 
 }
-
-class User(val uid:String,val userName:String, val profileUrl : String)
-
-//class User1(val uid:String,val userName:String, val email:String, val profileUrl : String)

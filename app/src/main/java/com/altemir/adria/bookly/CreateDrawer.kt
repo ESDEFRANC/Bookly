@@ -4,18 +4,27 @@ import android.annotation.SuppressLint
 import android.content.Intent
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
+import android.widget.Toast
+import com.altemir.adria.bookly.Model.Drawer
+import com.altemir.adria.bookly.Model.User
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
+import com.google.firebase.database.FirebaseDatabase
 import kotlinx.android.synthetic.main.activity_create_biblio.*
+import kotlinx.android.synthetic.main.activity_register_activity.*
 
-class CreateBiblio : AppCompatActivity() {
+class CreateDrawer : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_create_biblio)
 
+        ButtonCreateBiblio.setOnClickListener(){
+            createDrawer("1")
+        }
       verifyUserIsLogedIn()
     }
     private fun verifyUserIsLogedIn(){
@@ -51,5 +60,15 @@ class CreateBiblio : AppCompatActivity() {
     @SuppressLint("SetTextI18n")
     private fun setDataText(user : FirebaseUser?){
         textView.text = "User Email " + user?.email
+    }
+    private fun createDrawer(profileUrl: String){
+        val user = FirebaseAuth.getInstance().currentUser
+        val uid = FirebaseAuth.getInstance().uid ?: ""
+        val ref = FirebaseDatabase.getInstance().getReference("/Drawers/$uid")
+
+        val drawer = Drawer(user!!.email!!, "1", "Biblio1")
+
+        ref.setValue(drawer)
+
     }
 }
