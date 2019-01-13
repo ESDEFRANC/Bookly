@@ -8,6 +8,22 @@
     android:background="#F1B245">
 
 
+    <EditText
+        android:id="@+id/passwordMain2"
+        android:layout_width="317dp"
+        android:layout_height="47dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:background="@drawable/rounded_edittext_login_main"
+        android:ems="10"
+        android:hint="@string/PasswordRepeat"
+        android:inputType="textPassword"
+        android:paddingLeft="16dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.509"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/passwordMain" />
 
     <EditText
         android:id="@+id/emailMain"
@@ -31,7 +47,7 @@
         android:layout_width="314dp"
         android:layout_height="40dp"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="52dp"
+        android:layout_marginTop="20dp"
         android:layout_marginEnd="8dp"
         android:background="@drawable/rounded_edittext_login_main"
         android:ems="10"
@@ -39,7 +55,6 @@
         android:inputType="textPersonName"
         android:paddingLeft="16dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.503"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/buttonImg" />
 
@@ -65,13 +80,13 @@
         android:layout_width="324dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
         android:background="@drawable/rounded_button"
         android:text="@string/Register"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/passwordMain" />
+        app:layout_constraintTop_toBottomOf="@+id/passwordMain2" />
 
     <TextView
         android:id="@+id/alreadyMain"

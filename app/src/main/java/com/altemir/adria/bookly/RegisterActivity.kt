@@ -12,6 +12,7 @@ import android.provider.MediaStore
 import android.util.Log
 import android.widget.Toast
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.storage.FirebaseStorage
 import kotlinx.android.synthetic.main.activity_register_activity.*
@@ -24,7 +25,10 @@ class RegisterActivity : AppCompatActivity() {
         setContentView(R.layout.activity_register_activity)
         internetConnected()
         registerMain.setOnClickListener {
-            perfomRegistration()
+
+                perfomRegistration()
+
+
         }
 
         alreadyMain.setOnClickListener {
@@ -64,30 +68,37 @@ class RegisterActivity : AppCompatActivity() {
         }
     }
 
-    private fun perfomRegistration(){
+    private fun perfomRegistration() {
         val email = emailMain.text.toString()
         val password = passwordMain.text.toString()
-        if(email.isEmpty() || password.isEmpty()){
-            Toast.makeText(this, "Please enter text in email/password",Toast.LENGTH_LONG).show()
+        if (email.isEmpty() || password.isEmpty()) {
+            Toast.makeText(this, "Please enter text in email/password", Toast.LENGTH_LONG).show()
             return
         }
-        Log.d("RegisterActivity", "Email is: $email")
-        Log.d("RegisterActivity", "Password is: $password")
 
-        //Firebase authentication
-        FirebaseAuth.getInstance().createUserWithEmailAndPassword(email,password)
-                .addOnCompleteListener{
-                    if(!it.isSuccessful) return@addOnCompleteListener
-                    //else if succesfull
-                    Log.d("Main", "Succesfully created user with uid: ${it.result!!.user.uid}")
+        if (!checkPassword()) {
+            passwordMain2.error = "Password are differents"
+            return
+        } else {
 
-                    uploadImageToFireBaseStorage()
-                }
-                .addOnFailureListener{
-                    Toast.makeText(this, "Failed to create user:  ${it.message}",Toast.LENGTH_LONG).show()
-                    Log.d("Main", "Failed to create user:  ${it.message}")
-                }
+            //Firebase authentication
+            FirebaseAuth.getInstance().createUserWithEmailAndPassword(email, password)
+                    .addOnCompleteListener {
+                        if (!it.isSuccessful) return@addOnCompleteListener
+                        //else if succesfull
+
+                        uploadImageToFireBaseStorage()
+                        Log.d("Main", "Succesfully created user with uid: ${it.result!!.user.uid}")
+
+
+                    }
+                    .addOnFailureListener {
+                        Toast.makeText(this, "Failed to create user:  ${it.message}", Toast.LENGTH_LONG).show()
+                        Log.d("Main", "Failed to create user:  ${it.message}")
+                    }
+        }
     }
+
     private fun uploadImageToFireBaseStorage(){
         if(selectedPhotoUri == null ) return
         val filename = UUID.randomUUID().toString()
@@ -110,8 +121,11 @@ class RegisterActivity : AppCompatActivity() {
     private fun saveUserToFirebaaseDatabase(profileUrl: String){
         val uid = FirebaseAuth.getInstance().uid ?: ""
         val ref = FirebaseDatabase.getInstance().getReference("/users/$uid")
+       // val refchild = FirebaseDatabase.getInstance().getReference().child("/users/$uid/$nameMain")
+        //val ref1 = FirebaseStorage.getInstance().getReference("/biblio/$nameMain")
 
         val user = User(uid, nameMain.text.toString(), profileUrl)
+        //val user1 = User1(uid, nameMain.text.toString(),emailMain.text.toString(),profileUrl )
 
         ref.setValue(user)
                 .addOnSuccessListener {
@@ -135,7 +149,12 @@ class RegisterActivity : AppCompatActivity() {
             this.finish()
         }
     }
+    private fun checkPassword():Boolean{
+        return passwordMain.text.toString() == passwordMain2.text.toString()
+    }
 
 }
 
 class User(val uid:String,val userName:String, val profileUrl : String)
+
+//class User1(val uid:String,val userName:String, val email:String, val profileUrl : String)

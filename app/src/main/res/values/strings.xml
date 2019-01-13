@@ -5,6 +5,7 @@
     <string name="title_activity_login_activty">LoginActivty</string>
     <string name="Email">Introduce email</string>
     <string name="Password">Introduce password</string>
+    <string name="PasswordRepeat">Repeat password</string>
     <string name="Login">Log-in</string>
     <string name="backToRegistratio">Retornar a registrar</string>
     <string name="alreadyLogin"> Ya tienes cuenta?</string>
