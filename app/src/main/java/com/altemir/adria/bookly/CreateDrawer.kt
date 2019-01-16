@@ -66,7 +66,8 @@ class CreateDrawer : AppCompatActivity() {
         val uid = FirebaseAuth.getInstance().uid ?: ""
         val ref = FirebaseDatabase.getInstance().getReference("/Drawers/$uid")
 
-        val drawer = Drawer(user!!.email!!, "1", "Biblio1")
+        Log.d("CreateBiblio","Succesfully")
+        val drawer = Drawer(uid, user!!.uid, "1", "Biblio1")
 
         ref.setValue(drawer)
 
