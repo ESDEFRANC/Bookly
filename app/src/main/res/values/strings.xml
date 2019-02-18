@@ -12,6 +12,12 @@
     <string name="Register">Registrar</string>
     <string name="UserName">User Name</string>
     <string name="buttonImg">Select image</string>
+    <string name="introduce_nombre_de_biblioteca">Introduce nombre de la Biblioteca</string>
+    <string name="escribe_nombre_biblioteca">Escribe nombre Biblioteca</string>
+    <string name="a_adir">Añadir</string>
+    <string name="cancelar">Cancelar</string>
+    <string name="introduce_nombre_de_cajon">Introduce nombre de cajon</string>
+    <string name="escribe_nombre_cajon">Introduce nombre cajon</string>
 
 
 </resources>

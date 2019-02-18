@@ -32,7 +32,6 @@ class RegisterActivity : AppCompatActivity() {
 
         alreadyMain.setOnClickListener {
             Log.d("RegisterActivity", "Try to show login activity")
-
             val intent = Intent(this, LoginActivty::class.java)
             startActivity(intent)
         }

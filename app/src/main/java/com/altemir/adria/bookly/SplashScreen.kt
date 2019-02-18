@@ -6,6 +6,7 @@ import android.os.Handler
 import android.support.v7.app.AppCompatActivity;
 import android.view.Window
 import android.view.WindowManager
+import java.util.*
 
 class SplashScreen : AppCompatActivity() {
 
@@ -18,10 +19,12 @@ class SplashScreen : AppCompatActivity() {
         setContentView(R.layout.activity_splash_screen)
 
 
+        Handler().postDelayed({
             //start main activity
             startActivity(Intent(this, RegisterActivity::class.java))
             finish()
 
+        }, 3000)
             }
     }
 
