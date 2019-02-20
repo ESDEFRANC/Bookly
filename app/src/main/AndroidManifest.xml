@@ -13,8 +13,8 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".CreateShelf"></activity>
-        <activity android:name=".SplashScreen"></activity>
+        <activity android:name=".CreateShelf" />
+        <activity android:name=".SplashScreen" />
         <activity android:name=".CreateDrawer">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -24,7 +24,7 @@
         </activity>
         <activity
             android:name=".RegisterActivity"
-            android:screenOrientation="portrait"></activity>
+            android:screenOrientation="portrait" />
         <activity
             android:name=".LoginActivty"
             android:screenOrientation="portrait" />
