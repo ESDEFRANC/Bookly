@@ -10,6 +10,7 @@ import android.view.MenuItem
 import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
+import com.altemir.adria.bookly.Model.Drawer
 import com.altemir.adria.bookly.Model.Shelf
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.FirebaseDatabase
@@ -22,7 +23,8 @@ class CreateShelf : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_create_shelf)
-        val drawerUID = intent.extras.getString("drawerUID");
+        val drawer = intent.getParcelableExtra<Drawer>("drawerUID");
+        val drawerUID = drawer.uid
         ButtonCreateShelf.setOnClickListener(){
             createCalaix(drawerUID)
         }

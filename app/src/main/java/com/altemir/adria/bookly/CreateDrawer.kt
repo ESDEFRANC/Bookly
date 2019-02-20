@@ -39,6 +39,21 @@ class CreateDrawer : AppCompatActivity() {
         ButtonCreateBiblio.setOnClickListener() {
             createDrawer(draweruid)
         }
+
+        grid.setOnItemClickListener { parent, view, position, id ->
+
+
+            grid.adapter
+
+            val intent = Intent(this, CreateShelf::class.java)
+                intent.putExtra("drawerUID", grid.getItemAtPosition(position) as Drawer);
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(intent)
+
+
+
+
+        }
     }
     private fun verifyUserIsLogedIn() {
         val uid = FirebaseAuth.getInstance().uid
@@ -83,10 +98,6 @@ class CreateDrawer : AppCompatActivity() {
             if (!biblioName.text.toString().isEmpty()) {
                 val drawer = Drawer(draweruid, user!!.uid, biblioName.text.toString())
                 ref.setValue(drawer)
-                /*val intent = Intent(this, CreateShelf::class.java)
-                intent.putExtra("drawerUID", draweruid);
-                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                startActivity(intent)*/
                 dialog.dismiss()
 
 
