@@ -10,21 +10,31 @@ import android.view.MenuItem
 import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
+import com.altemir.adria.bookly.Adapter.customDrawer
+import com.altemir.adria.bookly.Adapter.customShelf
 import com.altemir.adria.bookly.Model.Drawer
 import com.altemir.adria.bookly.Model.Shelf
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.ValueEventListener
 import kotlinx.android.synthetic.main.activity_create_biblio.*
 import kotlinx.android.synthetic.main.activity_create_shelf.*
 import java.util.UUID.randomUUID
 
 class CreateShelf : AppCompatActivity() {
 
+    val shelf = arrayListOf<Shelf>()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_create_shelf)
         val drawer = intent.getParcelableExtra<Drawer>("drawerUID");
         val drawerUID = drawer.uid
+
+        getShelfs(shelf,drawerUID)
+
         ButtonCreateShelf.setOnClickListener(){
             createCalaix(drawerUID)
         }
@@ -72,7 +82,34 @@ class CreateShelf : AppCompatActivity() {
         cancel.setOnClickListener() {
             dialog.dismiss()
         }
-        Log.d("CreateBiblio", "Succesfully")
+
+    }
+    private fun getShelfs(shelfs:ArrayList<Shelf>,draweruid:String){
+        val ref = FirebaseDatabase.getInstance().getReference("Shelf")
+        ref.addValueEventListener(object: ValueEventListener {
+            override fun onDataChange(p0: DataSnapshot) {
+                if(p0.exists()){
+                    shelfs.clear()
+                    for (e in p0.children){
+                        val shelf = e.getValue(Shelf::class.java)
+                        if (shelf != null) {
+                            if(draweruid.equals(shelf.uidDrawer)){
+
+                                shelfs.add(shelf)
+                            }
+                        }
+
+                    }
+                    val adapter = customShelf(this@CreateShelf, shelfs)
+                    gridShelf.adapter = adapter
+                }
+            }
+
+            override fun onCancelled(p0: DatabaseError) {
+                TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+            }
+
+        });
 
     }
 }

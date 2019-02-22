@@ -39,20 +39,18 @@
         android:id="@+id/btnAdd"
         android:layout_width="145dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
         android:layout_marginTop="16dp"
-        android:layout_marginEnd="48dp"
+        android:layout_marginEnd="8dp"
         android:background="@drawable/rounded_button"
         android:text="@string/a_adir"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/btnCancelar"
         app:layout_constraintTop_toBottomOf="@+id/BiblioName" />
 
     <Button
         android:id="@+id/btnCancelar"
-        android:layout_width="145dp"
+        android:layout_width="100dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="44dp"
+        android:layout_marginStart="8dp"
         android:layout_marginTop="16dp"
         android:background="@drawable/rounded_button"
         android:text="@string/cancelar"
