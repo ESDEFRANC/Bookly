@@ -13,9 +13,9 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".CreateShelf" />
+        <activity android:name=".Shelfs" />
         <activity android:name=".SplashScreen" />
-        <activity android:name=".CreateDrawer">
+        <activity android:name=".Drawers">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

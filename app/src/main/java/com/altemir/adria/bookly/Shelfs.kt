@@ -4,13 +4,11 @@ import android.content.Intent
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.support.v7.app.AlertDialog
-import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
-import com.altemir.adria.bookly.Adapter.customDrawer
 import com.altemir.adria.bookly.Adapter.customShelf
 import com.altemir.adria.bookly.Model.Drawer
 import com.altemir.adria.bookly.Model.Shelf
@@ -19,13 +17,12 @@ import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
-import kotlinx.android.synthetic.main.activity_create_biblio.*
 import kotlinx.android.synthetic.main.activity_create_shelf.*
 import java.util.UUID.randomUUID
 
-class CreateShelf : AppCompatActivity() {
+class Shelfs : AppCompatActivity() {
 
-    val shelf = arrayListOf<Shelf>()
+    val shelfs = arrayListOf<Shelf>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -33,7 +30,7 @@ class CreateShelf : AppCompatActivity() {
         val drawer = intent.getParcelableExtra<Drawer>("drawerUID");
         val drawerUID = drawer.uid
 
-        getShelfs(shelf,drawerUID)
+        getShelfs(shelfs,drawerUID)
 
         ButtonCreateShelf.setOnClickListener(){
             createCalaix(drawerUID)
@@ -71,8 +68,8 @@ class CreateShelf : AppCompatActivity() {
         dialog.show()
         add.setOnClickListener() {
             if (!calaixName.text.toString().isEmpty()) {
-                val shelf = Shelf(shelf, draweruid, calaixName.text.toString())
-                ref.setValue(shelf)
+                val shelf1 = Shelf(shelf, draweruid, calaixName.text.toString())
+                ref.setValue(shelf1)
                 dialog.dismiss()
 
             } else {
@@ -100,7 +97,7 @@ class CreateShelf : AppCompatActivity() {
                         }
 
                     }
-                    val adapter = customShelf(this@CreateShelf, shelfs)
+                    val adapter = customShelf(this@Shelfs, shelfs)
                     gridShelf.adapter = adapter
                 }
             }

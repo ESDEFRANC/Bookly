@@ -129,7 +129,7 @@ class RegisterActivity : AppCompatActivity() {
                 .addOnSuccessListener {
                     Log.d("RegisterActivity" , "Finally we saved the user to Firebasa Database")
 
-                    val intent = Intent(this, CreateDrawer::class.java)
+                    val intent = Intent(this, Drawers::class.java)
                     intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK.or(Intent.FLAG_ACTIVITY_NEW_TASK)
                     startActivity(intent)
                     Toast.makeText(this, "Succesfully registered",Toast.LENGTH_LONG).show()

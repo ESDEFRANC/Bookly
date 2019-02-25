@@ -1,7 +1,5 @@
 package com.altemir.adria.bookly
 
-import android.annotation.SuppressLint
-import android.content.DialogInterface
 import android.content.Intent
 import android.os.Bundle
 import android.support.v7.app.AlertDialog
@@ -14,21 +12,17 @@ import android.widget.EditText
 import android.widget.Toast
 import com.altemir.adria.bookly.Adapter.customDrawer
 import com.altemir.adria.bookly.Model.Drawer
-import com.altemir.adria.bookly.Model.Shelf
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.database.*
 import kotlinx.android.synthetic.main.activity_create_biblio.*
 import java.util.UUID.randomUUID
 
 
-class CreateDrawer : AppCompatActivity() {
+class Drawers : AppCompatActivity() {
 
     val drawers = arrayListOf<Drawer>()
 
 
-
-    val draweruid = randomUUID().toString()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_create_biblio)
@@ -37,23 +31,56 @@ class CreateDrawer : AppCompatActivity() {
 
 
         ButtonCreateBiblio.setOnClickListener() {
-            createDrawer(draweruid)
+            createDrawer()
         }
 
-        grid.setOnItemClickListener { parent, view, position, id ->
 
-
+        grid.setOnItemClickListener { _, _, position, _ ->
             grid.adapter
-
-            val intent = Intent(this, CreateShelf::class.java)
+            val intent = Intent(this, Shelfs::class.java)
                 intent.putExtra("drawerUID", grid.getItemAtPosition(position) as Drawer);
                 intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 startActivity(intent)
-
-
-
-
         }
+
+        grid.setOnItemLongClickListener{ parent, view, position, id ->
+            val inflater = layoutInflater
+            grid.adapter
+
+            val myBuild = AlertDialog.Builder(this)
+            val dialoglayout = inflater.inflate(R.layout.activity_add_biblio, null)
+            val biblioName = dialoglayout.findViewById<EditText>(R.id.BiblioName)
+            val add = dialoglayout.findViewById<Button>(R.id.btnAdd)
+            val cancel = dialoglayout.findViewById<Button>(R.id.btnCancelar)
+
+            myBuild.setView(dialoglayout)
+            val dialog = myBuild.create()
+            dialog.show()
+            val grid = grid.getItemAtPosition(position) as Drawer
+            val ref = FirebaseDatabase.getInstance().getReference("/Drawers/${grid.uid}")
+            add.setOnClickListener() {
+                if (!biblioName.text.toString().isEmpty()) {
+                    val drawer = Drawer(grid.uid, grid.uidUser!!, biblioName.text.toString())
+                    /*if(drawer.name.equals(ref)){
+                        Toast.makeText(this, "El nombre es igual", Toast.LENGTH_LONG).show()
+                    }*/
+                    ref.setValue(drawer)
+                    dialog.dismiss()
+
+
+                } else {
+                    Toast.makeText(this, "Porfavor introduzca un nombre", Toast.LENGTH_LONG).show()
+                }
+            }
+            cancel.setOnClickListener() {
+                dialog.dismiss()
+            }
+
+            true
+        }
+
+
+
     }
     private fun verifyUserIsLogedIn() {
         val uid = FirebaseAuth.getInstance().uid
@@ -81,7 +108,8 @@ class CreateDrawer : AppCompatActivity() {
         return super.onCreateOptionsMenu(menu)
     }
 
-    private fun createDrawer(draweruid: String) {
+    private fun createDrawer() {
+        val draweruid = randomUUID().toString()
         val user = FirebaseAuth.getInstance().currentUser
         val ref = FirebaseDatabase.getInstance().getReference("/Drawers/$draweruid")
         val inflater = layoutInflater
@@ -122,13 +150,12 @@ class CreateDrawer : AppCompatActivity() {
                     val drawer = e.getValue(Drawer::class.java)
                     if (drawer != null) {
                         if(drawer.uidUser.equals(user)){
-
                             drawers.add(drawer)
                         }
                     }
 
                 }
-                val adapter = customDrawer(this@CreateDrawer, drawers)
+                val adapter = customDrawer(this@Drawers, drawers)
                 grid.adapter = adapter
             }
             }
