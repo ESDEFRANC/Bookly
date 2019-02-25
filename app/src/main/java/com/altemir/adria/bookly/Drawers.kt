@@ -123,14 +123,14 @@ class Drawers : AppCompatActivity() {
         val dialog = myBuild.create()
         dialog.show()
         add.setOnClickListener() {
-            if (!biblioName.text.toString().isEmpty()) {
+            if (biblioName.text.toString() == "^[a-zA-Z0-9]+$") {
                 val drawer = Drawer(draweruid, user!!.uid, biblioName.text.toString())
                 ref.setValue(drawer)
                 dialog.dismiss()
 
 
             } else {
-                Toast.makeText(this, "Porfavor introduzca un nombre", Toast.LENGTH_LONG).show()
+                Toast.makeText(this, "Porfavor introduzca un nombre valido", Toast.LENGTH_LONG).show()
             }
         }
         cancel.setOnClickListener() {
