@@ -17,6 +17,7 @@ import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
+import kotlinx.android.synthetic.main.activity_create_biblio.*
 import kotlinx.android.synthetic.main.activity_create_shelf.*
 import java.util.UUID.randomUUID
 
@@ -34,6 +35,13 @@ class Shelfs : AppCompatActivity() {
 
         ButtonCreateShelf.setOnClickListener(){
             createCalaix(drawerUID)
+        }
+        gridShelf.setOnItemClickListener { _, _, position, _ ->
+            gridShelf.adapter
+            val intent = Intent(this, Books::class.java)
+            intent.putExtra("shelfUID", gridShelf.getItemAtPosition(position) as Shelf);
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            startActivity(intent)
         }
 
     }
@@ -60,7 +68,7 @@ class Shelfs : AppCompatActivity() {
 
         val myBuild = AlertDialog.Builder(this)
         val dialoglayout = inflater.inflate(R.layout.activity_add_shelf, null)
-        val calaixName = dialoglayout.findViewById<EditText>(R.id.BiblioName)
+        val calaixName = dialoglayout.findViewById<EditText>(R.id.ShelfName)
         val add = dialoglayout.findViewById<Button>(R.id.btnAdd)
         val cancel = dialoglayout.findViewById<Button>(R.id.btnCancelar)
         myBuild.setView(dialoglayout)
