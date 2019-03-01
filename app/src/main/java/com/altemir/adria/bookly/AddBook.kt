@@ -23,13 +23,13 @@ class AddBook : AppCompatActivity() {
     }
 
     private fun createBook(shelfUid:String) {
-        val book = UUID.randomUUID().toString()
-        val ref = FirebaseDatabase.getInstance().getReference("/Book/$book")
+        val bookID = UUID.randomUUID().toString()
+        val ref = FirebaseDatabase.getInstance().getReference("/Books/$bookID")
         val inflater = layoutInflater
         Add.setOnClickListener() {
             if (!Titol.text.toString().isEmpty()&&!Descripcio.text.toString().isEmpty() && !Editorial.text.toString().isEmpty()) {
-                val shelf1 = Book(book, shelfUid, Titol.text.toString(),Editorial.text.toString(),Descripcio.text.toString())
-                ref.setValue(shelf1)
+                val book = Book(Descripcio.text.toString(),Editorial.text.toString(),Titol.text.toString(),bookID,shelfUid)
+                ref.setValue(book)
             } else {
                 Toast.makeText(this, "Porfavor introduzca los campos", Toast.LENGTH_LONG).show()
             }

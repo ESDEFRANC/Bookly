@@ -24,6 +24,7 @@ import java.util.UUID.randomUUID
 class Shelfs : AppCompatActivity() {
 
     val shelfs = arrayListOf<Shelf>()
+    val shelfsName = arrayListOf<String>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -38,7 +39,7 @@ class Shelfs : AppCompatActivity() {
         }
         gridShelf.setOnItemClickListener { _, _, position, _ ->
             gridShelf.adapter
-            val intent = Intent(this, Books::class.java)
+            val intent = Intent(this, BooksActivity::class.java)
             intent.putExtra("shelfUID", gridShelf.getItemAtPosition(position) as Shelf);
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             startActivity(intent)
@@ -76,9 +77,13 @@ class Shelfs : AppCompatActivity() {
         dialog.show()
         add.setOnClickListener() {
             if (!calaixName.text.toString().isEmpty()) {
-                val shelf1 = Shelf(shelf, draweruid, calaixName.text.toString())
-                ref.setValue(shelf1)
-                dialog.dismiss()
+                if(!shelfsName.contains(calaixName.text.toString())){
+                    val shelf1 = Shelf(shelf, draweruid, calaixName.text.toString())
+                    ref.setValue(shelf1)
+                    dialog.dismiss()
+                }else{
+                    Toast.makeText(this, "Nombre repetido", Toast.LENGTH_LONG).show()
+                }
 
             } else {
                 Toast.makeText(this, "Porfavor introduzca un nombre", Toast.LENGTH_LONG).show()
@@ -99,8 +104,8 @@ class Shelfs : AppCompatActivity() {
                         val shelf = e.getValue(Shelf::class.java)
                         if (shelf != null) {
                             if(draweruid.equals(shelf.uidDrawer)){
-
                                 shelfs.add(shelf)
+                                shelfsName.add(shelf.name)
                             }
                         }
 

@@ -12,6 +12,7 @@ import com.altemir.adria.bookly.Model.Drawer
 import com.altemir.adria.bookly.Model.Shelf
 import com.altemir.adria.bookly.R
 import kotlinx.android.synthetic.main.activity_custom_drawer.view.*
+import kotlinx.android.synthetic.main.activity_custom_shelf.view.*
 import java.util.zip.Inflater
 
 class customShelf(
@@ -28,7 +29,7 @@ class customShelf(
             view = mInflater.inflate(R.layout.activity_custom_shelf, parent, false)
 
         }else{
-            rowMain.Name.text = shelf[position].name
+            rowMain.NameShelf.text = shelf[position].name
         }
 
         return rowMain

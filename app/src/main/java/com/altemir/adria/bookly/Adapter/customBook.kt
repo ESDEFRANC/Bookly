@@ -2,17 +2,13 @@ package com.altemir.adria.bookly.Adapter
 
 import android.annotation.SuppressLint
 import android.content.Context
-import android.support.v7.app.AppCompatActivity
-import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.BaseAdapter
 import com.altemir.adria.bookly.Model.Book
-import com.altemir.adria.bookly.Model.Drawer
 import com.altemir.adria.bookly.R
-import kotlinx.android.synthetic.main.activity_custom_drawer.view.*
-import java.util.zip.Inflater
+import kotlinx.android.synthetic.main.activity_custom_book.view.*
 
 class customBook(
         private val context: Context,
@@ -26,9 +22,11 @@ class customBook(
         val view: View
         if(convertView == null){
             view = mInflater.inflate(R.layout.activity_custom_book, parent, false)
-
+            rowMain.NameBook.text = books[position].title
+            rowMain.EditorialEdit.text = books[position].editorial
         }else{
-            rowMain.Name.text = books[position].Editorial
+            rowMain.NameBook.text = books[position].title
+            rowMain.EditorialEdit.text = books[position].editorial
         }
 
         return rowMain

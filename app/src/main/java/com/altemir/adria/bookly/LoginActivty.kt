@@ -34,7 +34,7 @@ class LoginActivty : AppCompatActivity() {
             FirebaseAuth.getInstance().signInWithEmailAndPassword(email,password)
             .addOnCompleteListener(this, OnCompleteListener { task ->
                 if(task.isSuccessful){
-                    startActivity(Intent(this, Drawers::class.java))
+                    startActivity(Intent(this, DrawersActivity::class.java))
                     Toast.makeText(this, "sUCCESSFULLY LOGGED IN", Toast.LENGTH_LONG).show()
                 }else{
                     Toast.makeText(this, "Error", Toast.LENGTH_LONG).show()

@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Books">
+    tools:context=".BooksActivity">
 
     <ListView
         android:id="@+id/listBooks"
@@ -30,7 +30,8 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.896"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/gridShelf"
+        app:layout_constraintTop_toBottomOf="@+id/listBooks"
         app:layout_constraintVertical_bias="1.0"
         tools:ignore="MissingConstraints" />
+
 </android.support.constraint.ConstraintLayout>
