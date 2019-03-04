@@ -17,11 +17,10 @@ import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
-import kotlinx.android.synthetic.main.activity_create_biblio.*
 import kotlinx.android.synthetic.main.activity_create_shelf.*
 import java.util.UUID.randomUUID
 
-class Shelfs : AppCompatActivity() {
+class ShelfsActivity : AppCompatActivity() {
 
     val shelfs = arrayListOf<Shelf>()
     val shelfsName = arrayListOf<String>()
@@ -110,7 +109,7 @@ class Shelfs : AppCompatActivity() {
                         }
 
                     }
-                    val adapter = customShelf(this@Shelfs, shelfs)
+                    val adapter = customShelf(this@ShelfsActivity, shelfs)
                     gridShelf.adapter = adapter
                 }
             }

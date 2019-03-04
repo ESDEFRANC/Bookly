@@ -10,10 +10,13 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
 import com.altemir.adria.bookly.Adapter.customDrawer
+import com.altemir.adria.bookly.Adapter.customShelf
 import com.altemir.adria.bookly.Model.Drawer
+import com.altemir.adria.bookly.Model.Shelf
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
 import kotlinx.android.synthetic.main.activity_create_biblio.*
+import kotlinx.android.synthetic.main.activity_create_shelf.*
 import java.util.UUID.randomUUID
 import java.util.regex.Pattern
 
@@ -22,6 +25,7 @@ class DrawersActivity : AppCompatActivity() {
 
     val drawers = arrayListOf<Drawer>()
     val drawersName = arrayListOf<String>()
+    val shelfs = arrayListOf<Shelf>()
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -38,7 +42,7 @@ class DrawersActivity : AppCompatActivity() {
 
         grid.setOnItemClickListener { _, _, position, _ ->
             grid.adapter
-            val intent = Intent(this, Shelfs::class.java)
+            val intent = Intent(this, ShelfsActivity::class.java)
             intent.putExtra("drawerUID", grid.getItemAtPosition(position) as Drawer);
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             startActivity(intent)
@@ -63,8 +67,14 @@ class DrawersActivity : AppCompatActivity() {
                 dialog.dismiss()
             }
             delete.setOnClickListener() {
+                val grid = grid.getItemAtPosition(position) as Drawer
+                val refDrawer = FirebaseDatabase.getInstance().getReference("Drawers").child(grid.uid)
+                getShelfs(shelfs,grid.uid)
+                refDrawer.removeValue()
+                Toast.makeText(this, "Elemento borrado correctamente", Toast.LENGTH_LONG).show()
                 dialog.dismiss()
             }
+
 
             true
         }
@@ -197,6 +207,33 @@ class DrawersActivity : AppCompatActivity() {
 
             true
         }
+
+    private fun getShelfs(shelfs:ArrayList<Shelf>, draweruid:String){
+        val ref = FirebaseDatabase.getInstance().getReference("Shelf")
+        ref.addValueEventListener(object: ValueEventListener {
+            override fun onDataChange(p0: DataSnapshot) {
+                if(p0.exists()){
+                    shelfs.clear()
+                    for (e in p0.children){
+                        val shelf = e.getValue(Shelf::class.java)
+                        if (shelf != null) {
+                            if(draweruid.equals(shelf.uidDrawer)){
+                                shelfs.add(shelf)
+                                ref.removeValue()
+                            }
+                        }
+
+                    }
+                }
+            }
+
+            override fun onCancelled(p0: DatabaseError) {
+                TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+            }
+
+        });
+
+    }
 
     private fun checkName(drawerName: String): Boolean {
         val regex = "^[a-zA-Z0-9]+$"

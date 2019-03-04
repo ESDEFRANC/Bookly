@@ -16,7 +16,7 @@
         <activity android:name=".BooksActivity"></activity>
         <activity android:name=".AddBook" />
         <activity android:name=".Books" />
-        <activity android:name=".Shelfs" />
+        <activity android:name=".ShelfsActivity" />
         <activity android:name=".SplashScreen" />
         <activity android:name=".DrawersActivity">
             <intent-filter>
