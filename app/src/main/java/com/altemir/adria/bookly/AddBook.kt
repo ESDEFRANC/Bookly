@@ -18,17 +18,16 @@ class AddBook : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_add_book)
         val shelf = intent.getParcelableExtra<Shelf>("shelfUid");
-        val shelfUid = shelf.uid
-        createBook(shelfUid)
+        createBook(shelf)
     }
 
-    private fun createBook(shelfUid:String) {
+    private fun createBook(shelf:Shelf) {
         val bookID = UUID.randomUUID().toString()
         val ref = FirebaseDatabase.getInstance().getReference("/Books/$bookID")
         val inflater = layoutInflater
         Add.setOnClickListener() {
             if (!Titol.text.toString().isEmpty()&&!Descripcio.text.toString().isEmpty() && !Editorial.text.toString().isEmpty()) {
-                val book = Book(Descripcio.text.toString(),Editorial.text.toString(),Titol.text.toString(),bookID,shelfUid)
+                val book = Book(Descripcio.text.toString(),Editorial.text.toString(),Titol.text.toString(),bookID,shelf.uid,shelf.uidDrawer)
                 ref.setValue(book)
             } else {
                 Toast.makeText(this, "Porfavor introduzca los campos", Toast.LENGTH_LONG).show()

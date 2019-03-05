@@ -3,9 +3,10 @@ package com.altemir.adria.bookly.Model
 import android.os.Parcel
 import android.os.Parcelable
 
-class Book(val description : String, val editorial : String,val title:String, val uid:String, val uidShelf:String) : Parcelable{
-    constructor():this("","","","",""){}
+class Book(val description : String, val editorial : String,val title:String, val uid:String, val uidShelf:String, val uidDrawer:String) : Parcelable{
+    constructor():this("","","","","",""){}
     constructor(parcel: Parcel) : this(
+            parcel.readString(),
             parcel.readString(),
             parcel.readString(),
             parcel.readString(),
