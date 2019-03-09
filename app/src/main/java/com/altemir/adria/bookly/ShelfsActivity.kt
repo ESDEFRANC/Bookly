@@ -10,6 +10,7 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
 import com.altemir.adria.bookly.Adapter.customShelf
+import com.altemir.adria.bookly.Model.Book
 import com.altemir.adria.bookly.Model.Drawer
 import com.altemir.adria.bookly.Model.Shelf
 import com.google.firebase.auth.FirebaseAuth
@@ -19,6 +20,7 @@ import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 import kotlinx.android.synthetic.main.activity_create_shelf.*
 import java.util.UUID.randomUUID
+import java.util.regex.Pattern
 
 class ShelfsActivity : AppCompatActivity() {
 
@@ -42,6 +44,33 @@ class ShelfsActivity : AppCompatActivity() {
             intent.putExtra("shelfUID", gridShelf.getItemAtPosition(position) as Shelf);
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             startActivity(intent)
+        }
+        gridShelf.setOnItemLongClickListener { parent, view, position, id ->
+            val inflater = layoutInflater
+            gridShelf.adapter
+
+            val myBuild = AlertDialog.Builder(this)
+            val dialoglayout = inflater.inflate(R.layout.activity_delete_update_biblio, null)
+            val biblioName = dialoglayout.findViewById<EditText>(R.id.Info)
+            val update = dialoglayout.findViewById<Button>(R.id.btnUpdate)
+            val delete = dialoglayout.findViewById<Button>(R.id.btnDelete)
+
+            myBuild.setView(dialoglayout)
+            val dialog = myBuild.create()
+            dialog.show()
+
+            update.setOnClickListener() {
+                dialog.dismiss()
+                updateBtn(position)
+
+            }
+            delete.setOnClickListener() {
+                dialog.dismiss()
+                deleteBtn(position)
+            }
+
+
+            true
         }
 
     }
@@ -120,5 +149,100 @@ class ShelfsActivity : AppCompatActivity() {
 
         });
 
+    }
+    private fun updateBtn(position:Int){
+        val inflater = layoutInflater
+        gridShelf.adapter
+
+        val myBuild = AlertDialog.Builder(this@ShelfsActivity)
+        val dialoglayout = inflater.inflate(R.layout.activity_update_shelf, null)
+        val shelfName = dialoglayout.findViewById<EditText>(R.id.ShelfName)
+        val update = dialoglayout.findViewById<Button>(R.id.btnUpdate)
+        val cancel = dialoglayout.findViewById<Button>(R.id.btnCancelar)
+
+        myBuild.setView(dialoglayout)
+        val dialog = myBuild.create()
+        dialog.show()
+
+        val grid = gridShelf.getItemAtPosition(position) as Shelf
+        val ref = FirebaseDatabase.getInstance().getReference("/Shelf/${grid.uid}")
+
+        update.setOnClickListener() {
+            if (checkName(shelfName.text.toString())) {
+                if(!shelfsName.contains(shelfName.text.toString())) {
+                    val shelf = Shelf(grid.uid, grid.uidDrawer, shelfName.text.toString())
+                    ref.setValue(shelf)
+                    dialog.dismiss()
+                }else{
+                    Toast.makeText(this, "Nombre repetido", Toast.LENGTH_LONG).show()
+                }
+
+            } else {
+                Toast.makeText(this, "Porfavor introduzca un nombre", Toast.LENGTH_LONG).show()
+            }
+        }
+        cancel.setOnClickListener() {
+            dialog.dismiss()
+        }
+
+        true
+    }
+    private fun deleteBtn(position:Int){
+        val inflater = layoutInflater
+        gridShelf.adapter
+
+        val myBuild = AlertDialog.Builder(this@ShelfsActivity)
+        val dialoglayout = inflater.inflate(R.layout.activity_delete_shelf, null)
+        val borrar = dialoglayout.findViewById<Button>(R.id.btnBorrar)
+        val cancel = dialoglayout.findViewById<Button>(R.id.btnCancelar)
+
+        myBuild.setView(dialoglayout)
+        val dialog = myBuild.create()
+        dialog.show()
+
+        val grid = gridShelf.getItemAtPosition(position) as Shelf
+
+        borrar.setOnClickListener() {
+            val refShelf = FirebaseDatabase.getInstance().getReference("Shelf").child(grid.uid)
+            refShelf.removeValue()
+            getBooks(grid.uid)
+            Toast.makeText(this, "Elemento borrado correctamente", Toast.LENGTH_LONG).show()
+            dialog.dismiss()
+        }
+        cancel.setOnClickListener() {
+            dialog.dismiss()
+        }
+
+        true
+    }
+    private fun getBooks(shelfUid:String) {
+        val ref = FirebaseDatabase.getInstance().getReference("Books")
+        ref.addValueEventListener(object : ValueEventListener {
+            override fun onCancelled(p0: DatabaseError) {
+                TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+            }
+
+            override fun onDataChange(p0: DataSnapshot) {
+                if (p0.exists()) {
+                    for (e in p0.children) {
+                        val book = e.getValue(Book::class.java)
+                        if (book != null) {
+                            if (shelfUid.equals(book.uidShelf)) {
+                                ref.removeValue()
+                            }
+                        }
+                    }
+
+                }
+            }
+
+        });
+    }
+    private fun checkName(drawerName: String): Boolean {
+        val regex = "^[a-zA-Z0-9]+$"
+        val p = Pattern.compile(regex)
+        val m = p.matcher(drawerName)
+        val b = m.matches()
+        return b
     }
 }

@@ -65,18 +65,13 @@ class DrawersActivity : AppCompatActivity() {
             dialog.show()
 
             update.setOnClickListener() {
-                updateBtn(position)
                 dialog.dismiss()
+                updateBtn(position)
+
             }
             delete.setOnClickListener() {
-                val grid = grid.getItemAtPosition(position) as Drawer
-                val refDrawer = FirebaseDatabase.getInstance().getReference("Drawers").child(grid.uid)
-                getShelfs(grid.uid)
-                getBooks(grid.uid)
-
-                refDrawer.removeValue()
-                Toast.makeText(this, "Elemento borrado correctamente", Toast.LENGTH_LONG).show()
                 dialog.dismiss()
+                deleteBtn(position)
             }
 
 
@@ -176,42 +171,71 @@ class DrawersActivity : AppCompatActivity() {
     }
 
     private fun updateBtn(position:Int){
-            val inflater = layoutInflater
-            grid.adapter
+        val inflater = layoutInflater
+        grid.adapter
 
-            val myBuild = AlertDialog.Builder(this@DrawersActivity)
-            val dialoglayout = inflater.inflate(R.layout.activity_delete_update_biblio, null)
-            val biblioName = dialoglayout.findViewById<EditText>(R.id.BiblioName)
-            val add = dialoglayout.findViewById<Button>(R.id.btnAdd)
-            val cancel = dialoglayout.findViewById<Button>(R.id.btnCancelar)
+        val myBuild = AlertDialog.Builder(this@DrawersActivity)
+        val dialoglayout = inflater.inflate(R.layout.activity_update_biblio, null)
+        val biblioName = dialoglayout.findViewById<EditText>(R.id.BiblioName)
+        val add = dialoglayout.findViewById<Button>(R.id.btnUpdate)
+        val cancel = dialoglayout.findViewById<Button>(R.id.btnCancelar)
 
-            myBuild.setView(dialoglayout)
-            val dialog = myBuild.create()
-            dialog.show()
+        myBuild.setView(dialoglayout)
+        val dialog = myBuild.create()
+        dialog.show()
 
-            val grid = grid.getItemAtPosition(position) as Drawer
-            val ref = FirebaseDatabase.getInstance().getReference("/Drawers/${grid.uid}")
+        val grid = grid.getItemAtPosition(position) as Drawer
+        val ref = FirebaseDatabase.getInstance().getReference("/Drawers/${grid.uid}")
 
-            add.setOnClickListener() {
-                if (checkName(biblioName.text.toString())) {
-                    if(!drawersName.contains(biblioName.text.toString())) {
-                        val drawer = Drawer(grid.uid, grid.uidUser, biblioName.text.toString())
-                        ref.setValue(drawer)
-                        dialog.dismiss()
-                    }else{
-                        Toast.makeText(this, "Nombre repetido", Toast.LENGTH_LONG).show()
-                    }
-
-                } else {
-                    Toast.makeText(this, "Porfavor introduzca un nombre", Toast.LENGTH_LONG).show()
+        add.setOnClickListener() {
+            if (checkName(biblioName.text.toString())) {
+                if(!drawersName.contains(biblioName.text.toString())) {
+                    val drawer = Drawer(grid.uid, grid.uidUser, biblioName.text.toString())
+                    ref.setValue(drawer)
+                    dialog.dismiss()
+                }else{
+                    Toast.makeText(this, "Nombre repetido", Toast.LENGTH_LONG).show()
                 }
-            }
-            cancel.setOnClickListener() {
-                dialog.dismiss()
-            }
 
-            true
+            } else {
+                Toast.makeText(this, "Porfavor introduzca un nombre", Toast.LENGTH_LONG).show()
+            }
         }
+        cancel.setOnClickListener() {
+            dialog.dismiss()
+        }
+
+        true
+    }
+    private fun deleteBtn(position:Int){
+        val inflater = layoutInflater
+        grid.adapter
+
+        val myBuild = AlertDialog.Builder(this@DrawersActivity)
+        val dialoglayout = inflater.inflate(R.layout.activity_delete_drawer, null)
+        val borrar = dialoglayout.findViewById<Button>(R.id.btnBorrar)
+        val cancel = dialoglayout.findViewById<Button>(R.id.btnCancelar)
+
+        myBuild.setView(dialoglayout)
+        val dialog = myBuild.create()
+        dialog.show()
+
+        val grid = grid.getItemAtPosition(position) as Drawer
+
+        borrar.setOnClickListener() {
+            val refDrawer = FirebaseDatabase.getInstance().getReference("Drawers").child(grid.uid)
+            getShelfs(grid.uid)
+            getBooks(grid.uid)
+            refDrawer.removeValue()
+            Toast.makeText(this, "Elemento borrado correctamente", Toast.LENGTH_LONG).show()
+            dialog.dismiss()
+        }
+        cancel.setOnClickListener() {
+            dialog.dismiss()
+        }
+
+        true
+    }
 
     private fun getShelfs(draweruid:String){
         val ref = FirebaseDatabase.getInstance().getReference("Shelf")

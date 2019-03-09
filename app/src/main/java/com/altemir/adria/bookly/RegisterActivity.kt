@@ -31,12 +31,10 @@ class RegisterActivity : AppCompatActivity() {
         }
 
         alreadyMain.setOnClickListener {
-            Log.d("RegisterActivity", "Try to show login activity")
             val intent = Intent(this, LoginActivty::class.java)
             startActivity(intent)
         }
         buttonImg.setOnClickListener {
-            Log.d("RegisterActivity", "Try to show photo selector")
             val intent = Intent(Intent.ACTION_PICK)
             intent.type = "image/*"
             startActivityForResult(intent, 0)
@@ -49,9 +47,6 @@ class RegisterActivity : AppCompatActivity() {
         super.onActivityResult(requestCode, resultCode, data)
 
         if(requestCode == 0 && resultCode == Activity.RESULT_OK && data != null){
-            //proced and check what thw selected image
-            Log.d("RegisteActivity", "Photo was selected")
-
             selectedPhotoUri = data.data
 
             val bitmap = MediaStore.Images.Media.getBitmap(contentResolver, selectedPhotoUri)

@@ -13,9 +13,8 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".BooksActivity"></activity>
+        <activity android:name=".BooksActivity" />
         <activity android:name=".AddBook" />
-        <activity android:name=".Books" />
         <activity android:name=".ShelfsActivity" />
         <activity android:name=".SplashScreen" />
         <activity android:name=".DrawersActivity">

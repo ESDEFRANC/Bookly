@@ -23,6 +23,8 @@
     <string name="Actualizar">Actualizar</string>
     <string name="Estassegurodeborrar">Estas seguro de borrar la biblioteca ?</string>
     <string name="Borrar">Borrar</string>
+    <string name="update">Update</string>
+    <string name="Estassegurodeborrarcajon">Estas sguro de borrar biblioteca?</string>
 
 
 </resources>
