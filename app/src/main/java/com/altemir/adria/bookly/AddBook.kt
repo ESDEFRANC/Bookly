@@ -2,9 +2,6 @@ package com.altemir.adria.bookly
 
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
-import android.support.v7.app.AlertDialog
-import android.widget.Button
-import android.widget.EditText
 import android.widget.Toast
 import com.altemir.adria.bookly.Model.Book
 import com.altemir.adria.bookly.Model.Shelf
@@ -18,6 +15,7 @@ class AddBook : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_add_book)
         val shelf = intent.getParcelableExtra<Shelf>("shelfUid");
+
         createBook(shelf)
     }
 
@@ -26,12 +24,14 @@ class AddBook : AppCompatActivity() {
         val ref = FirebaseDatabase.getInstance().getReference("/Books/$bookID")
         val inflater = layoutInflater
         Add.setOnClickListener() {
-            if (!Titol.text.toString().isEmpty()&&!Descripcio.text.toString().isEmpty() && !Editorial.text.toString().isEmpty()) {
-                val book = Book(Descripcio.text.toString(),Editorial.text.toString(),Titol.text.toString(),bookID,shelf.uid,shelf.uidDrawer)
+            if (!TitolUpdate.text.toString().isEmpty()&&!DescripcioUpdate.text.toString().isEmpty() && !EditorialUpdate.text.toString().isEmpty()) {
+                val book = Book(DescripcioUpdate.text.toString(),EditorialUpdate.text.toString(),TitolUpdate.text.toString(),bookID,shelf.uid,shelf.uidDrawer)
                 ref.setValue(book)
+                finish()
             } else {
                 Toast.makeText(this, "Porfavor introduzca los campos", Toast.LENGTH_LONG).show()
             }
+
         }
 
     }

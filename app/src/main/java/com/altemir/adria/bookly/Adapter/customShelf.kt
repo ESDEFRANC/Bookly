@@ -23,14 +23,11 @@ class customShelf(
     override fun getView(position: Int, convertView: View?, parent: ViewGroup?): View {
         val mInflater: LayoutInflater = LayoutInflater.from(context)
         val layoutInflater = LayoutInflater.from(context)
-        val rowMain = layoutInflater.inflate(R.layout.activity_custom_shelf, parent, false)
-        val view: View
-        if(convertView == null){
-            view = mInflater.inflate(R.layout.activity_custom_shelf, parent, false)
 
-        }else{
-            rowMain.NameShelf.text = shelf[position].name
-        }
+        val rowMain: View
+        rowMain = convertView ?: mInflater.inflate(R.layout.activity_custom_shelf, parent, false)
+
+        rowMain.NameShelf.text = shelf[position].name
 
         return rowMain
 

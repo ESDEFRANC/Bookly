@@ -13,6 +13,8 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
+        <activity android:name=".updateBookActivity"></activity>
+        <activity android:name=".ActivityBookClicked" />
         <activity android:name=".BooksActivity" />
         <activity android:name=".AddBook" />
         <activity android:name=".ShelfsActivity" />

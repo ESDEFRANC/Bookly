@@ -3,7 +3,7 @@ package com.altemir.adria.bookly.Model
 import android.os.Parcel
 import android.os.Parcelable
 
-class Book(val description : String, val editorial : String,val title:String, val uid:String, val uidShelf:String, val uidDrawer:String) : Parcelable{
+class Book(val description : String, val editorial : String, val title:String, val uid:String, val uidShelf:String, val uidDrawer:String) : Parcelable{
     constructor():this("","","","","",""){}
     constructor(parcel: Parcel) : this(
             parcel.readString(),
@@ -19,6 +19,8 @@ class Book(val description : String, val editorial : String,val title:String, va
         parcel.writeString(title)
         parcel.writeString(description)
         parcel.writeString(editorial)
+        parcel.writeString(uidShelf)
+        parcel.writeString(uidDrawer)
     }
 
     override fun describeContents(): Int {

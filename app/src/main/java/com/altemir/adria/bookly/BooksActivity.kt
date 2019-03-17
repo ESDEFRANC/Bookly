@@ -3,6 +3,11 @@ package com.altemir.adria.bookly
 import android.content.Intent
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
+import android.support.v7.app.AlertDialog
+import android.widget.AdapterView
+import android.widget.Button
+import android.widget.EditText
+import android.widget.Toast
 import com.altemir.adria.bookly.Adapter.customBook
 import com.altemir.adria.bookly.Model.Book
 import com.altemir.adria.bookly.Model.Shelf
@@ -14,18 +19,59 @@ import kotlinx.android.synthetic.main.activity_create_books.*
 
 class BooksActivity : AppCompatActivity() {
 
+    companion object {
+        const  val PRODUCT_KEY = "books"
+    }
+
     val books = arrayListOf<Book>()
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_create_books)
-
         val shelf = intent.getParcelableExtra<Shelf>("shelfUID");
-        val drawerUID = shelf.uid
+        val shelfUid = shelf.uid
 
-        getBooks(books,drawerUID)
+        getBooks(books,shelfUid)
 
+
+        listBooks.setOnItemClickListener { parent, view, position, id ->
+            listBooks.adapter
+            val intent = Intent(this, ActivityBookClicked::class.java)
+            intent.putExtra("Book", listBooks.getItemAtPosition(position) as Book);
+            //Toast.makeText(this, "Book${}",Toast.LENGTH_LONG).show()
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            startActivity(intent)
+        }
+
+
+        listBooks.setOnItemLongClickListener { parent, view, position, id ->
+            val inflater = layoutInflater
+            listBooks.adapter
+
+            val myBuild = AlertDialog.Builder(this)
+            val dialoglayout = inflater.inflate(R.layout.activity_delete_update_biblio, null)
+            val biblioName = dialoglayout.findViewById<EditText>(R.id.Info)
+            val update = dialoglayout.findViewById<Button>(R.id.btnUpdate)
+            val delete = dialoglayout.findViewById<Button>(R.id.btnDelete)
+
+            myBuild.setView(dialoglayout)
+            val dialog = myBuild.create()
+            dialog.show()
+
+            update.setOnClickListener() {
+                dialog.dismiss()
+                updateBtn(position)
+
+            }
+            delete.setOnClickListener() {
+                dialog.dismiss()
+                deleteBtn(position)
+            }
+
+
+            true
+        }
 
         ButtonCreateBook.setOnClickListener(){
             val intent = Intent(this, AddBook::class.java)
@@ -61,5 +107,45 @@ class BooksActivity : AppCompatActivity() {
 
             });
         }
+    private fun deleteBtn(position:Int){
+        val inflater = layoutInflater
+        listBooks.adapter
+
+        val myBuild = AlertDialog.Builder(this@BooksActivity)
+        val dialoglayout = inflater.inflate(R.layout.activity_delete_shelf, null)
+        val borrar = dialoglayout.findViewById<Button>(R.id.btnBorrar)
+        val cancel = dialoglayout.findViewById<Button>(R.id.btnCancelar)
+
+        myBuild.setView(dialoglayout)
+        val dialog = myBuild.create()
+        dialog.show()
+
+        val list = listBooks.getItemAtPosition(position) as Book
+
+        borrar.setOnClickListener() {
+            val refBook = FirebaseDatabase.getInstance().getReference("Books").child(list.uid)
+            refBook.removeValue()
+            Toast.makeText(this, "Elemento borrado correctamente", Toast.LENGTH_LONG).show()
+            dialog.dismiss()
+        }
+        cancel.setOnClickListener() {
+            dialog.dismiss()
+        }
+
+        true
+    }
+    private fun updateBtn(position:Int){
+        val inflater = layoutInflater
+        listBooks.adapter
+
+        val grid = listBooks.getItemAtPosition(position) as Book
+        val ref = FirebaseDatabase.getInstance().getReference("/Books/${grid.uid}")
+
+        val intent = Intent(this, updateBookActivity::class.java)
+        intent.putExtra("book",grid);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(intent)
+
+    }
 }
 

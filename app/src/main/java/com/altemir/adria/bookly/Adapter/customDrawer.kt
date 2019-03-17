@@ -20,15 +20,9 @@ class customDrawer(
     @SuppressLint("ViewHolder")
     override fun getView(position: Int, convertView: View?, parent: ViewGroup?): View {
         val mInflater: LayoutInflater = LayoutInflater.from(context)
-        val layoutInflater = LayoutInflater.from(context)
-        val rowMain = layoutInflater.inflate(R.layout.activity_custom_drawer, parent, false)
-        val view: View
-        if(convertView == null){
-            view = mInflater.inflate(R.layout.activity_custom_drawer, parent, false)
 
-        }else{
-            rowMain.Name.text = drawers[position].name
-        }
+        val rowMain = convertView ?: mInflater.inflate(R.layout.activity_custom_drawer, parent, false)
+        rowMain.Name.text = drawers[position].name
 
         return rowMain
 

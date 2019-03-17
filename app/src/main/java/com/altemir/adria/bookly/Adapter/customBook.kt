@@ -18,16 +18,11 @@ class customBook(
     override fun getView(position: Int, convertView: View?, parent: ViewGroup?): View {
         val mInflater: LayoutInflater = LayoutInflater.from(context)
         val layoutInflater = LayoutInflater.from(context)
-        val rowMain = layoutInflater.inflate(R.layout.activity_custom_book, parent, false)
-        val view: View
-        if(convertView == null){
-            view = mInflater.inflate(R.layout.activity_custom_book, parent, false)
+        val rowMain:View
+        rowMain = convertView ?: mInflater.inflate(R.layout.activity_custom_book, parent, false)
+
             rowMain.NameBook.text = books[position].title
             rowMain.EditorialEdit.text = books[position].editorial
-        }else{
-            rowMain.NameBook.text = books[position].title
-            rowMain.EditorialEdit.text = books[position].editorial
-        }
 
         return rowMain
 

@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ActivityBookClicked">
+
+    <TextView
+        android:id="@+id/Description"
+        android:layout_width="@dimen/DescriptionClickedMarginW"
+        android:layout_height="@dimen/DescriptionClickedMarginH"
+        android:layout_marginStart="@dimen/Margin"
+        android:layout_marginTop="@dimen/Margin"
+        android:layout_marginEnd="@dimen/Margin"
+        android:layout_marginBottom="@dimen/DescriptionClickedMarginB"
+        android:text="TextView"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.437"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/BookTitle"
+        app:layout_constraintVertical_bias="0.422" />
+
+    <TextView
+        android:id="@+id/BookTitle"
+        android:layout_width="@dimen/ProductNameClickedMarginW"
+        android:layout_height="@dimen/ProductNameClickedMarginH"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="80dp"
+        android:text="TextView"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/EditorialUpdate"
+        android:layout_width="@dimen/ProdctCantityClickedMarginW"
+        android:layout_height="@dimen/ProdctCantityClickedMarginH"
+        android:layout_marginStart="@dimen/Margin"
+        android:layout_marginTop="80dp"
+        android:layout_marginEnd="@dimen/ProdctCantityClickedMarginET"
+        android:text="TextView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.771"
+        app:layout_constraintStart_toEndOf="@+id/BookTitle"
+        app:layout_constraintTop_toTopOf="parent" />
+
+</android.support.constraint.ConstraintLayout>
