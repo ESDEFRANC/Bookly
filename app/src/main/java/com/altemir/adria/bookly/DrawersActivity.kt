@@ -28,13 +28,18 @@ class DrawersActivity : AppCompatActivity() {
 
     val drawers = arrayListOf<Drawer>()
     val drawersName = arrayListOf<String>()
+    val books = arrayListOf<Book>()
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_create_biblio)
+        this.title = "Biliotecas"
+
         verifyUserIsLogedIn()
+
         getDrawers(drawers)
+        //getBooksCount(drawers, books)
 
 
         ButtonCreateBiblio.setOnClickListener() {
@@ -80,14 +85,12 @@ class DrawersActivity : AppCompatActivity() {
 
 
     }
-
     private fun verifyUserIsLogedIn() {
         val uid = FirebaseAuth.getInstance().uid
         if (uid == null) {
             val intent = Intent(this, RegisterActivity::class.java)
             intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK.or(Intent.FLAG_ACTIVITY_NEW_TASK)
             startActivity(intent)
-
         }
     }
 
@@ -157,7 +160,7 @@ class DrawersActivity : AppCompatActivity() {
                         }
 
                     }
-                    val adapter = customDrawer(this@DrawersActivity, drawers)
+                    val adapter = customDrawer(this@DrawersActivity, drawers,books)
                     grid.adapter = adapter
                 }
             }
@@ -247,6 +250,7 @@ class DrawersActivity : AppCompatActivity() {
                         if (shelf != null) {
                             if(draweruid.equals(shelf.uidDrawer)){
                                 ref.removeValue()
+
                             }
                         }
 
@@ -284,11 +288,11 @@ class DrawersActivity : AppCompatActivity() {
 
         });
     }
-
     private fun checkName(drawerName: String): Boolean {
         val regex = "^[a-zA-Z0-9]+$"
         val p = Pattern.compile(regex)
-        val m = p.matcher(drawerName)
+        val drawertrimed = drawerName.trim()
+        val m = p.matcher(drawertrimed)
         val b = m.matches()
         return b
     }

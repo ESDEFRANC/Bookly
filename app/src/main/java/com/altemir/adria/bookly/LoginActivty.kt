@@ -30,20 +30,34 @@ class LoginActivty : AppCompatActivity() {
     private fun login(){
         val email = Email.text.toString()
         val password = Password.text.toString()
-        if(!email.isEmpty() && !password.isEmpty()){
-            FirebaseAuth.getInstance().signInWithEmailAndPassword(email,password)
-            .addOnCompleteListener(this, OnCompleteListener { task ->
-                if(task.isSuccessful){
-                    startActivity(Intent(this, DrawersActivity::class.java))
-                    Toast.makeText(this, "sUCCESSFULLY LOGGED IN", Toast.LENGTH_LONG).show()
-                }else{
-                    Toast.makeText(this, "Error", Toast.LENGTH_LONG).show()
-                }
-            })
-            //.add
+        if(!emailCheck()){
+            if(!passwordCheck()){
+                FirebaseAuth.getInstance().signInWithEmailAndPassword(email,password)
+                        .addOnCompleteListener(this, OnCompleteListener { task ->
+                            if(task.isSuccessful){
+                                startActivity(Intent(this, DrawersActivity::class.java))
+                                Toast.makeText(this, "SUCCESSFULLY LOGGED IN", Toast.LENGTH_LONG).show()
+                            }else{
+                                Toast.makeText(this, "Email o password incorrectos", Toast.LENGTH_LONG).show()
+                            }
+                        })
+            }else{
+                Password.error = "Introduce Password"
+            }
         }else{
-            Toast.makeText(this, "Please fill up teh camps", Toast.LENGTH_LONG).show()
+            Email.error = "Introduce mail"
         }
+
+
+
+
+    }
+
+    private fun emailCheck(): Boolean{
+        return Email.text.toString().isEmpty()
+    }
+    private fun passwordCheck():Boolean{
+        return Password.text.toString().isEmpty()
     }
 
 }

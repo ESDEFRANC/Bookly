@@ -3,6 +3,7 @@ package com.altemir.adria.bookly
 import android.annotation.SuppressLint
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
+import android.widget.Toast
 import com.altemir.adria.bookly.Model.Book
 import kotlinx.android.synthetic.main.activity_book_clicked.*
 
@@ -14,16 +15,14 @@ class ActivityBookClicked : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_book_clicked)
 
+
         val book = intent.getParcelableExtra<Book>("Book");
+        this.title = book.title
 
-        BookTitle.text = book.editorial.toString()
-        EditorialUpdate.text = book.uid.toString()
-        Description.text = book.title.toString()
-
-
-
-
-        //Toast.makeText(this,"Book"+book.title,Toast.LENGTH_LONG).show()
-
+        BookISBN.text = book.isbn
+        BookAutor.text = book.autor
+        BookEditorial.text = book.editorial
+        BookTitol.text = book.title
+        ratingBar3.rating = book.stars.toFloat()
     }
 }

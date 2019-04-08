@@ -14,9 +14,12 @@ class updateBookActivity : AppCompatActivity() {
         setContentView(R.layout.activity_update_book)
 
         val book = intent.getParcelableExtra<Book>("book");
-        TitolUpdate.setText(book.editorial)
-        EditorialUpdate.setText(book.uid)
-        DescripcioUpdate.setText(book.title)
+        ISBNUpdate.setText(book.isbn)
+        TitolUpdate.setText(book.title)
+        BookEditorial.setText(book.editorial)
+        AutorUpdate.setText(book.autor)
+        ratingBar2.rating = book.stars.toFloat()
+
         Update.setOnClickListener(){
             updateBook(book)
         }
@@ -28,9 +31,9 @@ class updateBookActivity : AppCompatActivity() {
     private fun updateBook(book:Book){
 
 
-        val ref = FirebaseDatabase.getInstance().getReference("/Books/${book.description}")
-        if (!TitolUpdate.text.toString().isEmpty()&&!DescripcioUpdate.text.toString().isEmpty() && !EditorialUpdate.text.toString().isEmpty()) {
-            val book = Book(DescripcioUpdate.text.toString(),EditorialUpdate.text.toString(),TitolUpdate.text.toString(),book.description,book.uidShelf,book.uidDrawer)
+        val ref = FirebaseDatabase.getInstance().getReference("/Books/${book.uid}")
+        if (!ISBNUpdate.text.toString().isEmpty()&&!TitolUpdate.text.toString().isEmpty()&&!BookEditorial.text.toString().isEmpty() && !AutorUpdate.text.toString().isEmpty()) {
+            val book = Book(ISBNUpdate.text.toString(),AutorUpdate.text.toString(),BookEditorial.text.toString(),TitolUpdate.text.toString(),ratingBar2.rating.toDouble(),book.uid,book.uidShelf,book.uidDrawer)
             ref.setValue(book)
             finish()
         } else {

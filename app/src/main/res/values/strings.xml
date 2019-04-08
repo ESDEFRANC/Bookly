@@ -25,6 +25,8 @@
     <string name="Borrar">Borrar</string>
     <string name="update">Update</string>
     <string name="Estassegurodeborrarcajon">Estas sguro de borrar biblioteca?</string>
+    <string name="editorial">Editorial</string>
+    <string name="title">Title</string>
 
 
 </resources>

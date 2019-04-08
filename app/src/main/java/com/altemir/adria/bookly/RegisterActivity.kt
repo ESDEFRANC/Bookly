@@ -23,11 +23,10 @@ class RegisterActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_register_activity)
         internetConnected()
+
         registerMain.setOnClickListener {
 
                 perfomRegistration()
-
-
         }
 
         alreadyMain.setOnClickListener {
@@ -54,76 +53,88 @@ class RegisterActivity : AppCompatActivity() {
             selectPhotoImg.setImageBitmap(bitmap)
 
             buttonImg.alpha = 0f
-
-            //val bitmapDrawable = BitmapDrawable(bitmap)
-            //buttonImg.setBackgroundDrawable(bitmapDrawable)
-
         }
     }
 
     private fun perfomRegistration() {
         val email = emailMain.text.toString()
         val password = passwordMain.text.toString()
-        if (email.isEmpty() || password.isEmpty()) {
-            Toast.makeText(this, "Please enter text in email/password", Toast.LENGTH_LONG).show()
-            return
+        if (uploadImageToFireBaseStorage()) {
+            if (!checkUserName()) {
+                if (!checkUserMail()) {
+                    if(!checkPassword1()) {
+                        if (!checkPassword2()) {
+                            if (!checkPasswordEquals()) {
+                                passwordMain2.error = "Password are differents"
+                                return
+                            } else {
+                                uploadImageToFireBaseStorage()
+                                FirebaseAuth.getInstance().createUserWithEmailAndPassword(email, password)
+                                        .addOnCompleteListener {
+                                            if (!it.isSuccessful) return@addOnCompleteListener
+                                            Log.d("Main", "Succesfully created user with uid: ${it.result!!.user.uid}")
+                                        }
+                                        .addOnFailureListener {
+                                            Toast.makeText(this, "Failed to create user:  ${it.message}", Toast.LENGTH_LONG).show()
+                                            Log.d("Main", "Failed to create user:  ${it.message}")
+                                        }
+                            }
+                        } else {
+                            passwordMain2.error = "Introduzca password"
+                        }
+
+                    }else{
+                        passwordMain.error = "Introduzca password"
+                    }
+                }else{
+                    emailMain.error = "Introduzca mail"
+                }
+            }else{
+                nameMain.error = "Introduzca nombre de usuario"
+            }
+
+        }else{
+            buttonImg.error = "Selecione una imagen"
         }
 
-        if (!checkPassword()) {
-            passwordMain2.error = "Password are differents"
-            return
-        } else {
-
-            //Firebase authentication
-            FirebaseAuth.getInstance().createUserWithEmailAndPassword(email, password)
-                    .addOnCompleteListener {
-                        if (!it.isSuccessful) return@addOnCompleteListener
-                        //else if succesfull
-
-                        uploadImageToFireBaseStorage()
-                        Log.d("Main", "Succesfully created user with uid: ${it.result!!.user.uid}")
+ }
 
 
+
+
+
+    private fun uploadImageToFireBaseStorage() :Boolean{
+        if(selectedPhotoUri == null ){
+            return  false
+        }else {
+            val filename = UUID.randomUUID().toString()
+            val ref = FirebaseStorage.getInstance().getReference("/images/$filename")
+
+            ref.putFile(selectedPhotoUri!!)
+                    .addOnSuccessListener {
+                        Log.d("Register", "Succesfully uploaded image: ${it.metadata?.path}")
+
+                        ref.downloadUrl.addOnSuccessListener {
+                            saveUserToFirebaaseDatabase(it.toString())
+                        }
                     }
                     .addOnFailureListener {
-                        Toast.makeText(this, "Failed to create user:  ${it.message}", Toast.LENGTH_LONG).show()
-                        Log.d("Main", "Failed to create user:  ${it.message}")
+
                     }
         }
-    }
-
-    private fun uploadImageToFireBaseStorage(){
-        if(selectedPhotoUri == null ) return
-        val filename = UUID.randomUUID().toString()
-        val ref = FirebaseStorage.getInstance().getReference("/images/$filename")
-
-        ref.putFile(selectedPhotoUri!!)
-                .addOnSuccessListener {
-                    Log.d("Register","Succesfully uploaded image: ${it.metadata?.path}")
-
-                    ref.downloadUrl.addOnSuccessListener {
-                        saveUserToFirebaaseDatabase(it.toString())
-                    }
-                }
-                .addOnFailureListener{
-
-                }
+        return true
 
 
     }
     private fun saveUserToFirebaaseDatabase(profileUrl: String){
         val uid = FirebaseAuth.getInstance().uid ?: ""
         val ref = FirebaseDatabase.getInstance().getReference("/users/$uid")
-       // val refchild = FirebaseDatabase.getInstance().getReference().child("/users/$uid/$nameMain")
-        //val ref1 = FirebaseStorage.getInstance().getReference("/biblio/$nameMain")
 
         val user = User(uid, nameMain.text.toString(), profileUrl)
-        //val user1 = User1(uid, nameMain.text.toString(),emailMain.text.toString(),profileUrl )
 
         ref.setValue(user)
                 .addOnSuccessListener {
                     Log.d("RegisterActivity" , "Finally we saved the user to Firebasa Database")
-
                     val intent = Intent(this, DrawersActivity::class.java)
                     intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK.or(Intent.FLAG_ACTIVITY_NEW_TASK)
                     startActivity(intent)
@@ -142,8 +153,20 @@ class RegisterActivity : AppCompatActivity() {
             this.finish()
         }
     }
-    private fun checkPassword():Boolean{
+    private fun checkPasswordEquals():Boolean{
         return passwordMain.text.toString() == passwordMain2.text.toString()
+    }
+    private fun checkUserName():Boolean{
+        return nameMain.text.toString().isEmpty()
+    }
+    private fun checkUserMail():Boolean{
+        return emailMain.text.toString().isEmpty()
+    }
+    private fun checkPassword1():Boolean{
+        return passwordMain.text.toString().isEmpty()
+    }
+    private fun checkPassword2():Boolean{
+        return passwordMain2.text.toString().isEmpty()
     }
 
 }

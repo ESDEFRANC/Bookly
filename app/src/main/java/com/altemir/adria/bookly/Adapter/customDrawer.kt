@@ -8,6 +8,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.BaseAdapter
+import com.altemir.adria.bookly.Model.Book
 import com.altemir.adria.bookly.Model.Drawer
 import com.altemir.adria.bookly.R
 import kotlinx.android.synthetic.main.activity_custom_drawer.view.*
@@ -15,7 +16,8 @@ import java.util.zip.Inflater
 
 class customDrawer(
         private val context: Context,
-        private val drawers: ArrayList<Drawer>
+        private val drawers: ArrayList<Drawer>,
+        private val books :ArrayList<Book>
 ):BaseAdapter(){
     @SuppressLint("ViewHolder")
     override fun getView(position: Int, convertView: View?, parent: ViewGroup?): View {

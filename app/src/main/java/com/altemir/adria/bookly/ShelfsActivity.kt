@@ -32,6 +32,7 @@ class ShelfsActivity : AppCompatActivity() {
         setContentView(R.layout.activity_create_shelf)
         val drawer = intent.getParcelableExtra<Drawer>("drawerUID");
         val drawerUID = drawer.uid
+        this.title = drawer.name
 
         getShelfs(shelfs,drawerUID)
 
@@ -238,10 +239,11 @@ class ShelfsActivity : AppCompatActivity() {
 
         });
     }
-    private fun checkName(drawerName: String): Boolean {
+    private fun checkName(shelfName: String): Boolean {
         val regex = "^[a-zA-Z0-9]+$"
         val p = Pattern.compile(regex)
-        val m = p.matcher(drawerName)
+        val shelftrimed = shelfName.trim()
+        val m = p.matcher(shelftrimed)
         val b = m.matches()
         return b
     }

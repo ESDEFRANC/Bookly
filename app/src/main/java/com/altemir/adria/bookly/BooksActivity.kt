@@ -4,6 +4,7 @@ import android.content.Intent
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.support.v7.app.AlertDialog
+import android.util.Log
 import android.widget.AdapterView
 import android.widget.Button
 import android.widget.EditText
@@ -23,7 +24,7 @@ class BooksActivity : AppCompatActivity() {
         const  val PRODUCT_KEY = "books"
     }
 
-    val books = arrayListOf<Book>()
+    private val books = arrayListOf<Book>()
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -31,6 +32,7 @@ class BooksActivity : AppCompatActivity() {
         setContentView(R.layout.activity_create_books)
         val shelf = intent.getParcelableExtra<Shelf>("shelfUID");
         val shelfUid = shelf.uid
+        this.title = shelf.name
 
         getBooks(books,shelfUid)
 
@@ -39,7 +41,6 @@ class BooksActivity : AppCompatActivity() {
             listBooks.adapter
             val intent = Intent(this, ActivityBookClicked::class.java)
             intent.putExtra("Book", listBooks.getItemAtPosition(position) as Book);
-            //Toast.makeText(this, "Book${}",Toast.LENGTH_LONG).show()
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             startActivity(intent)
         }
@@ -85,17 +86,13 @@ class BooksActivity : AppCompatActivity() {
         private fun getBooks(books:ArrayList<Book>,shelfUID:String){
             val ref = FirebaseDatabase.getInstance().getReference("Books")
             ref.addValueEventListener(object: ValueEventListener {
-                override fun onCancelled(p0: DatabaseError) {
-                    TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-                }
-
-                override fun onDataChange(p0: DataSnapshot) {
+                     override fun onDataChange(p0: DataSnapshot) {
                     if(p0.exists()){
                         books.clear()
                         for (e in p0.children){
                             val book = e.getValue(Book::class.java)
                             if (book != null) {
-                                if(shelfUID.equals(book.uidShelf)){
+                                if(shelfUID == book.uidShelf){
                                     books.add(book)
                                 }
                             }
@@ -103,6 +100,9 @@ class BooksActivity : AppCompatActivity() {
                         val adapter = customBook(this@BooksActivity, books)
                         listBooks.adapter = adapter
                     }
+                }
+                override fun onCancelled(p0: DatabaseError) {
+                    TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
                 }
 
             });
