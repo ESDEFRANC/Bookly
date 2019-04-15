@@ -112,8 +112,6 @@ class RegisterActivity : AppCompatActivity() {
 
             ref.putFile(selectedPhotoUri!!)
                     .addOnSuccessListener {
-                        Log.d("Register", "Succesfully uploaded image: ${it.metadata?.path}")
-
                         ref.downloadUrl.addOnSuccessListener {
                             saveUserToFirebaaseDatabase(it.toString())
                         }
@@ -134,11 +132,10 @@ class RegisterActivity : AppCompatActivity() {
 
         ref.setValue(user)
                 .addOnSuccessListener {
-                    Log.d("RegisterActivity" , "Finally we saved the user to Firebasa Database")
                     val intent = Intent(this, DrawersActivity::class.java)
                     intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK.or(Intent.FLAG_ACTIVITY_NEW_TASK)
                     startActivity(intent)
-                    Toast.makeText(this, "Succesfully registered",Toast.LENGTH_LONG).show()
+                    Toast.makeText(this, getString(R.string.RegisterComplete),Toast.LENGTH_LONG).show()
 
 
                 }
@@ -149,7 +146,7 @@ class RegisterActivity : AppCompatActivity() {
         val networkInfo = cm.activeNetworkInfo
 
         if(networkInfo == null){
-            Toast.makeText(baseContext,"No internet",Toast.LENGTH_LONG).show()
+            Toast.makeText(baseContext,getString(R.string.Nointernet),Toast.LENGTH_LONG).show()
             this.finish()
         }
     }

@@ -27,6 +27,8 @@
     <string name="Estassegurodeborrarcajon">Estas sguro de borrar biblioteca?</string>
     <string name="editorial">Editorial</string>
     <string name="title">Title</string>
+    <string name="RegisterComplete">Successfully registered</string>
+    <string name="Nointernet">No internet</string>
 
 
 </resources>

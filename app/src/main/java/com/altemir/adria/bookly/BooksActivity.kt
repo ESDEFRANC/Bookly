@@ -1,6 +1,8 @@
 package com.altemir.adria.bookly
 
+import android.content.Context
 import android.content.Intent
+import android.net.ConnectivityManager
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.support.v7.app.AlertDialog
@@ -33,7 +35,7 @@ class BooksActivity : AppCompatActivity() {
         val shelf = intent.getParcelableExtra<Shelf>("shelfUID");
         val shelfUid = shelf.uid
         this.title = shelf.name
-
+        internetConnected()
         getBooks(books,shelfUid)
 
 
@@ -147,5 +149,17 @@ class BooksActivity : AppCompatActivity() {
         startActivity(intent)
 
     }
+
+    private fun internetConnected(){
+        val cm = baseContext.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+
+        val networkInfo = cm.activeNetworkInfo
+
+        if(networkInfo == null){
+            Toast.makeText(baseContext,getString(R.string.Nointernet),Toast.LENGTH_LONG).show()
+            this.finish()
+        }
+    }
+
 }
 

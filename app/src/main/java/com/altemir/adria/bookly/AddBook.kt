@@ -31,7 +31,7 @@ class AddBook : AppCompatActivity() {
         val inflater = layoutInflater
         Add.setOnClickListener() {
             if(checkFields()){
-                if(checkISBN(ISBNAdd.text.toString())){
+                if(isValidISBN13(ISBNAdd.text.toString())){
                     if (!booksISBN.contains(ISBNAdd.text.toString())) {
                         val book = Book(ISBNAdd.text.toString(),AutorAdd.text.toString(),EditorialAdd.text.toString(),TitolAdd.text.toString(),ratingBar.rating.toDouble(),bookID,shelf.uid,shelf.uidDrawer)
                         ref.setValue(book)
@@ -80,12 +80,36 @@ class AddBook : AppCompatActivity() {
         }
     }
     private fun checkISBN(bookISBN: String): Boolean {
-        val regex = "^[a-zA-Z0-9]+$"
+        val regex = "^(?=[0-9]{13}$|[0-9]{17}$)97[89][0-9]{1,5}[0-9]+[0-9]+[0-9]$"
         val p = Pattern.compile(regex)
         val drawertrimed = bookISBN.trim()
         val m = p.matcher(drawertrimed)
         val b = m.matches()
         return b
+    }
+
+    private fun isValidISBN13( isbn: String ): Boolean {
+
+        var result = false
+        if ( checkISBN(isbn)) {
+            var sum = 0
+/*
+        for ( i in 0 until isbn.length )
+            sum += ( isbn[i].toInt() - '0'.toInt()) * if ( i.isOdd() ) 3 else 1
+*/
+            // OR...
+            var i = 0
+            sum = isbn.sumBy { c -> (c.toInt() - '0'.toInt()) * if (i++.isOdd()) 3 else 1 }
+
+            result = sum % 10 == 0
+        }
+
+        return result
+    }
+
+    private fun Int.isOdd(): Boolean {
+
+        return this % 2 != 0
     }
 
 }

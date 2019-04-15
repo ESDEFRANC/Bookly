@@ -22,7 +22,8 @@ class customBook(
         rowMain = convertView ?: mInflater.inflate(R.layout.activity_custom_book, parent, false)
 
             rowMain.NameBook.text = books[position].title
-            rowMain.EditorialEdit.text = books[position].editorial
+            rowMain.Autor.text = books[position].autor
+            rowMain.Rating.text = books[position].stars.toString()
 
         return rowMain
 

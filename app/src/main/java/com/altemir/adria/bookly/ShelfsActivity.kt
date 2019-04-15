@@ -1,6 +1,8 @@
 package com.altemir.adria.bookly
 
+import android.content.Context
 import android.content.Intent
+import android.net.ConnectivityManager
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.support.v7.app.AlertDialog
@@ -33,7 +35,7 @@ class ShelfsActivity : AppCompatActivity() {
         val drawer = intent.getParcelableExtra<Drawer>("drawerUID");
         val drawerUID = drawer.uid
         this.title = drawer.name
-
+        internetConnected()
         getShelfs(shelfs,drawerUID)
 
         ButtonCreateShelf.setOnClickListener(){
@@ -238,6 +240,16 @@ class ShelfsActivity : AppCompatActivity() {
             }
 
         });
+    }
+    private fun internetConnected(){
+        val cm = baseContext.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+
+        val networkInfo = cm.activeNetworkInfo
+
+        if(networkInfo == null){
+            Toast.makeText(baseContext,getString(R.string.Nointernet),Toast.LENGTH_LONG).show()
+            this.finish()
+        }
     }
     private fun checkName(shelfName: String): Boolean {
         val regex = "^[a-zA-Z0-9]+$"

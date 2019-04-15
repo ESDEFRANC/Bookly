@@ -24,7 +24,8 @@ class customDrawer(
         val mInflater: LayoutInflater = LayoutInflater.from(context)
 
         val rowMain = convertView ?: mInflater.inflate(R.layout.activity_custom_drawer, parent, false)
-        rowMain.Name.text = drawers[position].name
+        rowMain.bookTitle!!.text = drawers[position].name
+        rowMain.bookCover!!.setImageResource(R.drawable.estante)
 
         return rowMain
 
