@@ -9,6 +9,7 @@ import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.provider.MediaStore
 import android.util.Log
+import android.view.View
 import android.widget.Toast
 import com.altemir.adria.bookly.Model.User
 import com.google.firebase.auth.FirebaseAuth
@@ -23,10 +24,10 @@ class RegisterActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_register_activity)
         internetConnected()
+        books_progressBar.visibility = View.INVISIBLE
 
         registerMain.setOnClickListener {
-
-                perfomRegistration()
+            perfomRegistration()
         }
 
         alreadyMain.setOnClickListener {
@@ -41,11 +42,11 @@ class RegisterActivity : AppCompatActivity() {
     }
 
 
-    var selectedPhotoUri: Uri?=null
+    var selectedPhotoUri: Uri? = null
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
 
-        if(requestCode == 0 && resultCode == Activity.RESULT_OK && data != null){
+        if (requestCode == 0 && resultCode == Activity.RESULT_OK && data != null) {
             selectedPhotoUri = data.data
 
             val bitmap = MediaStore.Images.Media.getBitmap(contentResolver, selectedPhotoUri)
@@ -59,20 +60,18 @@ class RegisterActivity : AppCompatActivity() {
     private fun perfomRegistration() {
         val email = emailMain.text.toString()
         val password = passwordMain.text.toString()
-        if (uploadImageToFireBaseStorage()) {
             if (!checkUserName()) {
                 if (!checkUserMail()) {
-                    if(!checkPassword1()) {
+                    if (!checkPassword1()) {
                         if (!checkPassword2()) {
                             if (!checkPasswordEquals()) {
                                 passwordMain2.error = "Password are differents"
-                                return
                             } else {
-                                uploadImageToFireBaseStorage()
                                 FirebaseAuth.getInstance().createUserWithEmailAndPassword(email, password)
                                         .addOnCompleteListener {
                                             if (!it.isSuccessful) return@addOnCompleteListener
-                                            Log.d("Main", "Succesfully created user with uid: ${it.result!!.user.uid}")
+                                            books_progressBar.visibility = View.VISIBLE
+                                            uploadImageToFireBaseStorage()
                                         }
                                         .addOnFailureListener {
                                             Toast.makeText(this, "Failed to create user:  ${it.message}", Toast.LENGTH_LONG).show()
@@ -83,47 +82,34 @@ class RegisterActivity : AppCompatActivity() {
                             passwordMain2.error = "Introduzca password"
                         }
 
-                    }else{
+                    } else {
                         passwordMain.error = "Introduzca password"
                     }
-                }else{
+                } else {
                     emailMain.error = "Introduzca mail"
                 }
-            }else{
+            } else {
                 nameMain.error = "Introduzca nombre de usuario"
             }
-
-        }else{
-            buttonImg.error = "Selecione una imagen"
-        }
-
- }
+    }
 
 
+    private fun uploadImageToFireBaseStorage() {
+        if (selectedPhotoUri == null) return
+        val filename = UUID.randomUUID().toString()
+        val ref = FirebaseStorage.getInstance().getReference("/images/$filename")
 
-
-
-    private fun uploadImageToFireBaseStorage() :Boolean{
-        if(selectedPhotoUri == null ){
-            return  false
-        }else {
-            val filename = UUID.randomUUID().toString()
-            val ref = FirebaseStorage.getInstance().getReference("/images/$filename")
-
-            ref.putFile(selectedPhotoUri!!)
-                    .addOnSuccessListener {
-                        ref.downloadUrl.addOnSuccessListener {
-                            saveUserToFirebaaseDatabase(it.toString())
-                        }
+        ref.putFile(selectedPhotoUri!!)
+                .addOnSuccessListener {
+                    ref.downloadUrl.addOnSuccessListener {
+                        saveUserToFirebaaseDatabase(it.toString())
                     }
-                    .addOnFailureListener {
-
-                    }
-        }
-        return true
-
+                }
+                .addOnFailureListener {
+                }
 
     }
+
     private fun saveUserToFirebaaseDatabase(profileUrl: String){
         val uid = FirebaseAuth.getInstance().uid ?: ""
         val ref = FirebaseDatabase.getInstance().getReference("/users/$uid")
@@ -135,7 +121,9 @@ class RegisterActivity : AppCompatActivity() {
                     val intent = Intent(this, DrawersActivity::class.java)
                     intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK.or(Intent.FLAG_ACTIVITY_NEW_TASK)
                     startActivity(intent)
+                    books_progressBar.visibility = View.GONE
                     Toast.makeText(this, getString(R.string.RegisterComplete),Toast.LENGTH_LONG).show()
+
 
 
                 }
