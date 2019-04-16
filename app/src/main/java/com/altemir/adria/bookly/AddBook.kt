@@ -33,9 +33,21 @@ class AddBook : AppCompatActivity() {
             if(checkFields()){
                 if(isValidISBN13(ISBNAdd.text.toString())){
                     if (!booksISBN.contains(ISBNAdd.text.toString())) {
-                        val book = Book(ISBNAdd.text.toString(),AutorAdd.text.toString(),EditorialAdd.text.toString(),TitolAdd.text.toString(),ratingBar.rating.toDouble(),bookID,shelf.uid,shelf.uidDrawer)
-                        ref.setValue(book)
-                        finish()
+                        if(checkAutor(AutorAdd.text.toString())){
+                            if(checkFormat(EditorialAdd.text.toString())){
+                                if(checkFormat(TitolAdd.text.toString())){
+                                    val book = Book(ISBNAdd.text.toString(),AutorAdd.text.toString(),EditorialAdd.text.toString(),TitolAdd.text.toString(),ratingBar.rating.toDouble(),bookID,shelf.uid,shelf.uidDrawer)
+                                    ref.setValue(book)
+                                    finish()
+                                }else{
+                                    Toast.makeText(this, "Nombre del Titulo mal introducido", Toast.LENGTH_LONG).show()
+                                }
+                            }else{
+                                Toast.makeText(this, "Nombre de Editorial mal introducido", Toast.LENGTH_LONG).show()
+                            }
+                        }else{
+                            Toast.makeText(this, "Nombre de Autor mal introducido", Toast.LENGTH_LONG).show()
+                        }
                     } else {
                         Toast.makeText(this, "ISBN repetido", Toast.LENGTH_LONG).show()
                     }
@@ -72,7 +84,10 @@ class AddBook : AppCompatActivity() {
     }
 
     private fun checkFields():Boolean{
-        return if (!ISBNAdd.text.isEmpty() && !AutorAdd.text.toString().isEmpty()&&!EditorialAdd.text.toString().isEmpty() && !TitolAdd.text.toString().isEmpty()) {
+        return if (!ISBNAdd.text.isEmpty() &&
+                !AutorAdd.text.toString().isEmpty()&&
+                !EditorialAdd.text.toString().isEmpty()&&
+                !TitolAdd.text.toString().isEmpty()) {
             true
         } else {
             Toast.makeText(this, "Porfavor introduzca los campos", Toast.LENGTH_LONG).show()
@@ -110,6 +125,22 @@ class AddBook : AppCompatActivity() {
     private fun Int.isOdd(): Boolean {
 
         return this % 2 != 0
+    }
+    private fun checkFormat(name: String): Boolean {
+        val regex = "^[a-zA-Z0-9 ]+$"
+        val p = Pattern.compile(regex)
+        val nametrimedd = name.trim()
+        val m = p.matcher(nametrimedd)
+        val b = m.matches()
+        return b
+    }
+    private fun checkAutor(autorName:String):Boolean{
+        val regex = "^[a-zA-Z ]+$"
+        val p = Pattern.compile(regex)
+        val autorTrimedd = autorName.trim()
+        val m = p.matcher(autorTrimedd)
+        val b = m.matches()
+        return b
     }
 
 }

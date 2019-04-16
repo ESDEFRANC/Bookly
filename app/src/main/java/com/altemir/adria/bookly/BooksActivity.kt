@@ -19,6 +19,7 @@ import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 import kotlinx.android.synthetic.main.activity_create_books.*
+import java.util.regex.Pattern
 
 class BooksActivity : AppCompatActivity() {
 
@@ -149,7 +150,6 @@ class BooksActivity : AppCompatActivity() {
         startActivity(intent)
 
     }
-
     private fun internetConnected(){
         val cm = baseContext.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
 
