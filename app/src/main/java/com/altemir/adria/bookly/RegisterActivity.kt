@@ -22,6 +22,7 @@ class RegisterActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        var selected = false
         setContentView(R.layout.activity_register_activity)
         internetConnected()
         books_progressBar.visibility = View.INVISIBLE
@@ -60,53 +61,63 @@ class RegisterActivity : AppCompatActivity() {
     private fun perfomRegistration() {
         val email = emailMain.text.toString()
         val password = passwordMain.text.toString()
-            if (!checkUserName()) {
-                if (!checkUserMail()) {
-                    if (!checkPassword1()) {
-                        if (!checkPassword2()) {
-                            if (!checkPasswordEquals()) {
-                                passwordMain2.error = "Password are differents"
-                            } else {
-                                FirebaseAuth.getInstance().createUserWithEmailAndPassword(email, password)
-                                        .addOnCompleteListener {
-                                            if (!it.isSuccessful) return@addOnCompleteListener
-                                            books_progressBar.visibility = View.VISIBLE
-                                            uploadImageToFireBaseStorage()
-                                        }
-                                        .addOnFailureListener {
-                                            Toast.makeText(this, "Failed to create user:  ${it.message}", Toast.LENGTH_LONG).show()
-                                            Log.d("Main", "Failed to create user:  ${it.message}")
-                                        }
-                            }
-                        } else {
-                            passwordMain2.error = "Introduzca password"
-                        }
+        if(selectedPhotoUri != null){
+                if (!checkUserName()) {
+                    if (!checkUserMail()) {
+                        if (!checkPassword1()) {
+                            if (!checkPassword2()) {
+                                if (!checkPasswordEquals()) {
+                                    passwordMain2.error = "Password are differents"
+                                } else {
 
+                                    FirebaseAuth.getInstance().createUserWithEmailAndPassword(email, password)
+                                            .addOnCompleteListener {
+                                                if (!it.isSuccessful) return@addOnCompleteListener
+                                                books_progressBar.visibility = View.VISIBLE
+                                                uploadImageToFireBaseStorage()
+
+                                            }
+                                            .addOnFailureListener {
+                                                Toast.makeText(this, "Failed to create user:  ${it.message}", Toast.LENGTH_LONG).show()
+                                                Log.d("Main", "Failed to create user:  ${it.message}")
+                                            }
+                                }
+                            } else {
+                                passwordMain2.error = "Introduzca password"
+                            }
+
+                        } else {
+                            passwordMain.error = "Introduzca password"
+                        }
                     } else {
-                        passwordMain.error = "Introduzca password"
+                        emailMain.error = "Introduzca mail"
                     }
                 } else {
-                    emailMain.error = "Introduzca mail"
+                    nameMain.error = "Introduzca nombre de usuario"
                 }
-            } else {
-                nameMain.error = "Introduzca nombre de usuario"
-            }
+                }else{
+                    buttonImg.error =  "Seleccione imagen"
+                }
     }
 
 
-    private fun uploadImageToFireBaseStorage() {
-        if (selectedPhotoUri == null) return
-        val filename = UUID.randomUUID().toString()
-        val ref = FirebaseStorage.getInstance().getReference("/images/$filename")
+    private fun uploadImageToFireBaseStorage(){
+        if (selectedPhotoUri == null) {
+            return
+        }else{
+            val filename = UUID.randomUUID().toString()
+            val ref = FirebaseStorage.getInstance().getReference("/images/$filename")
 
-        ref.putFile(selectedPhotoUri!!)
-                .addOnSuccessListener {
-                    ref.downloadUrl.addOnSuccessListener {
-                        saveUserToFirebaaseDatabase(it.toString())
+            ref.putFile(selectedPhotoUri!!)
+                    .addOnSuccessListener {
+                        ref.downloadUrl.addOnSuccessListener {
+                            saveUserToFirebaaseDatabase(it.toString())
+                        }
                     }
-                }
-                .addOnFailureListener {
-                }
+                    .addOnFailureListener {
+                    }
+        }
+
 
     }
 
