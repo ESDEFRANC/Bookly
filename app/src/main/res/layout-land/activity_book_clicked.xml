@@ -10,10 +10,10 @@
         android:id="@+id/BookTitol"
         android:layout_width="110dp"
         android:layout_height="58dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="96dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="132dp"
         android:text="TextView"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/ratingBar3"
         app:layout_constraintTop_toBottomOf="@+id/BookISBN" />
 
     <TextView
@@ -33,33 +33,36 @@
         android:id="@+id/BookEditorial"
         android:layout_width="110dp"
         android:layout_height="58dp"
-        android:layout_marginTop="32dp"
-        android:layout_marginEnd="96dp"
+        android:layout_marginTop="24dp"
+        android:layout_marginEnd="444dp"
         android:text="TextView"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/BookAutor" />
 
     <TextView
-        android:id="@+id/editorialBookLabel"
-        android:layout_width="107dp"
+        android:id="@+id/EditorialLabelWatch"
+        android:layout_width="113dp"
         android:layout_height="@dimen/ProductNameClickedMarginH"
         android:layout_marginStart="32dp"
-        android:layout_marginTop="52dp"
-        android:layout_marginEnd="8dp"
+        android:layout_marginTop="47dp"
+        android:layout_marginEnd="60dp"
+        android:layout_marginBottom="8dp"
         android:text="@string/editorial"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/BookEditorial"
-        app:layout_constraintHorizontal_bias="0.103"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/AutorLabelWatch" />
+        app:layout_constraintTop_toBottomOf="@+id/AutorLabelWatch"
+        app:layout_constraintVertical_bias="0.0" />
 
     <TextView
         android:id="@+id/AutorLabelWatch"
         android:layout_width="113dp"
         android:layout_height="@dimen/ProductNameClickedMarginH"
         android:layout_marginStart="32dp"
-        android:layout_marginTop="36dp"
+        android:layout_marginTop="44dp"
         android:layout_marginEnd="8dp"
-        android:text="@string/Autor"
+        android:text="Autor"
         app:layout_constraintEnd_toStartOf="@+id/BookAutor"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
@@ -70,9 +73,9 @@
         android:layout_width="113dp"
         android:layout_height="@dimen/ProductNameClickedMarginH"
         android:layout_marginStart="32dp"
-        android:layout_marginTop="64dp"
+        android:layout_marginTop="32dp"
         android:layout_marginEnd="8dp"
-        android:text="@string/ISBN"
+        android:text="ISBN"
         app:layout_constraintEnd_toStartOf="@+id/BookISBN"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
@@ -82,8 +85,8 @@
         android:id="@+id/BookISBN"
         android:layout_width="@dimen/ProductNameClickedMarginW"
         android:layout_height="@dimen/ProductNameClickedMarginH"
-        android:layout_marginTop="64dp"
-        android:layout_marginEnd="96dp"
+        android:layout_marginTop="32dp"
+        android:layout_marginEnd="444dp"
         android:text="TextView"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -93,24 +96,22 @@
         android:layout_width="109dp"
         android:layout_height="58dp"
         android:layout_marginTop="8dp"
-        android:layout_marginEnd="96dp"
+        android:layout_marginEnd="132dp"
         android:text="TextView"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/ratingBar3"
         app:layout_constraintTop_toBottomOf="@+id/BookTitol" />
 
     <RatingBar
         android:id="@+id/ratingBar3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="72dp"
+        android:layout_marginBottom="216dp"
         android:isIndicator="true"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.432"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/BookEditorial" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="1.0" />
 
 </android.support.constraint.ConstraintLayout>

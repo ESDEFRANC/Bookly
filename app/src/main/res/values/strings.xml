@@ -29,6 +29,8 @@
     <string name="title">Title</string>
     <string name="RegisterComplete">Successfully registered</string>
     <string name="Nointernet">No internet</string>
+    <string name="Autor">Autor</string>
+    <string name="ISBN">ISBN</string>
 
 
 </resources>

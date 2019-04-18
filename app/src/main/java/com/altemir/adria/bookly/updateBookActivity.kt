@@ -17,9 +17,9 @@ class updateBookActivity : AppCompatActivity() {
         val book = intent.getParcelableExtra<Book>("book");
         ISBNUpdate.setText(book.isbn)
         TitolUpdate.setText(book.title)
-        BookEditorial.setText(book.editorial)
+        EditorialUpdate.setText(book.editorial)
         AutorUpdate.setText(book.autor)
-        ratingBar2.rating = book.stars.toFloat()
+        ratingBarUpdate.rating = book.stars.toFloat()
 
         Update.setOnClickListener(){
             updateBook(book)
@@ -34,11 +34,11 @@ class updateBookActivity : AppCompatActivity() {
 
         val ref = FirebaseDatabase.getInstance().getReference("/Books/${book.uid}")
         if(checkFields()){
-            if(isValidISBN13(ISBNUpdate.text.toString())){
+            if(isbnValid(ISBNUpdate.text.toString())){
                 if(checkAutor(AutorUpdate.text.toString())){
-                    if(checkFormat(BookEditorial.text.toString())){
+                    if(checkFormat(EditorialUpdate.text.toString())){
                         if(checkFormat(TitolUpdate.text.toString())){
-                            val bookInsert = Book(ISBNUpdate.text.toString(),AutorUpdate.text.toString(),BookEditorial.text.toString(),TitolUpdate.text.toString(),ratingBar2.rating.toDouble(),book.uid,book.uidShelf,book.uidDrawer)
+                            val bookInsert = Book(ISBNUpdate.text.toString(),AutorUpdate.text.toString(),EditorialUpdate.text.toString(),TitolUpdate.text.toString(),ratingBarUpdate.rating.toDouble(),book.uid,book.uidShelf,book.uidDrawer)
                             ref.setValue(bookInsert)
                             finish()
                         }else{
@@ -61,7 +61,7 @@ class updateBookActivity : AppCompatActivity() {
     private fun checkFields():Boolean{
         return if (!ISBNUpdate.text.isEmpty() &&
                 !TitolUpdate.text.toString().isEmpty()&&
-                !BookEditorial.text.toString().isEmpty()&&
+                !EditorialUpdate.text.toString().isEmpty()&&
                 !AutorUpdate.text.toString().isEmpty()) {
             true
         } else {
@@ -102,6 +102,28 @@ class updateBookActivity : AppCompatActivity() {
 
         return this % 2 != 0
     }
+
+    fun isValidISBN10(isbn: String?): Boolean {
+        val isbn: String? = isbn ?: return false
+        try {
+            var tot = 0
+            for (i in 0..8) {
+                val digit = Integer.parseInt(isbn!!.substring(i, i + 1))
+                tot += (10 - i) * digit
+            }
+
+            var checksum = Integer.toString((11 - tot % 11) % 11)
+            if ("10" == checksum) {
+                checksum = "X"
+            }
+
+            return checksum == isbn!!.substring(9)
+        } catch (Enfe: NumberFormatException) {
+            //to catch invalid ISBNs that have non-numeric characters in them
+            return false
+        }
+
+    }
     private fun checkFormat(name: String): Boolean {
         val regex = "^[a-zA-Z0-9 ]+$"
         val p = Pattern.compile(regex)
@@ -117,5 +139,10 @@ class updateBookActivity : AppCompatActivity() {
         val m = p.matcher(autorTrimedd)
         val b = m.matches()
         return b
+    }
+    private fun isbnValid(ISBNAdd: String): Boolean = if (ISBNAdd.length >= 11) {
+        isValidISBN13(ISBNAdd)
+    } else {
+        isValidISBN10(ISBNAdd)
     }
 }
