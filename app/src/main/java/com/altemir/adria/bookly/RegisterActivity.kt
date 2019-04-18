@@ -43,7 +43,7 @@ class RegisterActivity : AppCompatActivity() {
     }
 
 
-    var selectedPhotoUri: Uri? = null
+    private var selectedPhotoUri: Uri? = null
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
 
@@ -62,39 +62,21 @@ class RegisterActivity : AppCompatActivity() {
         val email = emailMain.text.toString()
         val password = passwordMain.text.toString()
         if(selectedPhotoUri != null){
-                if (!checkUserName()) {
-                    if (!checkUserMail()) {
-                        if (!checkPassword1()) {
-                            if (!checkPassword2()) {
-                                if (!checkPasswordEquals()) {
-                                    passwordMain2.error = "Password are differents"
-                                } else {
+               if(checkAllFields()){
+                   FirebaseAuth.getInstance().createUserWithEmailAndPassword(email, password)
+                           .addOnCompleteListener {
+                               if (!it.isSuccessful) return@addOnCompleteListener
+                               books_progressBar.visibility = View.VISIBLE
+                               uploadImageToFireBaseStorage()
 
-                                    FirebaseAuth.getInstance().createUserWithEmailAndPassword(email, password)
-                                            .addOnCompleteListener {
-                                                if (!it.isSuccessful) return@addOnCompleteListener
-                                                books_progressBar.visibility = View.VISIBLE
-                                                uploadImageToFireBaseStorage()
+                           }
+                           .addOnFailureListener {
+                               Toast.makeText(this, "Failed to create user:  ${it.message}", Toast.LENGTH_LONG).show()
+                               Log.d("Main", "Failed to create user:  ${it.message}")
+                           }
+               }
 
-                                            }
-                                            .addOnFailureListener {
-                                                Toast.makeText(this, "Failed to create user:  ${it.message}", Toast.LENGTH_LONG).show()
-                                                Log.d("Main", "Failed to create user:  ${it.message}")
-                                            }
-                                }
-                            } else {
-                                passwordMain2.error = "Introduzca password"
-                            }
 
-                        } else {
-                            passwordMain.error = "Introduzca password"
-                        }
-                    } else {
-                        emailMain.error = "Introduzca mail"
-                    }
-                } else {
-                    nameMain.error = "Introduzca nombre de usuario"
-                }
                 }else{
                     buttonImg.error =  "Seleccione imagen"
                 }
@@ -163,6 +145,36 @@ class RegisterActivity : AppCompatActivity() {
     }
     private fun checkPassword2():Boolean{
         return passwordMain2.text.toString().isEmpty()
+    }
+
+    private fun checkAllFields():Boolean{
+        if (!checkUserName()) {
+            if (!checkUserMail()) {
+                if (!checkPassword1()) {
+                    if (!checkPassword2()) {
+                        if (checkPasswordEquals()) {
+                            return true
+                        } else {
+                            passwordMain2.error = "Password are differents"
+                            return false
+                        }
+                    } else {
+                        passwordMain2.error = "Introduzca password"
+                        return false
+                    }
+                } else {
+                    passwordMain.error = "Introduzca password"
+                    return false
+                }
+            } else {
+                emailMain.error = "Introduzca mail"
+                return false
+            }
+        } else {
+            nameMain.error = "Introduzca nombre de usuario"
+            return false
+        }
+
     }
 
 }

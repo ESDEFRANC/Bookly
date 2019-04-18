@@ -21,31 +21,31 @@ class AddBook : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_add_book)
         val shelf = intent.getParcelableExtra<Shelf>("shelfUid");
-        getBooks(booksISBN,shelf.uid)
-        createBook(shelf,booksISBN)
+        getBooks(booksISBN, shelf.uid)
+        createBook(shelf, booksISBN)
     }
 
-    private fun createBook(shelf:Shelf, booksISBN:ArrayList<String>) {
+    private fun createBook(shelf: Shelf, booksISBN: ArrayList<String>) {
         val bookID = UUID.randomUUID().toString()
         val ref = FirebaseDatabase.getInstance().getReference("/Books/$bookID")
         val inflater = layoutInflater
         Add.setOnClickListener() {
-            if(checkFields()){
-                if(isValidISBN13(ISBNAdd.text.toString())){
+            if (checkFields()) {
+                if (isbnSize(ISBNAdd.text.toString())) {
                     if (!booksISBN.contains(ISBNAdd.text.toString())) {
-                        if(checkAutor(AutorAdd.text.toString())){
-                            if(checkFormat(EditorialAdd.text.toString())){
-                                if(checkFormat(TitolAdd.text.toString())){
-                                    val book = Book(ISBNAdd.text.toString(),AutorAdd.text.toString(),EditorialAdd.text.toString(),TitolAdd.text.toString(),ratingBar.rating.toDouble(),bookID,shelf.uid,shelf.uidDrawer)
+                        if (checkAutor(AutorAdd.text.toString())) {
+                            if (checkFormat(EditorialAdd.text.toString())) {
+                                if (checkFormat(TitolAdd.text.toString())) {
+                                    val book = Book(ISBNAdd.text.toString(), AutorAdd.text.toString(), EditorialAdd.text.toString(), TitolAdd.text.toString(), ratingBar.rating.toDouble(), bookID, shelf.uid, shelf.uidDrawer)
                                     ref.setValue(book)
                                     finish()
-                                }else{
+                                } else {
                                     Toast.makeText(this, "Nombre del Titulo mal introducido", Toast.LENGTH_LONG).show()
                                 }
-                            }else{
+                            } else {
                                 Toast.makeText(this, "Nombre de Editorial mal introducido", Toast.LENGTH_LONG).show()
                             }
-                        }else{
+                        } else {
                             Toast.makeText(this, "Nombre de Autor mal introducido", Toast.LENGTH_LONG).show()
                         }
                     } else {
@@ -57,25 +57,28 @@ class AddBook : AppCompatActivity() {
 
             }
 
-        }
 
+        }
     }
-    private fun getBooks(booksISBN: ArrayList<String>, shelfUID:String){
+
+
+    private fun getBooks(booksISBN: ArrayList<String>, shelfUID: String) {
         val ref = FirebaseDatabase.getInstance().getReference("Books")
-        ref.addValueEventListener(object: ValueEventListener {
+        ref.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(p0: DataSnapshot) {
-                if(p0.exists()){
+                if (p0.exists()) {
                     booksISBN.clear()
-                    for (e in p0.children){
+                    for (e in p0.children) {
                         val book = e.getValue(Book::class.java)
                         if (book != null) {
-                            if(shelfUID == book.uidShelf){
+                            if (shelfUID == book.uidShelf) {
                                 booksISBN.add(book.isbn)
                             }
                         }
                     }
                 }
             }
+
             override fun onCancelled(p0: DatabaseError) {
                 TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
             }
@@ -83,10 +86,10 @@ class AddBook : AppCompatActivity() {
         });
     }
 
-    private fun checkFields():Boolean{
+    private fun checkFields(): Boolean {
         return if (!ISBNAdd.text.isEmpty() &&
-                !AutorAdd.text.toString().isEmpty()&&
-                !EditorialAdd.text.toString().isEmpty()&&
+                !AutorAdd.text.toString().isEmpty() &&
+                !EditorialAdd.text.toString().isEmpty() &&
                 !TitolAdd.text.toString().isEmpty()) {
             true
         } else {
@@ -94,8 +97,9 @@ class AddBook : AppCompatActivity() {
             false
         }
     }
+
     private fun checkISBN(bookISBN: String): Boolean {
-        val regex = "^(?=[0-9]{13}$|[0-9]{17}$)97[89][0-9]{1,5}[0-9]+[0-9]+[0-9]$"
+        val regex = "^(?=[0-9X]{10}\$|(?=(?:[0-9]){3})[0-9X]{13}\$|97[89][0-9]{10}\$|(?=(?:[0-9]){4})[0-9]{17}\$)(?:97[89])?[0-9]{1,5}[0-9]?[0-9]+[0-9X]\$"
         val p = Pattern.compile(regex)
         val drawertrimed = bookISBN.trim()
         val m = p.matcher(drawertrimed)
@@ -103,10 +107,10 @@ class AddBook : AppCompatActivity() {
         return b
     }
 
-    private fun isValidISBN13( isbn: String ): Boolean {
+    private fun isValidISBN13(isbn: String): Boolean {
 
         var result = false
-        if ( checkISBN(isbn)) {
+        if (checkISBN(isbn)) {
             var sum = 0
 /*
         for ( i in 0 until isbn.length )
@@ -126,6 +130,29 @@ class AddBook : AppCompatActivity() {
 
         return this % 2 != 0
     }
+
+    fun isValidISBN10(isbn: String?): Boolean {
+        val isbn: String? = isbn ?: return false
+        try {
+            var tot = 0
+            for (i in 0..8) {
+                val digit = Integer.parseInt(isbn!!.substring(i, i + 1))
+                tot += (10 - i) * digit
+            }
+
+            var checksum = Integer.toString((11 - tot % 11) % 11)
+            if ("10" == checksum) {
+                checksum = "X"
+            }
+
+            return checksum == isbn!!.substring(9)
+        } catch (Enfe: NumberFormatException) {
+            //to catch invalid ISBNs that have non-numeric characters in them
+            return false
+        }
+
+    }
+
     private fun checkFormat(name: String): Boolean {
         val regex = "^[a-zA-Z0-9 ]+$"
         val p = Pattern.compile(regex)
@@ -134,7 +161,8 @@ class AddBook : AppCompatActivity() {
         val b = m.matches()
         return b
     }
-    private fun checkAutor(autorName:String):Boolean{
+
+    private fun checkAutor(autorName: String): Boolean {
         val regex = "^[a-zA-Z ]+$"
         val p = Pattern.compile(regex)
         val autorTrimedd = autorName.trim()
@@ -143,4 +171,9 @@ class AddBook : AppCompatActivity() {
         return b
     }
 
+    private fun isbnSize(ISBNAdd: String): Boolean = if (ISBNAdd.length >= 11) {
+        isValidISBN13(ISBNAdd)
+    } else {
+        isValidISBN10(ISBNAdd)
+    }
 }
