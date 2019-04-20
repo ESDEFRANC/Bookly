@@ -11,19 +11,18 @@ import android.view.MenuItem
 import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
-import com.altemir.adria.bookly.Adapter.customBook
 import com.altemir.adria.bookly.Adapter.customDrawer
-import com.altemir.adria.bookly.Adapter.customShelf
 import com.altemir.adria.bookly.Model.Book
 import com.altemir.adria.bookly.Model.Drawer
 import com.altemir.adria.bookly.Model.Shelf
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
 import kotlinx.android.synthetic.main.activity_create_biblio.*
-import kotlinx.android.synthetic.main.activity_create_books.*
-import kotlinx.android.synthetic.main.activity_create_shelf.*
 import java.util.UUID.randomUUID
 import java.util.regex.Pattern
+
+
+
 
 
 class DrawersActivity : AppCompatActivity() {
@@ -95,12 +94,21 @@ class DrawersActivity : AppCompatActivity() {
     }
 
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
-        R.id.signout
-        FirebaseAuth.getInstance().signOut()
-        val intent = Intent(this, RegisterActivity::class.java)
-        intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK.or(Intent.FLAG_ACTIVITY_NEW_TASK)
-        startActivity(intent)
 
+        when (item!!.itemId) {
+            R.id.signout -> {
+                FirebaseAuth.getInstance().signOut()
+                val intent = Intent(this, RegisterActivity::class.java)
+                intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK.or(Intent.FLAG_ACTIVITY_NEW_TASK)
+                startActivity(intent)
+            }
+            R.id.find-> {
+                val intent = Intent(this, FindBooksActivity::class.java)
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(intent)
+            }
+
+        }
         return super.onOptionsItemSelected(item)
     }
 
@@ -166,7 +174,6 @@ class DrawersActivity : AppCompatActivity() {
             }
 
             override fun onCancelled(p0: DatabaseError) {
-                TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
             }
 
         });
@@ -259,7 +266,6 @@ class DrawersActivity : AppCompatActivity() {
             }
 
             override fun onCancelled(p0: DatabaseError) {
-                TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
             }
 
         });
@@ -269,7 +275,6 @@ class DrawersActivity : AppCompatActivity() {
         val ref = FirebaseDatabase.getInstance().getReference("Books")
         ref.addValueEventListener(object: ValueEventListener {
             override fun onCancelled(p0: DatabaseError) {
-                TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
             }
 
             override fun onDataChange(p0: DataSnapshot) {

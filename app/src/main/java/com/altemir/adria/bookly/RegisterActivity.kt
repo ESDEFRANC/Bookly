@@ -8,22 +8,23 @@ import android.net.Uri
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.provider.MediaStore
-import android.util.Log
 import android.view.View
 import android.widget.Toast
 import com.altemir.adria.bookly.Model.User
-import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.storage.FirebaseStorage
 import kotlinx.android.synthetic.main.activity_register_activity.*
 import java.util.*
+import com.google.firebase.auth.*
+import java.util.regex.Pattern
+
 
 class RegisterActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        var selected = false
         setContentView(R.layout.activity_register_activity)
+
         internetConnected()
         books_progressBar.visibility = View.INVISIBLE
 
@@ -59,27 +60,23 @@ class RegisterActivity : AppCompatActivity() {
     }
 
     private fun perfomRegistration() {
-        val email = emailMain.text.toString()
-        val password = passwordMain.text.toString()
         if(selectedPhotoUri != null){
                if(checkAllFields()){
-                   FirebaseAuth.getInstance().createUserWithEmailAndPassword(email, password)
+                   FirebaseAuth.getInstance().createUserWithEmailAndPassword(emailMain.text.toString(), passwordMain.text.toString())
+
                            .addOnCompleteListener {
                                if (!it.isSuccessful) return@addOnCompleteListener
-                               books_progressBar.visibility = View.VISIBLE
                                uploadImageToFireBaseStorage()
+                               books_progressBar.visibility = View.VISIBLE
 
                            }
                            .addOnFailureListener {
-                               Toast.makeText(this, "Failed to create user:  ${it.message}", Toast.LENGTH_LONG).show()
-                               Log.d("Main", "Failed to create user:  ${it.message}")
+                               onFailure(it.also{})
                            }
                }
-
-
-                }else{
-                    buttonImg.error =  "Seleccione imagen"
-                }
+        }else{
+            buttonImg.error =  "Seleccione imagen"
+        }
     }
 
 
@@ -97,6 +94,7 @@ class RegisterActivity : AppCompatActivity() {
                         }
                     }
                     .addOnFailureListener {
+
                     }
         }
 
@@ -138,7 +136,12 @@ class RegisterActivity : AppCompatActivity() {
         return nameMain.text.toString().isEmpty()
     }
     private fun checkUserMail():Boolean{
-        return emailMain.text.toString().isEmpty()
+        val regex = "^\\w+([-+.']\\w+)*@\\w+([-.]\\w+)*\\.\\w+([-.]\\w+)*\$"
+        val p = Pattern.compile(regex)
+        val drawertrimed = emailMain.text.toString().trim()
+        val m = p.matcher(drawertrimed)
+        val b = m.matches()
+        return b
     }
     private fun checkPassword1():Boolean{
         return passwordMain.text.toString().isEmpty()
@@ -149,7 +152,7 @@ class RegisterActivity : AppCompatActivity() {
 
     private fun checkAllFields():Boolean{
         if (!checkUserName()) {
-            if (!checkUserMail()) {
+            if (checkUserMail()) {
                 if (!checkPassword1()) {
                     if (!checkPassword2()) {
                         if (checkPasswordEquals()) {
@@ -167,7 +170,7 @@ class RegisterActivity : AppCompatActivity() {
                     return false
                 }
             } else {
-                emailMain.error = "Introduzca mail"
+                emailMain.error = "Introduzca mail valido"
                 return false
             }
         } else {
@@ -176,5 +179,20 @@ class RegisterActivity : AppCompatActivity() {
         }
 
     }
+
+    private fun notifyUser(message:String){
+        Toast.makeText(this,message,Toast.LENGTH_LONG).show()
+
+    }
+    private fun onFailure(e: Exception) {
+        when (e) {
+            is FirebaseAuthWeakPasswordException -> notifyUser("La contraseña tiene que ser como minimo 6 caracteres")
+            is FirebaseAuthUserCollisionException -> notifyUser("El mail ya esta registrado")
+        }
+    }
+
+
+
+
 
 }

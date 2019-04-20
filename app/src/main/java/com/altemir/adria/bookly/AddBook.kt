@@ -21,7 +21,7 @@ class AddBook : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_add_book)
         val shelf = intent.getParcelableExtra<Shelf>("shelfUid");
-        getBooks(booksISBN, shelf.uid)
+        getBooks(booksISBN, shelf.uidDrawer)
         createBook(shelf, booksISBN)
     }
 
@@ -62,7 +62,7 @@ class AddBook : AppCompatActivity() {
     }
 
 
-    private fun getBooks(booksISBN: ArrayList<String>, shelfUID: String) {
+    private fun getBooks(booksISBN: ArrayList<String>, drawerUID: String) {
         val ref = FirebaseDatabase.getInstance().getReference("Books")
         ref.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(p0: DataSnapshot) {
@@ -71,7 +71,7 @@ class AddBook : AppCompatActivity() {
                     for (e in p0.children) {
                         val book = e.getValue(Book::class.java)
                         if (book != null) {
-                            if (shelfUID == book.uidShelf) {
+                            if (drawerUID == book.uidDrawer) {
                                 booksISBN.add(book.isbn)
                             }
                         }

@@ -78,13 +78,21 @@ class ShelfsActivity : AppCompatActivity() {
 
     }
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
-        R.id.signout
-        FirebaseAuth.getInstance().signOut()
-        val intent = Intent(this, RegisterActivity::class.java)
-        intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK.or(Intent.FLAG_ACTIVITY_NEW_TASK)
-        startActivity(intent)
+        when (item!!.itemId) {
+            R.id.signout -> {
+                FirebaseAuth.getInstance().signOut()
+                val intent = Intent(this, RegisterActivity::class.java)
+                intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK.or(Intent.FLAG_ACTIVITY_NEW_TASK)
+                startActivity(intent)
+            }
+            R.id.find -> {
+                val intent = Intent(this, FindBooksActivity::class.java)
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(intent)
+            }
+        }
+            return super.onOptionsItemSelected(item)
 
-        return super.onOptionsItemSelected(item)
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -107,7 +115,7 @@ class ShelfsActivity : AppCompatActivity() {
         val dialog = myBuild.create()
         dialog.show()
         add.setOnClickListener() {
-            if (!calaixName.text.toString().isEmpty()) {
+            if (checkName(calaixName.text.toString())) {
                 if(!shelfsName.contains(calaixName.text.toString())){
                     val shelf1 = Shelf(shelf, draweruid, calaixName.text.toString())
                     ref.setValue(shelf1)
@@ -117,7 +125,7 @@ class ShelfsActivity : AppCompatActivity() {
                 }
 
             } else {
-                Toast.makeText(this, "Porfavor introduzca un nombre", Toast.LENGTH_LONG).show()
+                Toast.makeText(this, "Porfavor introduzca un nombre valido", Toast.LENGTH_LONG).show()
             }
         }
         cancel.setOnClickListener() {
@@ -181,7 +189,7 @@ class ShelfsActivity : AppCompatActivity() {
                 }
 
             } else {
-                Toast.makeText(this, "Porfavor introduzca un nombre", Toast.LENGTH_LONG).show()
+                Toast.makeText(this, "Porfavor introduzca un nombre valido", Toast.LENGTH_LONG).show()
             }
         }
         cancel.setOnClickListener() {

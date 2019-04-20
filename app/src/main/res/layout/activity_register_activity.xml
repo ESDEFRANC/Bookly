@@ -9,21 +9,20 @@
 
 
     <EditText
-        android:id="@+id/passwordMain2"
-        android:layout_width="317dp"
-        android:layout_height="47dp"
+        android:id="@+id/nameMain"
+        android:layout_width="314dp"
+        android:layout_height="40dp"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="20dp"
         android:layout_marginEnd="8dp"
         android:background="@drawable/rounded_edittext_login_main"
         android:ems="10"
-        android:hint="@string/PasswordRepeat"
-        android:inputType="textPassword"
+        android:hint="@string/UserName"
+        android:inputType="textPersonName"
         android:paddingLeft="16dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.509"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/passwordMain" />
+        app:layout_constraintTop_toBottomOf="@+id/buttonImg" />
 
     <EditText
         android:id="@+id/emailMain"
@@ -43,37 +42,6 @@
         app:layout_constraintTop_toBottomOf="@+id/nameMain" />
 
     <EditText
-        android:id="@+id/nameMain"
-        android:layout_width="314dp"
-        android:layout_height="40dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="20dp"
-        android:layout_marginEnd="8dp"
-        android:background="@drawable/rounded_edittext_login_main"
-        android:ems="10"
-        android:hint="@string/UserName"
-        android:inputType="textPersonName"
-        android:paddingLeft="16dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/buttonImg" />
-
-    <ProgressBar
-        android:id="@+id/books_progressBar"
-        android:layout_width="match_parent"
-        android:layout_height="204dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginBottom="8dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.405" />
-
-    <EditText
         android:id="@+id/passwordMain"
         android:layout_width="317dp"
         android:layout_height="47dp"
@@ -89,6 +57,41 @@
         app:layout_constraintHorizontal_bias="0.503"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/emailMain" />
+
+    <EditText
+        android:id="@+id/passwordMain2"
+        android:layout_width="317dp"
+        android:layout_height="47dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:background="@drawable/rounded_edittext_login_main"
+        android:ems="10"
+        android:hint="@string/PasswordRepeat"
+        android:inputType="textPassword"
+        android:paddingLeft="16dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.509"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/passwordMain" />
+
+    <ProgressBar
+
+        android:id="@+id/books_progressBar"
+        android:layout_width="match_parent"
+        android:layout_height="191dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="8dp"
+        android:layout_weight="1"
+        android:indeterminateDrawable="@drawable/progress_bar_circular"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.494" />
 
     <Button
         android:id="@+id/registerMain"

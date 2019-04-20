@@ -13,6 +13,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
+        <activity android:name=".FindBooksActivity"></activity>
         <activity android:name=".updateBookActivity" />
         <activity android:name=".ActivityBookClicked" />
         <activity android:name=".BooksActivity" />

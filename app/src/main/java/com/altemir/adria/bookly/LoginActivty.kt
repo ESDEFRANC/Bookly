@@ -28,36 +28,41 @@ class LoginActivty : AppCompatActivity() {
 
     }
     private fun login(){
-        val email = Email.text.toString()
-        val password = Password.text.toString()
-        if(!emailCheck()){
-            if(!passwordCheck()){
-                FirebaseAuth.getInstance().signInWithEmailAndPassword(email,password)
+       if(checkFields()){
+                FirebaseAuth.getInstance().signInWithEmailAndPassword(Email.text.toString(),Password.text.toString())
                         .addOnCompleteListener(this, OnCompleteListener { task ->
                             if(task.isSuccessful){
                                 startActivity(Intent(this, DrawersActivity::class.java))
-                                Toast.makeText(this, "SUCCESSFULLY LOGGED IN", Toast.LENGTH_LONG).show()
+                                notifyUser("SUCCESSFULLY LOGGED IN")
                             }else{
-                                Toast.makeText(this, "Email o password incorrectos", Toast.LENGTH_LONG).show()
+                                notifyUser("Email o password incorrectos")
                             }
                         })
-            }else{
-                Password.error = "Introduce Password"
             }
-        }else{
-            Email.error = "Introduce mail"
         }
 
-
-
-
-    }
 
     private fun emailCheck(): Boolean{
         return Email.text.toString().isEmpty()
     }
     private fun passwordCheck():Boolean{
         return Password.text.toString().isEmpty()
+    }
+
+    private fun checkFields():Boolean = if(!emailCheck()) {
+        if(!passwordCheck()){
+            true
+        }else {
+            notifyUser("Introduce password")
+            false
+        }
+    }else{
+        notifyUser("Introduce email")
+        false
+    }
+
+    private fun notifyUser(message:String){
+        Toast.makeText(this,message,Toast.LENGTH_LONG).show()
     }
 
 }
