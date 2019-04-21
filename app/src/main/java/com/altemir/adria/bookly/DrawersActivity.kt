@@ -283,7 +283,8 @@ class DrawersActivity : AppCompatActivity() {
                         val book = e.getValue(Book::class.java)
                         if (book != null) {
                             if(draweruid == book.uidDrawer){
-                                ref.removeValue()
+                                val refBook = FirebaseDatabase.getInstance().getReference("Books").child(book.uid)
+                                refBook.removeValue()
                             }
                         }
                     }
