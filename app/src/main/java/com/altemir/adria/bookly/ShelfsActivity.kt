@@ -239,7 +239,8 @@ class ShelfsActivity : AppCompatActivity() {
                         val book = e.getValue(Book::class.java)
                         if (book != null) {
                             if (shelfUid.equals(book.uidShelf)) {
-                                ref.removeValue()
+                                val refBook = FirebaseDatabase.getInstance().getReference("Books").child(book.uid)
+                                refBook.removeValue()
                             }
                         }
                     }

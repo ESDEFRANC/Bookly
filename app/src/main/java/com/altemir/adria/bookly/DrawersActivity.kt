@@ -161,7 +161,7 @@ class DrawersActivity : AppCompatActivity() {
                     for (e in p0.children) {
                         val drawer = e.getValue(Drawer::class.java)
                         if (drawer != null) {
-                            if (drawer.uidUser.equals(user)) {
+                            if (drawer.uidUser == user) {
                                 drawers.add(drawer)
                                 drawersName.add(drawer.name)
                             }
@@ -255,9 +255,9 @@ class DrawersActivity : AppCompatActivity() {
                     for (e in p0.children){
                         val shelf = e.getValue(Shelf::class.java)
                         if (shelf != null) {
-                            if(draweruid.equals(shelf.uidDrawer)){
-                                ref.removeValue()
-
+                            if(draweruid == shelf.uidDrawer){
+                                val refShelf = FirebaseDatabase.getInstance().getReference("Shelf").child(shelf.uid)
+                                refShelf.removeValue()
                             }
                         }
 
@@ -282,7 +282,7 @@ class DrawersActivity : AppCompatActivity() {
                     for (e in p0.children){
                         val book = e.getValue(Book::class.java)
                         if (book != null) {
-                            if(draweruid.equals(book.uidDrawer)){
+                            if(draweruid == book.uidDrawer){
                                 ref.removeValue()
                             }
                         }
