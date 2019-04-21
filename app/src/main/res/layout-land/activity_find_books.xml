@@ -9,25 +9,21 @@
 
     <TextView
         android:id="@+id/ubicacion"
-        android:layout_width="185dp"
-        android:layout_height="42dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginBottom="8dp"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginEnd="84dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.252"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editorialSelected"
-        app:layout_constraintVertical_bias="0.03" />
+        app:layout_constraintHorizontal_bias="0.874"
+        app:layout_constraintStart_toEndOf="@+id/titleSelected"
+        app:layout_constraintTop_toBottomOf="@+id/Buscar" />
 
     <TextView
         android:id="@+id/textViewEditorialSelected"
         android:layout_width="92dp"
         android:layout_height="36dp"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="24dp"
+        android:layout_marginTop="12dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textViewAutorSelected" />
 
@@ -36,10 +32,7 @@
         android:layout_width="75dp"
         android:layout_height="38dp"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="20dp"
-        android:layout_marginEnd="8dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.533"
+        android:layout_marginTop="8dp"
         app:layout_constraintStart_toEndOf="@+id/textViewEditorialSelected"
         app:layout_constraintTop_toBottomOf="@+id/autorSelected" />
 
@@ -47,10 +40,13 @@
         android:id="@+id/textViewShelfSelected"
         android:layout_width="92dp"
         android:layout_height="36dp"
-        android:layout_marginStart="8dp"
+        android:layout_marginStart="192dp"
         android:layout_marginTop="8dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textViewBiblioSelected" />
+        android:layout_marginBottom="8dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/editorialSelected"
+        app:layout_constraintTop_toBottomOf="@+id/textViewBiblioSelected"
+        app:layout_constraintVertical_bias="0.009" />
 
     <TextView
         android:id="@+id/shelfSelected"
@@ -59,31 +55,34 @@
         android:layout_marginStart="8dp"
         android:layout_marginTop="12dp"
         android:layout_marginEnd="8dp"
+        android:layout_marginBottom="8dp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.533"
+        app:layout_constraintHorizontal_bias="0.54"
         app:layout_constraintStart_toEndOf="@+id/textViewShelfSelected"
-        app:layout_constraintTop_toBottomOf="@+id/drawerSelected" />
+        app:layout_constraintTop_toBottomOf="@+id/drawerSelected"
+        app:layout_constraintVertical_bias="0.0" />
 
     <TextView
         android:id="@+id/textViewBiblioSelected"
         android:layout_width="92dp"
         android:layout_height="36dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="76dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textViewEditorialSelected" />
+        android:layout_marginStart="192dp"
+        android:layout_marginTop="20dp"
+        app:layout_constraintStart_toEndOf="@+id/autorSelected"
+        app:layout_constraintTop_toBottomOf="@+id/ubicacion" />
 
     <TextView
         android:id="@+id/drawerSelected"
         android:layout_width="75dp"
         android:layout_height="38dp"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="76dp"
+        android:layout_marginTop="20dp"
         android:layout_marginEnd="8dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.536"
+        app:layout_constraintHorizontal_bias="0.533"
         app:layout_constraintStart_toEndOf="@+id/textViewBiblioSelected"
-        app:layout_constraintTop_toBottomOf="@+id/editorialSelected" />
+        app:layout_constraintTop_toBottomOf="@+id/ubicacion" />
 
     <TextView
         android:id="@+id/textViewAutorSelected"
@@ -100,9 +99,6 @@
         android:layout_height="38dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.533"
         app:layout_constraintStart_toEndOf="@+id/textViewAutorSelected"
         app:layout_constraintTop_toBottomOf="@+id/titleSelected" />
 
@@ -146,9 +142,6 @@
         android:layout_height="38dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="16dp"
-        android:layout_marginEnd="8dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.533"
         app:layout_constraintStart_toEndOf="@+id/textViewTitolSelected"
         app:layout_constraintTop_toBottomOf="@+id/Buscar" />
 

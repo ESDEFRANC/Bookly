@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".AddBook">
+    tools:context=".updateBookActivity"
+    android:background="@color/colorBook">
 
     <EditText
         android:id="@+id/ISBNUpdate"
@@ -96,7 +97,7 @@
         android:id="@+id/AutorUpdate"
         android:layout_width="wrap_content"
         android:layout_height="46dp"
-        android:layout_marginStart="44dp"
+        android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginBottom="8dp"
@@ -104,10 +105,10 @@
         android:inputType="textMultiLine"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/Update"
-        app:layout_constraintHorizontal_bias="0.149"
+        app:layout_constraintHorizontal_bias="0.295"
         app:layout_constraintStart_toEndOf="@+id/textViewAutor"
         app:layout_constraintTop_toBottomOf="@+id/EditorialUpdate"
-        app:layout_constraintVertical_bias="0.012" />
+        app:layout_constraintVertical_bias="0.006" />
 
     <Button
         android:id="@+id/Update"
@@ -120,7 +121,8 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/ratingBarUpdate"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintVertical_bias="0.0"
+        android:background="@drawable/rounded_button"/>
 
     <RatingBar
         android:id="@+id/ratingBarUpdate"

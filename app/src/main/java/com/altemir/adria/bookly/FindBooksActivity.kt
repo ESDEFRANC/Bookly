@@ -81,6 +81,14 @@ class FindBooksActivity : AppCompatActivity() {
                                 getShelfs(book.uidShelf)
                                 titleSelected.text = book.title
                                 autorSelected.text = book.autor
+                                editorialSelected.text = book.editorial
+                                textViewAutorSelected.text = "Autor:"
+                                textViewEditorialSelected.text = "Editorial:"
+                                textViewBiblioSelected.text = "Biblioteca:"
+                                textViewShelfSelected.text = "Cajon:"
+                                textViewTitolSelected.text = "Tiulo:"
+                                ubicacion.text = "UBICACION"
+                                noResults.text = ""
                             }else{
                                 emptyTextView()
                             }
@@ -106,5 +114,13 @@ class FindBooksActivity : AppCompatActivity() {
         shelfSelected.text = ""
         titleSelected.text = ""
         autorSelected.text = ""
+        textViewAutorSelected.text = ""
+        textViewBiblioSelected.text = ""
+        textViewShelfSelected.text = ""
+        textViewTitolSelected.text = ""
+        noResults.text = "Ningun libro encontrado"
+        textViewEditorialSelected.text = ""
+        editorialSelected.text = ""
+        ubicacion.text = ""
     }
 }
