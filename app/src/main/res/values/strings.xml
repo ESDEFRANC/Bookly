@@ -17,7 +17,7 @@
     <string name="a_adir">Añadir</string>
     <string name="cancelar">Cancelar</string>
     <string name="introduce_nombre_de_cajon">Introduce nombre de cajon</string>
-    <string name="escribe_nombre_cajon">Introduce nombre cajon</string>
+    <string name="escribe_nombre_cajon">Escribe nombre cajon</string>
     <string name="Que_desea_hacer">Que desea hacer?</string>
     <string name="Eliminar">Eliminar</string>
     <string name="Actualizar">Actualizar</string>
@@ -31,6 +31,7 @@
     <string name="Nointernet">No internet</string>
     <string name="Autor">Autor</string>
     <string name="ISBN">ISBN</string>
+    <string name="location"><u><b>UBICACION</b></u></string>
 
 
 </resources>

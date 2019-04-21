@@ -13,6 +13,12 @@ import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 import kotlinx.android.synthetic.main.activity_find_books.*
+import android.text.style.UnderlineSpan
+import android.text.SpannableString
+
+
+
+
 
 class FindBooksActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -87,7 +93,7 @@ class FindBooksActivity : AppCompatActivity() {
                                 textViewBiblioSelected.text = "Biblioteca:"
                                 textViewShelfSelected.text = "Cajon:"
                                 textViewTitolSelected.text = "Tiulo:"
-                                ubicacion.text = "UBICACION"
+                                ubicacion.text = getString(R.string.location)
                                 noResults.text = ""
                             }else{
                                 emptyTextView()
