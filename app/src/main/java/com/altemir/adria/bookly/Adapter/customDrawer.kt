@@ -16,8 +16,7 @@ import java.util.zip.Inflater
 
 class customDrawer(
         private val context: Context,
-        private val drawers: ArrayList<Drawer>,
-        private val books :ArrayList<Book>
+        private val drawers: ArrayList<Drawer>
 ):BaseAdapter(){
     @SuppressLint("ViewHolder")
     override fun getView(position: Int, convertView: View?, parent: ViewGroup?): View {

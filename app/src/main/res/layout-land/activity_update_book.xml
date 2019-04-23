@@ -7,21 +7,6 @@
     tools:context=".updateBookActivity"
     android:background="@color/colorBook">
 
-    <EditText
-        android:id="@+id/ISBNUpdate"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="20dp"
-        android:layout_marginEnd="8dp"
-        android:ems="10"
-        android:hint="Solo numeros"
-        android:inputType="textPersonName"
-        app:layout_constraintEnd_toStartOf="@+id/ratingBarUpdate"
-        app:layout_constraintHorizontal_bias="0.466"
-        app:layout_constraintStart_toEndOf="@+id/textViewIsbn"
-        app:layout_constraintTop_toTopOf="parent" />
-
     <TextView
         android:id="@+id/textViewIsbn"
         android:layout_width="50dp"
@@ -84,14 +69,14 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="24dp"
         android:layout_marginEnd="8dp"
         android:ems="10"
         android:inputType="textPersonName"
         app:layout_constraintEnd_toStartOf="@+id/ratingBarUpdate"
         app:layout_constraintHorizontal_bias="0.466"
         app:layout_constraintStart_toEndOf="@+id/textViewTitol"
-        app:layout_constraintTop_toBottomOf="@+id/ISBNUpdate" />
+        app:layout_constraintTop_toBottomOf="@+id/ISBNUpdateTextView" />
 
     <EditText
         android:id="@+id/AutorUpdate"
@@ -131,6 +116,19 @@
         android:layout_marginTop="8dp"
         android:layout_marginEnd="16dp"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/ISBNUpdateTextView"
+        android:layout_width="205dp"
+        android:layout_height="39dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="8dp"
+        android:text="TextView"
+        app:layout_constraintEnd_toStartOf="@+id/ratingBarUpdate"
+        app:layout_constraintHorizontal_bias="0.446"
+        app:layout_constraintStart_toEndOf="@+id/textViewIsbn"
         app:layout_constraintTop_toTopOf="parent" />
 
 </android.support.constraint.ConstraintLayout>

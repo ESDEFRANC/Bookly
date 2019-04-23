@@ -7,20 +7,6 @@
     tools:context=".updateBookActivity"
     android:background="@color/colorBook">
 
-    <EditText
-        android:id="@+id/ISBNUpdate"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="40dp"
-        android:layout_marginEnd="8dp"
-        android:ems="10"
-        android:inputType="textPersonName"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.655"
-        app:layout_constraintStart_toEndOf="@+id/textViewIsbn"
-        app:layout_constraintTop_toTopOf="parent" />
-
     <TextView
         android:id="@+id/textViewIsbn"
         android:layout_width="50dp"
@@ -83,14 +69,14 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="32dp"
+        android:layout_marginTop="36dp"
         android:layout_marginEnd="8dp"
         android:ems="10"
         android:inputType="textPersonName"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.655"
         app:layout_constraintStart_toEndOf="@+id/textViewTitol"
-        app:layout_constraintTop_toBottomOf="@+id/ISBNUpdate" />
+        app:layout_constraintTop_toBottomOf="@+id/ISBNUpdateTextView" />
 
     <EditText
         android:id="@+id/AutorUpdate"
@@ -134,5 +120,17 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/AutorUpdate"
         app:layout_constraintVertical_bias="0.477" />
+
+    <TextView
+        android:id="@+id/ISBNUpdateTextView"
+        android:layout_width="213dp"
+        android:layout_height="39dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="40dp"
+        android:layout_marginEnd="8dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.655"
+        app:layout_constraintStart_toEndOf="@+id/textViewIsbn"
+        app:layout_constraintTop_toTopOf="parent" />
 
 </android.support.constraint.ConstraintLayout>

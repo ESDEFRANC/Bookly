@@ -29,8 +29,6 @@ class DrawersActivity : AppCompatActivity() {
 
     val drawers = arrayListOf<Drawer>()
     val drawersName = arrayListOf<String>()
-    val books = arrayListOf<Book>()
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -168,7 +166,7 @@ class DrawersActivity : AppCompatActivity() {
                         }
 
                     }
-                    val adapter = customDrawer(this@DrawersActivity, drawers,books)
+                    val adapter = customDrawer(this@DrawersActivity, drawers)
                     grid.adapter = adapter
                 }
             }

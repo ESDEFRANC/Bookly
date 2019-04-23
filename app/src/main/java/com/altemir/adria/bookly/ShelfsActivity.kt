@@ -35,6 +35,7 @@ class ShelfsActivity : AppCompatActivity() {
         val drawer = intent.getParcelableExtra<Drawer>("drawerUID");
         val drawerUID = drawer.uid
         this.title = drawer.name
+
         internetConnected()
         getShelfs(shelfs,drawerUID)
 

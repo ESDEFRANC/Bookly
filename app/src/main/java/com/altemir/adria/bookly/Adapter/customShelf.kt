@@ -17,7 +17,6 @@ class customShelf(
     @SuppressLint("ViewHolder")
     override fun getView(position: Int, convertView: View?, parent: ViewGroup?): View {
         val mInflater: LayoutInflater = LayoutInflater.from(context)
-        val layoutInflater = LayoutInflater.from(context)
 
         val rowMain: View
         rowMain = convertView ?: mInflater.inflate(R.layout.activity_custom_shelf, parent, false)

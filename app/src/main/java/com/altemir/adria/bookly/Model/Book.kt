@@ -4,14 +4,15 @@ import android.os.Parcel
 import android.os.Parcelable
 
 @Suppress("NULLABILITY_MISMATCH_BASED_ON_JAVA_ANNOTATIONS")
-class Book(val isbn:String, val autor: String, val editorial: String, val title:String, val stars: Double, val uid:String, val uidShelf:String, val uidDrawer:String) : Parcelable{
-    constructor():this("","","","",0.0,"","",""){}
+class Book(val isbn:String, val autor: String, val editorial: String, val title:String, val stars: Double, val uid:String, val uidShelf:String, val uidDrawer:String,val uidUser : String) : Parcelable{
+    constructor():this("","","","",0.0,"","","",""){}
     constructor(parcel: Parcel) : this(
             parcel.readString(),
             parcel.readString(),
             parcel.readString(),
             parcel.readString(),
             parcel.readDouble(),
+            parcel.readString(),
             parcel.readString(),
             parcel.readString(),
             parcel.readString()) {
@@ -26,6 +27,7 @@ class Book(val isbn:String, val autor: String, val editorial: String, val title:
         parcel.writeString(uid)
         parcel.writeString(uidShelf)
         parcel.writeString(uidDrawer)
+        parcel.writeString(uidUser)
     }
 
     override fun describeContents(): Int {

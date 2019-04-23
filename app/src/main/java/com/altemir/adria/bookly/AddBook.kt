@@ -4,7 +4,9 @@ import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Toast
 import com.altemir.adria.bookly.Model.Book
+import com.altemir.adria.bookly.Model.Drawer
 import com.altemir.adria.bookly.Model.Shelf
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
@@ -21,14 +23,14 @@ class AddBook : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_add_book)
         val shelf = intent.getParcelableExtra<Shelf>("shelfUid");
-        getBooks(booksISBN, shelf.uidDrawer)
+        getBooks(booksISBN)
         createBook(shelf, booksISBN)
     }
 
     private fun createBook(shelf: Shelf, booksISBN: ArrayList<String>) {
         val bookID = UUID.randomUUID().toString()
+        val user = FirebaseAuth.getInstance().currentUser!!.uid
         val ref = FirebaseDatabase.getInstance().getReference("/Books/$bookID")
-        val inflater = layoutInflater
         Add.setOnClickListener() {
             if (checkFields()) {
                 if (isbnSize(ISBNAdd.text.toString())) {
@@ -36,7 +38,7 @@ class AddBook : AppCompatActivity() {
                         if (checkAutor(AutorAdd.text.toString())) {
                             if (checkFormat(EditorialAdd.text.toString())) {
                                 if (checkFormat(TitolAdd.text.toString())) {
-                                    val book = Book(ISBNAdd.text.toString(), AutorAdd.text.toString(), EditorialAdd.text.toString(), TitolAdd.text.toString(), ratingBar.rating.toDouble(), bookID, shelf.uid, shelf.uidDrawer)
+                                    val book = Book(ISBNAdd.text.toString(), AutorAdd.text.toString(), EditorialAdd.text.toString(), TitolAdd.text.toString(), ratingBar.rating.toDouble(), bookID, shelf.uid, shelf.uidDrawer,user)
                                     ref.setValue(book)
                                     finish()
                                 } else {
@@ -51,7 +53,7 @@ class AddBook : AppCompatActivity() {
                     } else {
                         Toast.makeText(this, "ISBN repetido", Toast.LENGTH_LONG).show()
                     }
-                }else{
+                } else {
                     Toast.makeText(this, "ISBN mal introducido", Toast.LENGTH_LONG).show()
                 }
 
@@ -62,8 +64,9 @@ class AddBook : AppCompatActivity() {
     }
 
 
-    private fun getBooks(booksISBN: ArrayList<String>, drawerUID: String) {
+    private fun getBooks(booksISBN: ArrayList<String>) {
         val ref = FirebaseDatabase.getInstance().getReference("Books")
+        val user = FirebaseAuth.getInstance().currentUser?.uid
         ref.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(p0: DataSnapshot) {
                 if (p0.exists()) {
@@ -71,7 +74,7 @@ class AddBook : AppCompatActivity() {
                     for (e in p0.children) {
                         val book = e.getValue(Book::class.java)
                         if (book != null) {
-                            if (drawerUID == book.uidDrawer) {
+                            if (user == book.uidUser) {
                                 booksISBN.add(book.isbn)
                             }
                         }

@@ -2,8 +2,6 @@ package com.altemir.adria.bookly
 
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
-import android.widget.Toast
 import com.altemir.adria.bookly.Model.Book
 import com.altemir.adria.bookly.Model.Drawer
 import com.altemir.adria.bookly.Model.Shelf
@@ -13,11 +11,6 @@ import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 import kotlinx.android.synthetic.main.activity_find_books.*
-import android.text.style.UnderlineSpan
-import android.text.SpannableString
-
-
-
 
 
 class FindBooksActivity : AppCompatActivity() {
@@ -53,15 +46,23 @@ class FindBooksActivity : AppCompatActivity() {
 
         });
     }
-    private fun getShelfs(shelfUID:String){
+    private fun getShelfs(book:Book,drawer:Drawer){
         val ref = FirebaseDatabase.getInstance().getReference("Shelf")
         ref.addValueEventListener(object: ValueEventListener {
             override fun onDataChange(p0: DataSnapshot) {
                 if(p0.exists()){
                     for (e in p0.children) {
                         val shelf = e.getValue(Shelf::class.java)
-                            if (shelfUID == shelf!!.uid) {
+                            if (book.uidShelf == shelf!!.uid) {
+                                drawerSelected.text=(drawer.name)
+                                shelfSelected.text=(shelf.name)
+                                drawerSelected.text = drawer.name
                                 shelfSelected.text = shelf.name
+                                titleSelected.text = book.title
+                                autorSelected.text = book.autor
+                                editorialSelected.text = book.editorial
+                                setTextView()
+
                             }
                     }
                 }
@@ -83,18 +84,7 @@ class FindBooksActivity : AppCompatActivity() {
                         val drawer = e.getValue(Drawer::class.java)
                         if (drawer!!.uidUser == user) {
                             if (book.uidDrawer == drawer.uid) {
-                                drawerSelected.text = drawer.name
-                                getShelfs(book.uidShelf)
-                                titleSelected.text = book.title
-                                autorSelected.text = book.autor
-                                editorialSelected.text = book.editorial
-                                textViewAutorSelected.text = "Autor:"
-                                textViewEditorialSelected.text = "Editorial:"
-                                textViewBiblioSelected.text = "Biblioteca:"
-                                textViewShelfSelected.text = "Cajon:"
-                                textViewTitolSelected.text = "Tiulo:"
-                                ubicacion.text = getString(R.string.location)
-                                noResults.text = ""
+                                getShelfs(book,drawer)
                             }else{
                                 emptyTextView()
                             }
@@ -112,9 +102,6 @@ class FindBooksActivity : AppCompatActivity() {
 
 
     }
-    private fun user(){
-        Toast.makeText(this,"Libro no encontrado",Toast.LENGTH_LONG).show()
-    }
     private fun emptyTextView(){
         drawerSelected.text = ""
         shelfSelected.text = ""
@@ -128,5 +115,14 @@ class FindBooksActivity : AppCompatActivity() {
         textViewEditorialSelected.text = ""
         editorialSelected.text = ""
         ubicacion.text = ""
+    }
+    private fun setTextView(){
+        textViewAutorSelected.text = "Autor:"
+        textViewEditorialSelected.text = "Editorial:"
+        textViewBiblioSelected.text = "Biblioteca:"
+        textViewShelfSelected.text = "Cajon:"
+        textViewTitolSelected.text = "Tiulo:"
+        ubicacion.text = getString(R.string.location)
+        noResults.text = ""
     }
 }
