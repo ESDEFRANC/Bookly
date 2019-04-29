@@ -15,8 +15,8 @@ class Book(val isbn:String, val autor: String, val editorial: String, val title:
             parcel.readString(),
             parcel.readString(),
             parcel.readString(),
-            parcel.readString()) {
-    }
+            parcel.readString())
+
 
     override fun writeToParcel(parcel: Parcel, flags: Int) {
         parcel.writeString(isbn)

@@ -33,14 +33,17 @@ class DrawersActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_create_biblio)
-        this.title = "Biliotecas"
+        this.title = getString(R.string.Bibliotecas)
         internetConnected()
         verifyUserIsLogedIn()
 
         getDrawers(drawers)
 
         ButtonCreateBiblio.setOnClickListener() {
-            createDrawer()
+            if(internetConnected()){
+                createDrawer()
+            }
+
         }
 
 
@@ -137,10 +140,10 @@ class DrawersActivity : AppCompatActivity() {
                     ref.setValue(drawer)
                     dialog.dismiss()
                 } else {
-                    Toast.makeText(this, "Nombre repetido", Toast.LENGTH_LONG).show()
+                    Toast.makeText(this, getString(R.string.NombreRepetido), Toast.LENGTH_LONG).show()
                 }
             } else {
-                Toast.makeText(this, "Porfavor introduzca un nombre valido", Toast.LENGTH_LONG).show()
+                Toast.makeText(this, getString(R.string.IntroduzcaNombre), Toast.LENGTH_LONG).show()
             }
         }
         cancel.setOnClickListener() {
@@ -202,11 +205,12 @@ class DrawersActivity : AppCompatActivity() {
                     ref.setValue(drawer)
                     dialog.dismiss()
                 }else{
-                    Toast.makeText(this, "Nombre repetido", Toast.LENGTH_LONG).show()
+                    Toast.makeText(this, getString(R.string.NombreRepetido), Toast.LENGTH_LONG).show()
                 }
 
             } else {
-                Toast.makeText(this, "Porfavor introduzca un nombre", Toast.LENGTH_LONG).show()
+                Toast.makeText(this, getString(R.string.IntroduzcaNombre), Toast.LENGTH_LONG).show()
+
             }
         }
         cancel.setOnClickListener() {
@@ -232,10 +236,10 @@ class DrawersActivity : AppCompatActivity() {
 
         borrar.setOnClickListener() {
             val refDrawer = FirebaseDatabase.getInstance().getReference("Drawers").child(grid.uid)
-            getShelfs(grid.uid)
+            getShelfs(grid.uid,"Shelf")
             getBooks(grid.uid)
             refDrawer.removeValue()
-            Toast.makeText(this, "Elemento borrado correctamente", Toast.LENGTH_LONG).show()
+            Toast.makeText(this, getString(R.string.ElementoBorrado), Toast.LENGTH_LONG).show()
             dialog.dismiss()
         }
         cancel.setOnClickListener() {
@@ -245,8 +249,8 @@ class DrawersActivity : AppCompatActivity() {
         true
     }
 
-    private fun getShelfs(draweruid:String){
-        val ref = FirebaseDatabase.getInstance().getReference("Shelf")
+    private fun getShelfs(draweruid:String,data:String){
+        val ref = FirebaseDatabase.getInstance().getReference(data)
         ref.addValueEventListener(object: ValueEventListener {
             override fun onDataChange(p0: DataSnapshot) {
                 if(p0.exists()){
@@ -254,7 +258,7 @@ class DrawersActivity : AppCompatActivity() {
                         val shelf = e.getValue(Shelf::class.java)
                         if (shelf != null) {
                             if(draweruid == shelf.uidDrawer){
-                                val refShelf = FirebaseDatabase.getInstance().getReference("Shelf").child(shelf.uid)
+                                val refShelf = FirebaseDatabase.getInstance().getReference(data).child(shelf.uid)
                                 refShelf.removeValue()
                             }
                         }
@@ -292,14 +296,16 @@ class DrawersActivity : AppCompatActivity() {
 
         });
     }
-    private fun internetConnected(){
+    private fun internetConnected():Boolean{
         val cm = baseContext.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
 
         val networkInfo = cm.activeNetworkInfo
 
         if(networkInfo == null){
             Toast.makeText(baseContext,getString(R.string.Nointernet),Toast.LENGTH_LONG).show()
-            this.finish()
+            return false
+        }else{
+            return true
         }
     }
     private fun checkName(drawerName: String): Boolean {

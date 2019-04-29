@@ -1,7 +1,11 @@
 package com.altemir.adria.bookly
 
+import android.content.Context
+import android.net.ConnectivityManager
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
+import android.os.PersistableBundle
+import android.widget.Toast
 import com.altemir.adria.bookly.Model.Book
 import com.altemir.adria.bookly.Model.Drawer
 import com.altemir.adria.bookly.Model.Shelf
@@ -19,6 +23,7 @@ class FindBooksActivity : AppCompatActivity() {
         setContentView(R.layout.activity_find_books)
 
         Buscar.setOnClickListener(){
+            internetConnected()
             getBooks(isbnFind.text.toString())
         }
     }
@@ -111,18 +116,33 @@ class FindBooksActivity : AppCompatActivity() {
         textViewBiblioSelected.text = ""
         textViewShelfSelected.text = ""
         textViewTitolSelected.text = ""
-        noResults.text = "Ningun libro encontrado"
+        noResults.text = getString(R.string.NingunLibro)
         textViewEditorialSelected.text = ""
         editorialSelected.text = ""
         ubicacion.text = ""
     }
+
+    override fun onSaveInstanceState(outState: Bundle?) {
+        super.onSaveInstanceState(outState)
+
+    }
+
     private fun setTextView(){
-        textViewAutorSelected.text = "Autor:"
-        textViewEditorialSelected.text = "Editorial:"
-        textViewBiblioSelected.text = "Biblioteca:"
-        textViewShelfSelected.text = "Cajon:"
-        textViewTitolSelected.text = "Tiulo:"
+        textViewAutorSelected.text = getString(R.string.autor)
+        textViewEditorialSelected.text = getString(R.string.editorial)
+        textViewBiblioSelected.text = getString(R.string.BibliotecaRuta)
+        textViewShelfSelected.text = getString(R.string.CajonRuta)
+        textViewTitolSelected.text = getString(R.string.titol)
         ubicacion.text = getString(R.string.location)
         noResults.text = ""
+    }
+    private fun internetConnected(){
+        val cm = baseContext.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+
+        val networkInfo = cm.activeNetworkInfo
+
+        if(networkInfo == null){
+            Toast.makeText(baseContext,getString(R.string.Nointernet), Toast.LENGTH_LONG).show()
+        }
     }
 }

@@ -1,5 +1,7 @@
 package com.altemir.adria.bookly
 
+import android.content.Context
+import android.net.ConnectivityManager
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Toast
@@ -19,9 +21,11 @@ import kotlin.collections.ArrayList
 class AddBook : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
+
         var booksISBN = arrayListOf<String>()
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_add_book)
+        internetConnected()
         val shelf = intent.getParcelableExtra<Shelf>("shelfUid");
         getBooks(booksISBN)
         createBook(shelf, booksISBN)
@@ -42,19 +46,19 @@ class AddBook : AppCompatActivity() {
                                     ref.setValue(book)
                                     finish()
                                 } else {
-                                    Toast.makeText(this, "Nombre del Titulo mal introducido", Toast.LENGTH_LONG).show()
+                                    Toast.makeText(this, getString(R.string.TituloMalIntroducido), Toast.LENGTH_LONG).show()
                                 }
                             } else {
-                                Toast.makeText(this, "Nombre de Editorial mal introducido", Toast.LENGTH_LONG).show()
+                                Toast.makeText(this, getString(R.string.EditorialMalIntroducido), Toast.LENGTH_LONG).show()
                             }
                         } else {
-                            Toast.makeText(this, "Nombre de Autor mal introducido", Toast.LENGTH_LONG).show()
+                            Toast.makeText(this, getString(R.string.AutorMalIntroducido), Toast.LENGTH_LONG).show()
                         }
                     } else {
-                        Toast.makeText(this, "ISBN repetido", Toast.LENGTH_LONG).show()
+                        Toast.makeText(this, getString(R.string.IsbnRepetido), Toast.LENGTH_LONG).show()
                     }
                 } else {
-                    Toast.makeText(this, "ISBN mal introducido", Toast.LENGTH_LONG).show()
+                    Toast.makeText(this, getString(R.string.IsbnMalIntroducido), Toast.LENGTH_LONG).show()
                 }
 
             }
@@ -96,7 +100,7 @@ class AddBook : AppCompatActivity() {
                 !TitolAdd.text.toString().isEmpty()) {
             true
         } else {
-            Toast.makeText(this, "Porfavor introduzca los campos", Toast.LENGTH_LONG).show()
+            Toast.makeText(this, getString(R.string.IntroduzcaCampos), Toast.LENGTH_LONG).show()
             false
         }
     }
@@ -115,11 +119,7 @@ class AddBook : AppCompatActivity() {
         var result = false
         if (checkISBN(isbn)) {
             var sum = 0
-/*
-        for ( i in 0 until isbn.length )
-            sum += ( isbn[i].toInt() - '0'.toInt()) * if ( i.isOdd() ) 3 else 1
-*/
-            // OR...
+
             var i = 0
             sum = isbn.sumBy { c -> (c.toInt() - '0'.toInt()) * if (i++.isOdd()) 3 else 1 }
 
@@ -136,25 +136,32 @@ class AddBook : AppCompatActivity() {
 
     fun isValidISBN10(isbn: String?): Boolean {
         val isbn: String? = isbn ?: return false
+
         try {
-            var tot = 0
-            for (i in 0..8) {
-                val digit = Integer.parseInt(isbn!!.substring(i, i + 1))
-                tot += (10 - i) * digit
-            }
+            if (isbn!!.length < 10) {
+                return false
+            } else {
+                var tot = 0
+                for (i in 0..8) {
+                    val digit = Integer.parseInt(isbn!!.substring(i, i + 1))
+                    tot += (10 - i) * digit
+                }
 
-            var checksum = Integer.toString((11 - tot % 11) % 11)
-            if ("10" == checksum) {
-                checksum = "X"
-            }
+                var checksum = Integer.toString((11 - tot % 11) % 11)
+                if ("10" == checksum) {
+                    checksum = "X"
+                }
 
-            return checksum == isbn!!.substring(9)
-        } catch (Enfe: NumberFormatException) {
-            //to catch invalid ISBNs that have non-numeric characters in them
-            return false
+                return checksum == isbn!!.substring(9)
+            }
+            } catch (Enfe: NumberFormatException) {
+
+                return false
+            }
         }
 
-    }
+
+
 
     private fun checkFormat(name: String): Boolean {
         val regex = "^[a-zA-Z0-9 ]+$"
@@ -179,4 +186,15 @@ class AddBook : AppCompatActivity() {
     } else {
         isValidISBN10(ISBNAdd)
     }
+    private fun internetConnected(){
+        val cm = baseContext.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+
+        val networkInfo = cm.activeNetworkInfo
+
+        if(networkInfo == null){
+            Toast.makeText(baseContext,getString(R.string.Nointernet),Toast.LENGTH_LONG).show()
+        }
+    }
+
 }
+

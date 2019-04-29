@@ -12,7 +12,7 @@
         android:layout_height="58dp"
         android:layout_marginTop="16dp"
         android:layout_marginEnd="132dp"
-        android:text="TextView"
+        android:text="@string/textview"
         app:layout_constraintEnd_toStartOf="@+id/ratingBar3"
         app:layout_constraintTop_toBottomOf="@+id/BookISBN" />
 
@@ -23,7 +23,7 @@
         android:layout_marginStart="32dp"
         android:layout_marginTop="16dp"
         android:layout_marginEnd="8dp"
-        android:text="Titol"
+        android:text="@string/titol"
         app:layout_constraintEnd_toStartOf="@+id/BookTitol"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
@@ -35,7 +35,7 @@
         android:layout_height="58dp"
         android:layout_marginTop="24dp"
         android:layout_marginEnd="128dp"
-        android:text="TextView"
+        android:text="@string/textview"
         app:layout_constraintEnd_toStartOf="@+id/ratingBar3"
         app:layout_constraintTop_toBottomOf="@+id/BookAutor" />
 
@@ -62,7 +62,7 @@
         android:layout_marginStart="32dp"
         android:layout_marginTop="44dp"
         android:layout_marginEnd="8dp"
-        android:text="Autor"
+        android:text="@string/autor"
         app:layout_constraintEnd_toStartOf="@+id/BookAutor"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
@@ -75,7 +75,7 @@
         android:layout_marginStart="32dp"
         android:layout_marginTop="32dp"
         android:layout_marginEnd="8dp"
-        android:text="ISBN"
+        android:text="@string/isbn"
         app:layout_constraintEnd_toStartOf="@+id/BookISBN"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
@@ -87,7 +87,7 @@
         android:layout_height="@dimen/ProductNameClickedMarginH"
         android:layout_marginTop="32dp"
         android:layout_marginEnd="444dp"
-        android:text="TextView"
+        android:text="@string/textview"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -97,7 +97,7 @@
         android:layout_height="58dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="132dp"
-        android:text="TextView"
+        android:text="@string/textview"
         app:layout_constraintEnd_toStartOf="@+id/ratingBar3"
         app:layout_constraintTop_toBottomOf="@+id/BookTitol" />
 

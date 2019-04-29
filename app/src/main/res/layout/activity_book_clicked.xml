@@ -12,7 +12,7 @@
         android:layout_height="58dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="96dp"
-        android:text="TextView"
+        android:text="@string/textview"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/BookISBN" />
 
@@ -23,7 +23,7 @@
         android:layout_marginStart="32dp"
         android:layout_marginTop="16dp"
         android:layout_marginEnd="8dp"
-        android:text="Titol"
+        android:text="@string/titolBookClicked"
         app:layout_constraintEnd_toStartOf="@+id/BookTitol"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
@@ -35,7 +35,7 @@
         android:layout_height="58dp"
         android:layout_marginTop="32dp"
         android:layout_marginEnd="96dp"
-        android:text="TextView"
+        android:text="@string/textview"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/BookAutor" />
 
@@ -84,7 +84,7 @@
         android:layout_height="@dimen/ProductNameClickedMarginH"
         android:layout_marginTop="64dp"
         android:layout_marginEnd="96dp"
-        android:text="TextView"
+        android:text="@string/textview"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -94,7 +94,7 @@
         android:layout_height="58dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="96dp"
-        android:text="TextView"
+        android:text="@string/textview"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/BookTitol" />
 

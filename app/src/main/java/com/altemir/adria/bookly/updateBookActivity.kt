@@ -46,13 +46,13 @@ class updateBookActivity : AppCompatActivity() {
                                 ref.setValue(bookInsert)
                                 finish()
                             } else {
-                                Toast.makeText(this, "Nombre del Titulo mal introducido", Toast.LENGTH_LONG).show()
+                                Toast.makeText(this, getString(R.string.TituloMalIntroducido), Toast.LENGTH_LONG).show()
                             }
                         } else {
-                            Toast.makeText(this, "Nombre de Editorial mal introducido", Toast.LENGTH_LONG).show()
+                            Toast.makeText(this, getString(R.string.EditorialMalIntroducida), Toast.LENGTH_LONG).show()
                         }
                     } else {
-                        Toast.makeText(this, "Nombre de Autor mal introducido", Toast.LENGTH_LONG).show()
+                        Toast.makeText(this, getString(R.string.AutorMalIntroducido), Toast.LENGTH_LONG).show()
                     }
         }
     }
@@ -63,7 +63,7 @@ class updateBookActivity : AppCompatActivity() {
                 !AutorUpdate.text.toString().isEmpty()) {
             true
         } else {
-            Toast.makeText(this, "Porfavor introduzca los campos", Toast.LENGTH_LONG).show()
+            Toast.makeText(this, getString(R.string.IntroduzcaLosCampos), Toast.LENGTH_LONG).show()
             false
         }
     }

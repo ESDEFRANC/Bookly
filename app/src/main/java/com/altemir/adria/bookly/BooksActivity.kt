@@ -128,7 +128,7 @@ class BooksActivity : AppCompatActivity() {
         borrar.setOnClickListener() {
             val refBook = FirebaseDatabase.getInstance().getReference("Books").child(list.uid)
             refBook.removeValue()
-            Toast.makeText(this, "Elemento borrado correctamente", Toast.LENGTH_LONG).show()
+            Toast.makeText(this, getString(R.string.ElementoBorrado), Toast.LENGTH_LONG).show()
             dialog.dismiss()
         }
         cancel.setOnClickListener() {
@@ -138,11 +138,9 @@ class BooksActivity : AppCompatActivity() {
         true
     }
     private fun updateBtn(position:Int){
-        val inflater = layoutInflater
         listBooks.adapter
 
         val grid = listBooks.getItemAtPosition(position) as Book
-        val ref = FirebaseDatabase.getInstance().getReference("/Books/${grid.uid}")
 
         val intent = Intent(this, updateBookActivity::class.java)
         intent.putExtra("book",grid);
@@ -157,7 +155,6 @@ class BooksActivity : AppCompatActivity() {
 
         if(networkInfo == null){
             Toast.makeText(baseContext,getString(R.string.Nointernet),Toast.LENGTH_LONG).show()
-            this.finish()
         }
     }
 

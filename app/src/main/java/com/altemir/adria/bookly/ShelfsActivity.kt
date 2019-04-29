@@ -122,11 +122,11 @@ class ShelfsActivity : AppCompatActivity() {
                     ref.setValue(shelf1)
                     dialog.dismiss()
                 }else{
-                    Toast.makeText(this, "Nombre repetido", Toast.LENGTH_LONG).show()
+                    Toast.makeText(this, getString(R.string.NombreRepetido), Toast.LENGTH_LONG).show()
                 }
 
             } else {
-                Toast.makeText(this, "Porfavor introduzca un nombre valido", Toast.LENGTH_LONG).show()
+                Toast.makeText(this, getString(R.string.NombreValido), Toast.LENGTH_LONG).show()
             }
         }
         cancel.setOnClickListener() {
@@ -186,11 +186,11 @@ class ShelfsActivity : AppCompatActivity() {
                     ref.setValue(shelf)
                     dialog.dismiss()
                 }else{
-                    Toast.makeText(this, "Nombre repetido", Toast.LENGTH_LONG).show()
+                    Toast.makeText(this, getString(R.string.NombreRepetido), Toast.LENGTH_LONG).show()
                 }
 
             } else {
-                Toast.makeText(this, "Porfavor introduzca un nombre valido", Toast.LENGTH_LONG).show()
+                Toast.makeText(this, getString(R.string.NombreValido), Toast.LENGTH_LONG).show()
             }
         }
         cancel.setOnClickListener() {
@@ -218,7 +218,7 @@ class ShelfsActivity : AppCompatActivity() {
             val refShelf = FirebaseDatabase.getInstance().getReference("Shelf").child(grid.uid)
             refShelf.removeValue()
             getBooks(grid.uid)
-            Toast.makeText(this, "Elemento borrado correctamente", Toast.LENGTH_LONG).show()
+            Toast.makeText(this, getString(R.string.ElementoBorrado), Toast.LENGTH_LONG).show()
             dialog.dismiss()
         }
         cancel.setOnClickListener() {

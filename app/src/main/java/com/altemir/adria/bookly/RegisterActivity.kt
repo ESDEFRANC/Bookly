@@ -25,11 +25,13 @@ class RegisterActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_register_activity)
 
-        internetConnected()
         books_progressBar.visibility = View.INVISIBLE
 
         registerMain.setOnClickListener {
-            perfomRegistration()
+            if(internetConnected()){
+                perfomRegistration()
+            }
+
         }
 
         alreadyMain.setOnClickListener {
@@ -75,7 +77,7 @@ class RegisterActivity : AppCompatActivity() {
                            }
                }
         }else{
-            buttonImg.error =  "Seleccione imagen"
+            buttonImg.error =  getString(R.string.SeleccioneImagen)
         }
     }
 
@@ -119,14 +121,16 @@ class RegisterActivity : AppCompatActivity() {
 
                 }
     }
-    private fun internetConnected(){
+    private fun internetConnected():Boolean{
         val cm = baseContext.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
 
         val networkInfo = cm.activeNetworkInfo
 
         if(networkInfo == null){
             Toast.makeText(baseContext,getString(R.string.Nointernet),Toast.LENGTH_LONG).show()
-            this.finish()
+            return false
+        }else{
+            return true
         }
     }
     private fun checkPasswordEquals():Boolean{
@@ -158,23 +162,23 @@ class RegisterActivity : AppCompatActivity() {
                         if (checkPasswordEquals()) {
                             return true
                         } else {
-                            passwordMain2.error = "Password are differents"
+                            passwordMain2.error = getString(R.string.passwordsDiferentes)
                             return false
                         }
                     } else {
-                        passwordMain2.error = "Introduzca password"
+                        passwordMain2.error = getString(R.string.IntroduzcaPassword)
                         return false
                     }
                 } else {
-                    passwordMain.error = "Introduzca password"
+                    passwordMain.error = getString(R.string.IntroduzcaPassword)
                     return false
                 }
             } else {
-                emailMain.error = "Introduzca mail valido"
+                emailMain.error = getString(R.string.Introduzcamailvalido)
                 return false
             }
         } else {
-            nameMain.error = "Introduzca nombre de usuario"
+            nameMain.error = getString(R.string.NombreUsuario)
             return false
         }
 
@@ -186,8 +190,8 @@ class RegisterActivity : AppCompatActivity() {
     }
     private fun onFailure(e: Exception) {
         when (e) {
-            is FirebaseAuthWeakPasswordException -> notifyUser("La contraseña tiene que ser como minimo 6 caracteres")
-            is FirebaseAuthUserCollisionException -> notifyUser("El mail ya esta registrado")
+            is FirebaseAuthWeakPasswordException -> notifyUser(getString(R.string.PasswordShort))
+            is FirebaseAuthUserCollisionException -> notifyUser(getString(R.string.AlreadyRegisteredMail))
         }
     }
 
