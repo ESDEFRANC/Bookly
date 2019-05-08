@@ -1,10 +1,11 @@
 package com.altemir.adria.bookly
 
 import android.content.Context
+import android.content.Intent
 import android.net.ConnectivityManager
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
-import android.os.PersistableBundle
+import android.widget.TextView
 import android.widget.Toast
 import com.altemir.adria.bookly.Model.Book
 import com.altemir.adria.bookly.Model.Drawer
@@ -14,14 +15,22 @@ import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
+import com.google.zxing.integration.android.IntentIntegrator
+import com.google.zxing.integration.android.IntentResult
 import kotlinx.android.synthetic.main.activity_find_books.*
 
 
 class FindBooksActivity : AppCompatActivity() {
+    var scannedResult: String = ""
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_find_books)
 
+        buttonCameraFind.setOnClickListener(){
+            run {
+                IntentIntegrator(this).initiateScan()
+            }
+        }
         Buscar.setOnClickListener(){
             internetConnected()
             getBooks(isbnFind.text.toString())
@@ -122,11 +131,6 @@ class FindBooksActivity : AppCompatActivity() {
         ubicacion.text = ""
     }
 
-    override fun onSaveInstanceState(outState: Bundle?) {
-        super.onSaveInstanceState(outState)
-
-    }
-
     private fun setTextView(){
         textViewAutorSelected.text = getString(R.string.autor)
         textViewEditorialSelected.text = getString(R.string.editorial)
@@ -143,6 +147,38 @@ class FindBooksActivity : AppCompatActivity() {
 
         if(networkInfo == null){
             Toast.makeText(baseContext,getString(R.string.Nointernet), Toast.LENGTH_LONG).show()
+        }
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+
+        var result: IntentResult? = IntentIntegrator.parseActivityResult(requestCode, resultCode, data)
+
+        if(result != null){
+
+            if(result.contents != null){
+                scannedResult = result.contents
+                isbnFind.setText(scannedResult, TextView.BufferType.EDITABLE)
+            } else {
+
+            }
+        } else {
+            super.onActivityResult(requestCode, resultCode, data)
+        }
+    }
+
+    override fun onSaveInstanceState(outState: Bundle?) {
+
+        outState?.putString("scannedResult", scannedResult)
+        super.onSaveInstanceState(outState)
+    }
+
+    override fun onRestoreInstanceState(savedInstanceState: Bundle?) {
+        super.onRestoreInstanceState(savedInstanceState)
+
+        savedInstanceState?.let {
+            scannedResult = it.getString("scannedResult")
+            isbnFind.setText(scannedResult, TextView.BufferType.EDITABLE)
         }
     }
 }

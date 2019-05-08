@@ -2,7 +2,7 @@
 <android.support.constraint.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
     android:layout_height="match_parent" xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:background="#F1B245">
+    android:background="@color/colorAccent">
 
     <TextView
         android:id="@+id/Info"
@@ -30,6 +30,8 @@
         android:hint="@string/escribe_nombre_cajon"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.383"
+        android:imeOptions="actionDone"
+        android:singleLine="true"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/Info"
         android:importantForAutofill="no" />

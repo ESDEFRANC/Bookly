@@ -133,6 +133,7 @@ class DrawersActivity : AppCompatActivity() {
         myBuild.setView(dialoglayout)
         val dialog = myBuild.create()
         dialog.show()
+
         add.setOnClickListener() {
             if (checkName(biblioName.text.toString())) {
                 if (!drawersName.contains(biblioName.text.toString())) {

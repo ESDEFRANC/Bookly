@@ -87,10 +87,11 @@
         android:layout_marginEnd="8dp"
         android:layout_marginBottom="8dp"
         android:ems="10"
-        android:inputType="textMultiLine"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/Update"
         app:layout_constraintHorizontal_bias="0.295"
+        android:imeOptions="actionDone"
+        android:singleLine="true"
         app:layout_constraintStart_toEndOf="@+id/textViewAutor"
         app:layout_constraintTop_toBottomOf="@+id/EditorialUpdate"
         app:layout_constraintVertical_bias="0.006" />

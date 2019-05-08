@@ -27,4 +27,5 @@
     <dimen name="ImageProductCustomMarginWH">72dp</dimen>
     <dimen name="NombreCustomMarginW">108dp</dimen>
     <dimen name="NombreCustomMarginH">32dp</dimen>
+    <dimen name="tetSizeCustomBook">10sp</dimen>
 </resources>
