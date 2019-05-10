@@ -126,7 +126,7 @@
         android:layout_height="43dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="16dp"
-        android:text="Buscar"
+        android:text="@string/buscar"
         app:layout_constraintStart_toEndOf="@+id/isbnFind"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -137,6 +137,7 @@
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
         android:ems="10"
+        android:hint="@string/introduce_isbn"
         android:inputType="textPersonName"
         android:text=""
         app:layout_constraintStart_toStartOf="parent"

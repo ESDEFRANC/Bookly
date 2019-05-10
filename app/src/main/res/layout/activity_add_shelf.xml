@@ -23,18 +23,19 @@
 
     <EditText
         android:id="@+id/ShelfName"
-        android:layout_width="316dp"
+        android:layout_width="258dp"
         android:layout_height="36dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="20dp"
         android:layout_marginEnd="8dp"
         android:background="@drawable/rounded_edittext_login_main"
         android:hint="@string/escribe_nombre_cajon"
+        android:imeOptions="actionDone"
+        android:paddingStart="10dp"
+        android:singleLine="true"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.383"
         app:layout_constraintStart_toStartOf="parent"
-        android:imeOptions="actionDone"
-        android:singleLine="true"
         app:layout_constraintTop_toBottomOf="@+id/Info" />
 
     <Button

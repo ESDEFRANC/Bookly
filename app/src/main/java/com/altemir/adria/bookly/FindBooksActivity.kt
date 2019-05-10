@@ -47,7 +47,7 @@ class FindBooksActivity : AppCompatActivity() {
                     for (e in p0.children){
                         val book = e.getValue(Book::class.java)
                         if (book != null) {
-                                if (isbn == book.isbn) {
+                                if (isbn == book.isbn || isbn == book.title) {
                                     getDrawers(book)
                             }else{
                                     emptyTextView()
@@ -152,7 +152,7 @@ class FindBooksActivity : AppCompatActivity() {
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
 
-        var result: IntentResult? = IntentIntegrator.parseActivityResult(requestCode, resultCode, data)
+        val result: IntentResult? = IntentIntegrator.parseActivityResult(requestCode, resultCode, data)
 
         if(result != null){
 
@@ -168,17 +168,20 @@ class FindBooksActivity : AppCompatActivity() {
     }
 
     override fun onSaveInstanceState(outState: Bundle?) {
-
-        outState?.putString("scannedResult", scannedResult)
         super.onSaveInstanceState(outState)
+        outState?.putString("scannedResult", scannedResult)
+
     }
 
     override fun onRestoreInstanceState(savedInstanceState: Bundle?) {
         super.onRestoreInstanceState(savedInstanceState)
 
         savedInstanceState?.let {
-            scannedResult = it.getString("scannedResult")
-            isbnFind.setText(scannedResult, TextView.BufferType.EDITABLE)
+            it.getString("scannedResult")?.let { result ->
+                scannedResult = result
+                isbnFind.setText(scannedResult, TextView.BufferType.EDITABLE)
+
+            }
         }
     }
 }

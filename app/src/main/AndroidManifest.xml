@@ -13,7 +13,8 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".FindBooksActivity" />
+        <activity android:name=".FindBooksActivity"
+            android:screenOrientation="portrait" />
         <activity android:name=".updateBookActivity" />
         <activity android:name=".ActivityBookClicked" />
         <activity android:name=".BooksActivity" />

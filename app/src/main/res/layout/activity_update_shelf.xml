@@ -21,38 +21,42 @@
 
     <EditText
         android:id="@+id/ShelfName"
-        android:layout_width="316dp"
+        android:layout_width="285dp"
         android:layout_height="36dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="20dp"
         android:layout_marginEnd="8dp"
         android:background="@drawable/rounded_edittext_login_main"
         android:hint="@string/escribe_nombre_cajon"
+        android:imeOptions="actionDone"
+        android:paddingStart="10dp"
+        android:importantForAutofill="no"
+        android:singleLine="true"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.383"
-        android:imeOptions="actionDone"
-        android:singleLine="true"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/Info"
-        android:importantForAutofill="no" />
+        app:layout_constraintTop_toBottomOf="@+id/Info" />
 
     <Button
         android:id="@+id/btnUpdate"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="48dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="8dp"
         android:background="@drawable/rounded_button"
         android:text="@string/update"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/ShelfName"/>
+        app:layout_constraintHorizontal_bias="0.659"
+        app:layout_constraintStart_toEndOf="@+id/btnCancelar"
+        app:layout_constraintTop_toBottomOf="@+id/ShelfName" />
 
     <Button
         android:id="@+id/btnCancelar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="28dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginStart="40dp"
+        android:layout_marginTop="20dp"
         android:background="@drawable/rounded_button"
         android:text="@string/cancelar"
         app:layout_constraintStart_toStartOf="parent"

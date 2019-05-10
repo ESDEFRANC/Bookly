@@ -84,6 +84,8 @@ class DrawersActivity : AppCompatActivity() {
         }
 
 
+
+
     }
     private fun verifyUserIsLogedIn() {
         val uid = FirebaseAuth.getInstance().uid
@@ -316,6 +318,11 @@ class DrawersActivity : AppCompatActivity() {
         val m = p.matcher(drawertrimed)
         val b = m.matches()
         return b
+    }
+
+    override fun onBackPressed() {
+        super.onBackPressed();
+        finishAffinity();
     }
 }
 
