@@ -17,8 +17,7 @@ import kotlinx.android.synthetic.main.activity_custom_shelf.view.*
 
 class customShelf(
         private val context: Context,
-        private val shelf: ArrayList<Shelf>,
-        private val books: Int
+        private val shelfs: ArrayList<Shelf>
 ):BaseAdapter(){
     @SuppressLint("ViewHolder")
     override fun getView(position: Int, convertView: View?, parent: ViewGroup?): View {
@@ -26,19 +25,18 @@ class customShelf(
 
         val rowMain: View
         rowMain = convertView ?: mInflater.inflate(R.layout.activity_custom_shelf, parent, false)
-        if(books>3){
-            rowMain.Shelf.setImageResource(R.drawable.shelf_image)
+        if(shelfs[position].empty == 1){
+            rowMain.Shelf.setImageResource(R.drawable.book_selected)
         }else{
-            rowMain.Shelf.setImageResource(R.drawable.estante)
+            rowMain.Shelf.setImageResource(R.drawable.shelf_image)
         }
-
-        rowMain.NameShelf.text = shelf[position].name
+        rowMain.NameShelf.text = shelfs[position].name
 
         return rowMain
 
     }
     override fun getItem(position: Int): Any {
-    return shelf[position]
+    return shelfs[position]
     }
 
     override fun getItemId(position: Int): Long {
@@ -46,7 +44,7 @@ class customShelf(
     }
 
     override fun getCount(): Int {
-    return shelf.size
+    return shelfs.size
     }
 
 

@@ -119,7 +119,7 @@ class ShelfsActivity : AppCompatActivity() {
         add.setOnClickListener() {
             if (checkName(calaixName.text.toString())) {
                 if(!shelfsName.contains(calaixName.text.toString())){
-                    val shelf1 = Shelf(shelf, draweruid, calaixName.text.toString())
+                    val shelf1 = Shelf(shelf, draweruid, calaixName.text.toString(),0)
                     ref.setValue(shelf1)
                     dialog.dismiss()
                 }else{
@@ -152,7 +152,7 @@ class ShelfsActivity : AppCompatActivity() {
                         }
 
                     }
-                    val adapter = customShelf(this@ShelfsActivity, shelfs,count)
+                    val adapter = customShelf(this@ShelfsActivity, shelfs)
                     gridShelf.adapter = adapter
                 }
             }
@@ -184,7 +184,7 @@ class ShelfsActivity : AppCompatActivity() {
         update.setOnClickListener() {
             if (checkName(shelfName.text.toString())) {
                 if(!shelfsName.contains(shelfName.text.toString())) {
-                    val shelf = Shelf(grid.uid, grid.uidDrawer, shelfName.text.toString())
+                    val shelf = Shelf(grid.uid, grid.uidDrawer, shelfName.text.toString(),0)
                     ref.setValue(shelf)
                     dialog.dismiss()
                 }else{

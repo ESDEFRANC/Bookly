@@ -3,18 +3,20 @@ package com.altemir.adria.bookly.Model
 import android.os.Parcel
 import android.os.Parcelable
 
-class Shelf(val uid:String,val uidDrawer : String, val name : String):Parcelable{
-    constructor():this("","",""){}
+class Shelf(val uid:String,val uidDrawer : String, val name : String, var empty:Int):Parcelable{
+    constructor():this("","","",0){}
     constructor(parcel: Parcel) : this(
             parcel.readString(),
             parcel.readString(),
-            parcel.readString()) {
+            parcel.readString(),
+            parcel.readInt()) {
     }
 
     override fun writeToParcel(parcel: Parcel, flags: Int) {
         parcel.writeString(uid)
         parcel.writeString(uidDrawer)
         parcel.writeString(name)
+        parcel.writeInt(empty)
     }
 
     override fun describeContents(): Int {

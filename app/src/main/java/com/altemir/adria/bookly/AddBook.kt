@@ -6,9 +6,13 @@ import android.net.ConnectivityManager
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.text.Editable
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
 import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
+import com.altemir.adria.bookly.Adapter.customShelf
 import com.altemir.adria.bookly.Model.Book
 import com.altemir.adria.bookly.Model.Drawer
 import com.altemir.adria.bookly.Model.Shelf
@@ -20,6 +24,7 @@ import com.google.firebase.database.ValueEventListener
 import com.google.zxing.integration.android.IntentIntegrator
 import com.google.zxing.integration.android.IntentResult
 import kotlinx.android.synthetic.main.activity_add_book.*
+import kotlinx.android.synthetic.main.activity_custom_shelf.view.*
 import java.util.*
 import java.util.regex.Pattern
 import kotlin.collections.ArrayList
@@ -41,6 +46,7 @@ class AddBook : AppCompatActivity() {
         val bookID = UUID.randomUUID().toString()
         val user = FirebaseAuth.getInstance().currentUser!!.uid
         val ref = FirebaseDatabase.getInstance().getReference("/Books/$bookID")
+        val refShelf = FirebaseDatabase.getInstance().getReference("/Shelf/${shelf.uid}")
 
         ButtonCamera.setOnClickListener(){
             run {
@@ -57,6 +63,8 @@ class AddBook : AppCompatActivity() {
                                 if (checkFormat(TitolAdd.text.toString())) {
                                     val book = Book(ISBNAdd.text.toString(), AutorAdd.text.toString(), EditorialAdd.text.toString(), TitolAdd.text.toString(), ratingBar.rating.toDouble(), bookID, shelf.uid, shelf.uidDrawer,user)
                                     ref.setValue(book)
+                                    val shelf = Shelf(shelf.uid,shelf.uidDrawer,shelf.name,1)
+                                    refShelf.setValue(shelf)
                                     finish()
                                 } else {
                                     Toast.makeText(this, getString(R.string.TituloMalIntroducido), Toast.LENGTH_LONG).show()
@@ -79,7 +87,6 @@ class AddBook : AppCompatActivity() {
 
         }
     }
-
 
     private fun getBooks(booksISBN: ArrayList<String>) {
         val ref = FirebaseDatabase.getInstance().getReference("Books")
