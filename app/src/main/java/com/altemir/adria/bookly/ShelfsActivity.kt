@@ -83,7 +83,7 @@ class ShelfsActivity : AppCompatActivity() {
         when (item!!.itemId) {
             R.id.signout -> {
                 FirebaseAuth.getInstance().signOut()
-                val intent = Intent(this, RegisterActivity::class.java)
+                val intent = Intent(this, MainActivity::class.java)
                 intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK.or(Intent.FLAG_ACTIVITY_NEW_TASK)
                 startActivity(intent)
             }
@@ -146,12 +146,13 @@ class ShelfsActivity : AppCompatActivity() {
                         if (shelf != null) {
                             if(draweruid.equals(shelf.uidDrawer)){
                                 shelfs.add(shelf)
+                                getBooksCount(shelf.uid)
                                 shelfsName.add(shelf.name)
                             }
                         }
 
                     }
-                    val adapter = customShelf(this@ShelfsActivity, shelfs)
+                    val adapter = customShelf(this@ShelfsActivity, shelfs,count)
                     gridShelf.adapter = adapter
                 }
             }
@@ -243,6 +244,29 @@ class ShelfsActivity : AppCompatActivity() {
                             if (shelfUid.equals(book.uidShelf)) {
                                 val refBook = FirebaseDatabase.getInstance().getReference("Books").child(book.uid)
                                 refBook.removeValue()
+                            }
+                        }
+                    }
+
+                }
+            }
+
+        });
+    }
+    private fun getBooksCount(shelfUid:String) {
+        val ref = FirebaseDatabase.getInstance().getReference("Books")
+        ref.addValueEventListener(object : ValueEventListener {
+            override fun onCancelled(p0: DatabaseError) {
+                TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+            }
+
+            override fun onDataChange(p0: DataSnapshot) {
+                if (p0.exists()) {
+                    for (e in p0.children) {
+                        val book = e.getValue(Book::class.java)
+                        if (book != null) {
+                            if (shelfUid.equals(book.uidShelf)) {
+                                count++
                             }
                         }
                     }

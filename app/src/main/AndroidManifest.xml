@@ -4,6 +4,7 @@
     package="com.altemir.adria.bookly">
 
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
     <application
         android:allowBackup="true"
@@ -13,7 +14,8 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".FindBookClicked"
+        <activity
+            android:name=".FindBookClicked"
             android:screenOrientation="portrait" />
         <activity
             android:name=".FindBooksActivity"
@@ -26,17 +28,15 @@
         <activity android:name=".SplashScreen" />
         <activity android:name=".DrawersActivity">
             <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
+                <action android:name="android.intent.action.MAIN"/>
 
-                <category android:name="android.intent.category.LAUNCHER" />
+                <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
+
         </activity>
-        <activity
-            android:name=".RegisterActivity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".LoginActivty"
-            android:screenOrientation="portrait" />
+        <activity android:name=".MainActivity">
+        </activity>
     </application>
+
 
 </manifest>

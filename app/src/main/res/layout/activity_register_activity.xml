@@ -137,11 +137,13 @@
     <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/selectPhotoImg"
         android:layout_width="150dp"
-        app:civ_border_width="4dp"
         android:layout_height="150dp"
+        app:civ_border_width="4dp"
         app:layout_constraintBottom_toBottomOf="@+id/buttonImg"
         app:layout_constraintEnd_toEndOf="@+id/buttonImg"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="@+id/buttonImg"
-        app:layout_constraintTop_toTopOf="@+id/buttonImg" />
+        app:layout_constraintTop_toTopOf="@+id/buttonImg"
+        app:layout_constraintVertical_bias="1.0" />
 
 </android.support.constraint.ConstraintLayout>
