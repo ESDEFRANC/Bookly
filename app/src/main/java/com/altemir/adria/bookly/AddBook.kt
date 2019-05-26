@@ -131,7 +131,7 @@ class AddBook : AppCompatActivity() {
 
         var result = false
         if (checkISBN(isbn)) {
-            var sum = 0
+            val sum: Int
 
             var i = 0
             sum = isbn.sumBy { c -> (c.toInt() - '0'.toInt()) * if (i++.isOdd()) 3 else 1 }

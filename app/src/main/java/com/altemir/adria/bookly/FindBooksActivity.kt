@@ -7,6 +7,7 @@ import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.TextView
 import android.widget.Toast
+import com.altemir.adria.bookly.Adapter.customBook
 import com.altemir.adria.bookly.Model.Book
 import com.altemir.adria.bookly.Model.Drawer
 import com.altemir.adria.bookly.Model.Shelf
@@ -22,6 +23,7 @@ import kotlinx.android.synthetic.main.activity_find_books.*
 
 class FindBooksActivity : AppCompatActivity() {
     var scannedResult: String = ""
+    val books = arrayListOf<Book>()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_find_books)
@@ -33,22 +35,31 @@ class FindBooksActivity : AppCompatActivity() {
         }
         Buscar.setOnClickListener(){
             internetConnected()
-            getBooks(isbnFind.text.toString())
+            getBooks(books,isbnFind.text.toString())
+        }
+
+        listBooks.setOnItemClickListener { _, _, position, _ ->
+            listBooks.adapter
+            val intent = Intent(this, FindBookClicked::class.java)
+            intent.putExtra("Book", listBooks.getItemAtPosition(position) as Book);
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            startActivity(intent)
         }
     }
 
-    private fun getBooks(isbn:String){
+    private fun getBooks(booksArray:ArrayList<Book>,isbn:String){
         val ref = FirebaseDatabase.getInstance().getReference("Books")
         ref.addValueEventListener(object: ValueEventListener {
             override fun onCancelled(p0: DatabaseError) {
             }
             override fun onDataChange(p0: DataSnapshot) {
                 if(p0.exists()){
+                    booksArray.clear()
                     for (e in p0.children){
                         val book = e.getValue(Book::class.java)
                         if (book != null) {
-                                if (isbn == book.isbn || isbn == (book.title)) {
-                                    getDrawers(book)
+                                if (isbn == book.isbn || isbn.contains(book.title)) {
+                                    getDrawers(booksArray,book)
                             }else{
                                     emptyTextView()
                                 }
@@ -56,11 +67,13 @@ class FindBooksActivity : AppCompatActivity() {
                     }
 
                 }
+                val adapter = customBook(this@FindBooksActivity, books)
+                listBooks.adapter = adapter
             }
 
         });
     }
-    private fun getShelfs(book:Book,drawer:Drawer){
+    private fun getShelfs(booksArray:ArrayList<Book>,book:Book,drawer:Drawer){
         val ref = FirebaseDatabase.getInstance().getReference("Shelf")
         ref.addValueEventListener(object: ValueEventListener {
             override fun onDataChange(p0: DataSnapshot) {
@@ -68,14 +81,8 @@ class FindBooksActivity : AppCompatActivity() {
                     for (e in p0.children) {
                         val shelf = e.getValue(Shelf::class.java)
                             if (book.uidShelf == shelf!!.uid) {
-                                drawerSelected.text=(drawer.name)
-                                shelfSelected.text=(shelf.name)
-                                drawerSelected.text = drawer.name
-                                shelfSelected.text = shelf.name
-                                titleSelected.text = book.title
-                                autorSelected.text = book.autor
-                                editorialSelected.text = book.editorial
                                 setTextView()
+                                booksArray.add(book)
 
                             }
                     }
@@ -88,7 +95,7 @@ class FindBooksActivity : AppCompatActivity() {
         });
 
     }
-    private fun getDrawers(book:Book){
+    private fun getDrawers(booksArray: ArrayList<Book>,book:Book){
         val ref = FirebaseDatabase.getInstance().getReference("Drawers")
         val user = FirebaseAuth.getInstance().currentUser?.uid
         ref.addValueEventListener(object : ValueEventListener {
@@ -98,7 +105,7 @@ class FindBooksActivity : AppCompatActivity() {
                         val drawer = e.getValue(Drawer::class.java)
                         if (drawer!!.uidUser == user) {
                             if (book.uidDrawer == drawer.uid) {
-                                getShelfs(book,drawer)
+                                getShelfs(booksArray,book,drawer)
                             }else{
                                 emptyTextView()
                             }
@@ -117,27 +124,11 @@ class FindBooksActivity : AppCompatActivity() {
 
     }
     private fun emptyTextView(){
-        drawerSelected.text = ""
-        shelfSelected.text = ""
-        titleSelected.text = ""
-        autorSelected.text = ""
-        textViewAutorSelected.text = ""
-        textViewBiblioSelected.text = ""
-        textViewShelfSelected.text = ""
-        textViewTitolSelected.text = ""
         noResults.text = getString(R.string.NingunLibro)
-        textViewEditorialSelected.text = ""
-        editorialSelected.text = ""
-        ubicacion.text = ""
     }
 
     private fun setTextView(){
-        textViewAutorSelected.text = getString(R.string.autor)
-        textViewEditorialSelected.text = getString(R.string.editorial)
-        textViewBiblioSelected.text = getString(R.string.BibliotecaRuta)
-        textViewShelfSelected.text = getString(R.string.CajonRuta)
-        textViewTitolSelected.text = getString(R.string.titol)
-        ubicacion.text = getString(R.string.location)
+        ubicacion.text = ""
         noResults.text = ""
     }
     private fun internetConnected(){

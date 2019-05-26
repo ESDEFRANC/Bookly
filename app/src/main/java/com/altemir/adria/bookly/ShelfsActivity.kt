@@ -28,6 +28,7 @@ class ShelfsActivity : AppCompatActivity() {
 
     val shelfs = arrayListOf<Shelf>()
     val shelfsName = arrayListOf<String>()
+    var count = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
