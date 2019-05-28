@@ -63,7 +63,7 @@
         android:id="@+id/Calaix"
         android:layout_width="77dp"
         android:layout_height="37dp"
-        android:layout_marginStart="8dp"
+        android:layout_marginStart="16dp"
         android:layout_marginTop="8dp"
         android:text="TextView"
         app:layout_constraintStart_toStartOf="parent"

@@ -58,7 +58,7 @@ class FindBooksActivity : AppCompatActivity() {
                     for (e in p0.children){
                         val book = e.getValue(Book::class.java)
                         if (book != null) {
-                                if (isbn == book.isbn || isbn.contains(book.title)) {
+                                if (isbn == book.isbn || book.title.contains(isbn)) {
                                     getDrawers(booksArray,book)
                             }else{
                                     emptyTextView()

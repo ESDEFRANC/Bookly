@@ -108,6 +108,7 @@ class FindBookClicked : AppCompatActivity() {
         Biblio.text = getString(R.string.BibliotecaRuta)
         Calaix.text = getString(R.string.CajonRuta)
         Titol.text = getString(R.string.titol)
+        Editorial.text = getString(R.string.editorial)
         Ubicacio.text = getString(R.string.location)
     }
     private fun internetConnected(){

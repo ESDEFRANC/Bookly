@@ -26,7 +26,7 @@ class customShelf(
         val rowMain: View
         rowMain = convertView ?: mInflater.inflate(R.layout.activity_custom_shelf, parent, false)
         if(shelfs[position].empty == 1){
-            rowMain.Shelf.setImageResource(R.drawable.book_selected)
+            rowMain.Shelf.setImageResource(R.drawable.shelf_image_full)
         }else{
             rowMain.Shelf.setImageResource(R.drawable.shelf_image)
         }
